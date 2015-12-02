@@ -1,19 +1,32 @@
 --Création de la base M2STICE:
-create if not exists database M2STICE character 'utf-8';
+create database M2STICE character 'utf8';
 
 -- Création de la table diplome
 create table diplome(
 	code_diplome int primary key, 
 	nom_diplome varchar(255), 
 	description_diplome varchar(255)
-);
+	
+)
+ENGINE=INNODB;
 
 --Creation de la table domaine
-	create table domaine(
-	code_domaine int primary key, 
-	nom_domaine varchar(255), 
-	code_diplome int foreign key
-);
+create table domaine( 
+code_domaine int primary key, 
+nom_domaine varchar(255), 
+code_diplome int, 
+foreign key(code_diplome) references diplome(code_diplome) 
+) 
+ENGINE=INNODB;
+
+--Création table intervenant
+create table intervenant(
+code_intervenant int primary key,
+nom_intervenant varchar(100),
+mot_de_passe varchar(100)
+)ENGINE=INNODB;
+
+
 
 --Création de la table compétences
 create table competence(
@@ -22,7 +35,8 @@ create table competence(
 	code_domaine int, 
 	code_EC int,
 	foreign key(code_domaine, code_EC)
-);
+)
+engine=INNODB;
 
 --Création de la table item
 create table item(
@@ -69,12 +83,7 @@ nom_semestre varchar(100),
 code_annee int foreign key
 );
 
---Création table intervenant
-create table intervenant(
-code_intervenant int primary key,
-nom_intervenant varchar(100),
-mot_de_passe varchar(100),
-);
+
 
 --Création table UC
 create table uc(
