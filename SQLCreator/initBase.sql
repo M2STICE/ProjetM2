@@ -26,8 +26,6 @@ mot_de_passe varchar(100)
 )
 ENGINE=INNODB;
 
-
-
 --Création de la table compétences
 create table competence(
 	code_competence int primary key, 
