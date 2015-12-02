@@ -62,39 +62,29 @@ create table diplome_annee(
 	code_annee int foreign key 
 );
 
---Création table etudiant_diplome
-create table etudiant_diplome (
-code_etudiant int, 
-code_diplome int , 
-primary key(code_etudiant,code_diplome),
-foreign key(code_etudiant,code_diplome)
+--Création table semestre
+create table semestre(
+code_semestre int primary key,
+nom_semestre varchar(100),
+code_annee int foreign key
 );
 
---Création table intervenant_ec
-create table intervenant_ec (
+--Création table intervenant
+create table intervenant(
+code_intervenant int primary key,
+nom_intervenant varchar(100),
+mot_de_passe varchar(100),
+);
+
+--Création table UC
+create table uc(
+code_ue int primary key,
+nom_ue varchar(100),
+nombre_ects int,
+resume_ue varchar(1000),
+code_semestre int,
 code_intervenant int,
-code_ec int,
-primary key(code_intervenant,code_ec),
-foreign key(code_intervenant,code_ec)
-);
-
---Création table etudiant_evaluation
-create table etudiant_evaluation(
-code_etudiant int,
-code_evaluation int,
-date_evaluation date,
-note_evaluation float,
-primary key(code_etudiant,code_evaluation,date_evaluation);
-foreign key(code_etudiant,code_evaluation,date_evaluation);
-);
-
---Création table etudiant
-create table etudiant(
-code_etudiant int,
-nom_etudiant varchar(100),
-prenom_etudiant varchar(100),
-mot_de_passe_etudiant varchar(100)
-primary key(code_etudiant);
+foreign key(code_semestre, code_intervenant),
 );
 
 --Création table EC
@@ -115,27 +105,38 @@ primary key(code_ec),
 foreign key(code_ue,responsable_ec),
 );
 
---Création table UC
-create table uc(
-code_ue int primary key,
-nom_ue varchar(100),
-nombre_ects int,
-resume_ue varchar(1000),
-code_semestre int,
+--Création table etudiant
+create table etudiant(
+code_etudiant int,
+nom_etudiant varchar(100),
+prenom_etudiant varchar(100),
+mot_de_passe_etudiant varchar(100)
+primary key(code_etudiant);
+);
+
+--Création table etudiant_evaluation
+create table etudiant_evaluation(
+code_etudiant int,
+code_evaluation int,
+date_evaluation date,
+note_evaluation float,
+primary key(code_etudiant,code_evaluation,date_evaluation);
+foreign key(code_etudiant,code_evaluation,date_evaluation);
+);
+
+
+--Création table intervenant_ec
+create table intervenant_ec (
 code_intervenant int,
-foreign key(code_semestre, code_intervenant),
+code_ec int,
+primary key(code_intervenant,code_ec),
+foreign key(code_intervenant,code_ec)
 );
 
---Création table intervenant
-create table intervenant(
-code_intervenant int primary key,
-nom_intervenant varchar(100),
-mot_de_passe varchar(100),
-);
-
---Création table semestre
-create table semestre(
-code_semestre int primary key,
-nom_semestre varchar(100),
-code_annee int foreign key
+--Création table etudiant_diplome
+create table etudiant_diplome (
+code_etudiant int, 
+code_diplome int , 
+primary key(code_etudiant,code_diplome),
+foreign key(code_etudiant,code_diplome)
 );
