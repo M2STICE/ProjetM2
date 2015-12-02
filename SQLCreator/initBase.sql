@@ -146,6 +146,6 @@ foreign key(code_intervenant,code_ec)
 create table etudiant_diplome (
 code_etudiant int, 
 code_diplome int , 
-primary key(code_etudiant,code_diplome),
-foreign key(code_etudiant,code_diplome)
+primary key(code_etudiant)references etudiant(code_etudiant),
+foreign key(code_diplome)references diplome(code_diplome)
 );
