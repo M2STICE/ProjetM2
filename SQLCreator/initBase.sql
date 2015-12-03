@@ -33,9 +33,6 @@ nom_annee varchar(255)
 )
 ENGINE=INNODB;
 
-
-
-
 --Création de la table 
 create table diplome_annee(
 	code_diplome int primary key, 
@@ -166,7 +163,3 @@ foreign key(code_etudiant) references etudiant(code_etudiant),
 foreign key(code_evaluation) references evaluation(code_evaluation),
 )
 ENGINE=INNODB;
-
-
-
-
