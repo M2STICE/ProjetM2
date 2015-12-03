@@ -90,7 +90,6 @@ create table competence(
 	code_domaine int, 
 	code_ec int,
 	foreign key(code_domaine) references domaine(code_domaine),
-	foreign key(code_ec) references ec(code_ec)
 )
 ENGINE=INNODB;
 
@@ -163,5 +162,15 @@ date_evaluation date,
 note_evaluation float,
 foreign key(code_etudiant) references etudiant(code_etudiant),
 foreign key(code_evaluation) references evaluation(code_evaluation)
+)
+ENGINE=INNODB;
+
+/*Création table ec_sous_item*/
+create table ec_sous_item(
+code_ec int,
+code_sous_item int,
+primary key(code_ec,code_sous_item),
+foreign key(code_ec) references ec(code_ec),
+foreign key(code_sous_item) references sous_item(code_sous_item)
 )
 ENGINE=INNODB;
