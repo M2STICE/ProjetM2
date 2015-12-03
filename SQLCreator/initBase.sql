@@ -89,7 +89,7 @@ create table competence(
 	nom_competence varchar(255),
 	code_domaine int, 
 	code_ec int,
-	foreign key(code_domaine) references domaine(code_domaine),
+	foreign key(code_domaine) references domaine(code_domaine)
 )
 ENGINE=INNODB;
 
