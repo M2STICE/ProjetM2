@@ -87,8 +87,7 @@ ENGINE=INNODB;
 create table competence(
 	code_competence int primary key, 
 	nom_competence varchar(255),
-	code_domaine int, 
-	code_ec int,
+	code_domaine int,
 	foreign key(code_domaine) references domaine(code_domaine)
 )
 ENGINE=INNODB;
@@ -172,5 +171,26 @@ code_sous_item int,
 primary key(code_ec,code_sous_item),
 foreign key(code_ec) references ec(code_ec),
 foreign key(code_sous_item) references sous_item(code_sous_item)
+)
+ENGINE=INNODB;
+
+/*Création table promotion*/
+create table promotion(
+code_promotion int primary key,
+nom_promotion varchar(100),
+annee_promotion date,
+code_annee int,
+code_diplome int,
+foreign key(code_annee) references annee(code_annee),
+foreign key(code_diplome) references diplome(code_diplome)
+)
+ENGINE=INNODB;
+
+/*Création table etudiant_promotion*/
+create table etudiant_promotion(
+code_etudiant int,
+code_promotion int,
+primary key(code_etudiant,code_promotion),
+foreign key(code_etudiant,code_promotion)
 )
 ENGINE=INNODB;

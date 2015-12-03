@@ -53,6 +53,13 @@ grant select,update,delete,insert on M2STICE.etudiant_evaluation to 'M2STICE';
 /*Attribution de privilège pour la table ec_sous_item*/
 grant select,update,delete,insert on M2STICE.ec_sous_item to 'M2STICE';
 
+/*Attribution de privilège pour la table promotion*/
+grant select,update,delete,insert on M2STICE.promotion to 'M2STICE';
+
+/*Attribution de privilège pour la table etudiant_promotion*/
+grant select,update,delete,insert on M2STICE.etudiant_promotion to 'M2STICE';
+
+
 
 
 
