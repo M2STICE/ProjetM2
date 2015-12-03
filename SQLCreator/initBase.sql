@@ -1,4 +1,5 @@
---Création de la base M2STICE:
+/*Création de la base M2STICE:*/
+/*Attention le nom de la base de données en ligne est u960093295_stice*/
 create database M2STICE character 'utf8';
 
 /*Création de la table diplome*/
