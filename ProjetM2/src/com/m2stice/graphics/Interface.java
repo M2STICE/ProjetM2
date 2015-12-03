@@ -44,7 +44,7 @@ public class Interface extends Applet {
 	public void init(){
 		super.init();
 		
-		//Paramétrage du blocPrincipal
+		//Paramétrage du blocPrincipal et 
 		this.blocPrincipal.setBackground(Color.DARK_GRAY);
 		
 		//Paramétrage de l'applet
