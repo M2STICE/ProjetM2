@@ -16,7 +16,6 @@ import java.util.Properties;
 * Date : 03/12/2015
 *
 * Copyright : (C) Master 2 2015
-
 */
 
 /**
@@ -151,7 +150,7 @@ public class DatabaseAccess {
 			rs = this.executeQuery(connector, requestString);
 			while(rs.next()){
 				System.out.println(rs.getString("name") + " ");
-			}
+			}	
 		}
 		catch(SQLException ex){
 			ex.printStackTrace();
