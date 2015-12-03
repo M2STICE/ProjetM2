@@ -1,7 +1,7 @@
 --Création de la base M2STICE:
 create database M2STICE character 'utf8';
 
--- Création de la table diplome
+/*Création de la table diplome*/
 create table diplome(
 	code_diplome int primary key, 
 	nom_diplome varchar(255), 
@@ -9,7 +9,7 @@ create table diplome(
 )
 ENGINE=INNODB;
 
---Creation de la table domaine
+/*Creation de la table domaine*/
 create table domaine( 
 code_domaine int primary key, 
 nom_domaine varchar(255), 
@@ -18,7 +18,7 @@ foreign key(code_diplome) references diplome(code_diplome)
 ) 
 ENGINE=INNODB;
 
---Création table intervenant
+/*Création table intervenant*/
 create table intervenant(
 code_intervenant int primary key,
 nom_intervenant varchar(100),
@@ -26,14 +26,14 @@ mot_de_passe varchar(100)
 )
 ENGINE=INNODB;
 
---Création de la table année
+/*Création de la table année*/
 create table annee(
 code_annee int primary key, 
 nom_annee varchar(255)
 )
 ENGINE=INNODB;
 
---Création de la table 
+/*Création de la table*/ 
 create table diplome_annee(
 	code_diplome int primary key, 
 	code_annee int,
@@ -41,7 +41,7 @@ create table diplome_annee(
 )
 ENGINE=INNODB;
 
---Création table semestre
+/*Création table semestre*/
 create table semestre(
 code_semestre int primary key,
 nom_semestre varchar(100),
@@ -50,7 +50,7 @@ foreign key(code_annee) references annee(code_annee)
 )
 ENGINE=INNODB;
 
---Création table UE
+/*Création table UE*/
 create table ue(
 code_ue int primary key,
 nom_ue varchar(100),
@@ -63,7 +63,7 @@ foreign key(code_intervenant) references intervenant(code_intervenant)
 )
 ENGINE=INNODB;
 
---Création table EC
+/*Création table EC*/
 create table ec(
 code_ec int primary key,
 nom_ec varchar(255),
@@ -82,7 +82,7 @@ foreign key(responsable_ec) references intervenant(code_intervenant)
 )
 ENGINE=INNODB;
 
---Création de la table compétences
+/*Création de la table compétences*/
 create table competence(
 	code_competence int primary key, 
 	nom_competence varchar(255),
@@ -93,7 +93,7 @@ create table competence(
 )
 ENGINE=INNODB;
 
---Création table etudiant
+/*Création table etudiant*/
 create table etudiant(
 code_etudiant int primary key,
 nom_etudiant varchar(100),
@@ -102,7 +102,7 @@ mot_de_passe_etudiant varchar(100)
 )
 ENGINE=INNODB;
 
---Création table intervenant_ec
+/*Création table intervenant_ec*/
 create table intervenant_ec(
 code_intervenant int,
 code_ec int,
@@ -112,7 +112,7 @@ foreign key(code_ec) references ec(code_ec)
 )
 ENGINE=INNODB;
 
---Création table etudiant_diplome
+/*Création table etudiant_diplome*/
 create table etudiant_diplome(
 code_etudiant int, 
 code_diplome int,
@@ -122,16 +122,17 @@ foreign key(code_diplome)references diplome(code_diplome)
 )
 ENGINE=INNODB;
 
---Création de la table item
+/*Création de la table item*/
 create table item(
 	code_item int primary key, 
 	nom_item varchar(255),
 	code_competence int, 
 	code_evaluation int,
 	foreign key(code_competence) references competence(code_competence) 
-)ENGINE=INNODB;
+)
+ENGINE=INNODB;
 
---Création de la table sous-item
+/*Création de la table sous-item*/
 create table sous_item(
 	code_sous_item int primary key, 
 	nom_sous_item varchar(255), 
@@ -141,7 +142,7 @@ create table sous_item(
 ENGINE=INNODB;
 
 
---Création de la table evaluation
+/*Création de la table evaluation*/
 create table evaluation(
 	code_evaluation int primary key, 
 	nom_evaluation varchar(255), 
@@ -153,13 +154,13 @@ create table evaluation(
 )
 ENGINE=INNODB;
 
---Création table etudiant_evaluation
+/*Création table etudiant_evaluation*/
 create table etudiant_evaluation(
 code_etudiant int,
 code_evaluation int,
 date_evaluation date,
 note_evaluation float,
 foreign key(code_etudiant) references etudiant(code_etudiant),
-foreign key(code_evaluation) references evaluation(code_evaluation),
+foreign key(code_evaluation) references evaluation(code_evaluation)
 )
 ENGINE=INNODB;
