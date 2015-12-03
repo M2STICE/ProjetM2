@@ -20,7 +20,7 @@ import java.util.Properties;
 */
 
 /**
-* NomClasse - DatabaseAccess
+*  DatabaseAccess - Classe de controle pour réaliser les actions sur la base de donnée
 *
 * @version 1.0
 *
@@ -40,7 +40,7 @@ public class DatabaseAccess {
 	
 	private Connection connector = null;
 	
-	private int portNumber = 3306;
+	private int portNumber = 3306;	/*......*/
 	
 	/**
 	 * Constructeur pour l'accès à la base de donnée 
@@ -66,6 +66,7 @@ public class DatabaseAccess {
 	}
 	
 	/**
+	 * Cette fonction permet d'obtenir l'accès à la base de donnée
 	 * @return Connection
 	 * @throws SQLException
 	 */
@@ -82,7 +83,7 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * 
+	 * Fonction permettant l'éxécution des requêtes lié à toutes actions de mise à jour sur la base de donnée
 	 * @param conn
 	 * @param requete
 	 * @return boolean
@@ -101,7 +102,7 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * 
+	 * fonction permettant de faire les requêtes select sur la base
 	 * @param conn
 	 * @param command
 	 * @return ResultSet
@@ -121,7 +122,8 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * Insertion dans la base de donnée
+	 * 
+	 * fonction appelé pour faire une insertion dans la base de donnée
 	 * @param toInsert
 	 * @return boolean
 	 */
@@ -138,7 +140,7 @@ public class DatabaseAccess {
 	}
 
 	/**
-	 * Select au niveau d'une base de donnée
+	 * fonction permettant de faire un Select au niveau de la base de donnée
 	 * @param select
 	 * @return ResultSet
 	 */
@@ -158,7 +160,7 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * Update sur une table
+	 * fonction permettant de faire un update sur une table
 	 * @param upToDate
 	 * @return boolean
 	 */
