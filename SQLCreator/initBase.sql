@@ -65,9 +65,11 @@ nombre_ects int,
 resume_ue varchar(1000),
 code_semestre int,
 code_intervenant int,
+code_diplome,
 primary key(code_ue),
 foreign key(code_semestre) references semestre(code_semestre),
-foreign key(code_intervenant) references intervenant(code_intervenant)
+foreign key(code_intervenant) references intervenant(code_intervenant),
+foreign key(code_diplome) reference diplome(code_diplome)
 )
 ENGINE=INNODB;
 
