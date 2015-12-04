@@ -4,61 +4,68 @@ create database M2STICE character 'utf8';
 
 /*Création de la table diplome*/
 create table diplome(
-	code_diplome int primary key, 
+	code_diplome int not null auto_increment, 
 	nom_diplome varchar(255), 
-	description_diplome varchar(255)
+	description_diplome varchar(255),
+	primary key(code_diplome)
 )
 ENGINE=INNODB;
 
 /*Creation de la table domaine*/
 create table domaine( 
-code_domaine int primary key, 
+code_domaine int not null auto_increment, 
 nom_domaine varchar(255), 
 code_diplome int, 
-foreign key(code_diplome) references diplome(code_diplome) 
+foreign key(code_diplome) references diplome(code_diplome),
+primary key(code_domaine)
 ) 
 ENGINE=INNODB;
 
 /*Création table intervenant*/
 create table intervenant(
-code_intervenant int primary key,
+code_intervenant int not null auto_increment,
 nom_intervenant varchar(100),
-mot_de_passe varchar(100)
+mot_de_passe varchar(100),
+primary key(code_intervenant)
 )
 ENGINE=INNODB;
 
 /*Création de la table année*/
 create table annee(
-code_annee int primary key, 
-nom_annee varchar(255)
+code_annee int not null auto_increment, 
+nom_annee varchar(255),
+primary key(code_annee)
 )
 ENGINE=INNODB;
 
 /*Création de la table*/ 
 create table diplome_annee(
-	code_diplome int primary key, 
+	code_diplome int not null auto_increment, 
 	code_annee int,
-	foreign key(code_annee) references annee(code_annee)
+	foreign key(code_annee) references annee(code_annee),
+	primary key(code_diplome)
 )
 ENGINE=INNODB;
 
 /*Création table semestre*/
 create table semestre(
-code_semestre int primary key,
+code_semestre int not null auto_increment,
 nom_semestre varchar(100),
 code_annee int,
-foreign key(code_annee) references annee(code_annee)
+foreign key(code_annee) references annee(code_annee),
+primary key(code_semestre)
 )
 ENGINE=INNODB;
 
 /*Création table UE*/
 create table ue(
-code_ue int primary key,
+code_ue int not null auto_increment,
 nom_ue varchar(100),
 nombre_ects int,
 resume_ue varchar(1000),
 code_semestre int,
 code_intervenant int,
+primary key(code_ue),
 foreign key(code_semestre) references semestre(code_semestre),
 foreign key(code_intervenant) references intervenant(code_intervenant)
 )
@@ -66,7 +73,7 @@ ENGINE=INNODB;
 
 /*Création table EC*/
 create table ec(
-code_ec int primary key,
+code_ec int not null auto_increment,
 nom_ec varchar(255),
 coefficient_ec float,
 nom_ects int,
@@ -78,6 +85,7 @@ volume_heure_TPERSO float,
 resume_ec varchar(1000),
 code_ue int,
 responsable_ec int,
+primary key(code_ec),
 foreign key(code_ue) references ue(code_ue),
 foreign key(responsable_ec) references intervenant(code_intervenant)
 )
@@ -85,19 +93,21 @@ ENGINE=INNODB;
 
 /*Création de la table compétences*/
 create table competence(
-	code_competence int primary key, 
+	code_competence int not null auto_increment, 
 	nom_competence varchar(255),
 	code_domaine int,
+	primary key(code_competence),
 	foreign key(code_domaine) references domaine(code_domaine)
 )
 ENGINE=INNODB;
 
 /*Création table etudiant*/
 create table etudiant(
-code_etudiant int primary key,
+code_etudiant int not null auto_increment,
 nom_etudiant varchar(100),
 prenom_etudiant varchar(100),
-mot_de_passe_etudiant varchar(100)
+mot_de_passe_etudiant varchar(100),
+primary key(code_etudiant)
 )
 ENGINE=INNODB;
 
@@ -123,19 +133,21 @@ ENGINE=INNODB;
 
 /*Création de la table item*/
 create table item(
-	code_item int primary key, 
+	code_item int not null auto_increment, 
 	nom_item varchar(255),
 	code_competence int, 
 	code_evaluation int,
+	primary key(code_item),
 	foreign key(code_competence) references competence(code_competence) 
 )
 ENGINE=INNODB;
 
 /*Création de la table sous-item*/
 create table sous_item(
-	code_sous_item int primary key, 
+	code_sous_item int not null auto_increment, 
 	nom_sous_item varchar(255), 
 	code_item int,
+	primary key(code_sous_item),
 	foreign key(code_item) references item(code_item)
 )
 ENGINE=INNODB;
@@ -143,12 +155,13 @@ ENGINE=INNODB;
 
 /*Création de la table evaluation*/
 create table evaluation(
-	code_evaluation int primary key, 
+	code_evaluation int not null auto_increment, 
 	nom_evaluation varchar(255), 
 	note_maximale float, 
 	coefficient_evaluation float, 
 	type_epreuve varchar(255),
 	code_sous_item int,
+	primary key(code_evaluation),
 	foreign key(code_sous_item) references sous_item(code_sous_item)
 )
 ENGINE=INNODB;
@@ -176,11 +189,12 @@ ENGINE=INNODB;
 
 /*Création table promotion*/
 create table promotion(
-code_promotion int primary key,
+code_promotion int not null auto_increment,
 nom_promotion varchar(100),
 annee_promotion date,
 code_annee int,
 code_diplome int,
+primary key(code_promotion),
 foreign key(code_annee) references annee(code_annee),
 foreign key(code_diplome) references diplome(code_diplome)
 )
