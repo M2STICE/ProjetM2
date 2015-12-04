@@ -53,7 +53,7 @@ public class Interface extends Applet {
 		this.setBackground(Color.GRAY);
 		this.add(blocPrincipal,BorderLayout.CENTER);
 		this.setMinimumSize(new Dimension(1024,768));
-		imageFond = getImage(getCodeBase(), blocPrincipal.toString());
+		imageFond = getImage(getCodeBase(), "../res/"+blocPrincipal.toString());
 		//System.out.println(blocPrincipal.toString());
 		this.setVisible(false);
 	}
