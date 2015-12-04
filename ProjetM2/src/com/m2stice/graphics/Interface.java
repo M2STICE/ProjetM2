@@ -3,6 +3,8 @@ package com.m2stice.graphics;
 import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
 
 import javax.swing.JPanel;
 
@@ -23,19 +25,20 @@ import javax.swing.JPanel;
  * Fenetre - Classe qui va générer l'interface graphique du système.
  * @author Emmanuel
  * @version 1.0
- * @copyright m2stice
+ * @copyright (C) Master 2 2015
  * @date 03/12/2015
  * @notes Elle va être utiliser dans le main.
  *
  */
 public class Interface extends Applet {
 	
-	private JPanel blocPrincipal = new JPanel(); //JPanel qui contient le bloc principal
+	private JPanel blocPrincipal = new RechercheView(this); //JPanel qui contient le bloc principal
 	
 	/**
 	 * Numéro de série
 	 */
 	private static final long serialVersionUID = 971L;
+	protected Image imageFond;
 	
 	
 	/**
@@ -44,14 +47,14 @@ public class Interface extends Applet {
 	public void init(){
 		super.init();
 		
-		//Paramétrage du blocPrincipal et 
-		this.blocPrincipal.setBackground(Color.DARK_GRAY);
-		
 		//Paramétrage de l'applet
 		this.setLayout(new BorderLayout());
-		this.setSize(1200,800);
+		this.setSize(1024,768);
 		this.setBackground(Color.GRAY);
 		this.add(blocPrincipal,BorderLayout.CENTER);
+		this.setMinimumSize(new Dimension(1024,768));
+		imageFond = getImage(getCodeBase(), blocPrincipal.toString());
+		//System.out.println(blocPrincipal.toString());
 		this.setVisible(false);
 	}
 	
@@ -66,7 +69,7 @@ public class Interface extends Applet {
 	 * Lance l'applet dans le navigateur
 	 */
 	public void start(){
-		this.setSize(1200,800);
+		this.setSize(1024,768);
 		this.setVisible(true);
 	}
 	
