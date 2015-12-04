@@ -191,7 +191,7 @@ ENGINE=INNODB;
 create table promotion(
 code_promotion int not null auto_increment,
 nom_promotion varchar(100),
-annee_promotion date,
+annee_promotion int,
 code_annee int,
 code_diplome int,
 primary key(code_promotion),
