@@ -148,9 +148,6 @@ public class DatabaseAccess {
 		try {
 			String requestString = select;
 			rs = this.executeQuery(connector, requestString);
-			while(rs.next()){
-				System.out.println(rs.getString("name") + " ");
-			}	
 		}
 		catch(SQLException ex){
 			ex.printStackTrace();
