@@ -32,14 +32,12 @@ import javax.swing.JPanel;
  */
 public class Interface extends Applet {
 	
-	private JPanel blocPrincipal = new RechercheView(this); //JPanel qui contient le bloc principal
+	private JPanel blocPrincipal; //JPanel qui contient le bloc principal
 	
 	/**
 	 * Numéro de série
 	 */
 	private static final long serialVersionUID = 971L;
-	protected Image imageFond;
-	
 	
 	/**
 	 * Méthode appelée par le navigateur lorsque l'applet est chargée
@@ -48,13 +46,12 @@ public class Interface extends Applet {
 		super.init();
 		
 		//Paramétrage de l'applet
+		this.blocPrincipal = new RechercheView(this);
 		this.setLayout(new BorderLayout());
 		this.setSize(1024,768);
 		this.setBackground(Color.GRAY);
 		this.add(blocPrincipal,BorderLayout.CENTER);
 		this.setMinimumSize(new Dimension(1024,768));
-		imageFond = getImage(getCodeBase(), "../res/"+blocPrincipal.toString());
-		//System.out.println(blocPrincipal.toString());
 		this.setVisible(false);
 	}
 	
@@ -69,12 +66,22 @@ public class Interface extends Applet {
 	 * Lance l'applet dans le navigateur
 	 */
 	public void start(){
-		this.setSize(1024,768);
+		this.setMinimumSize(new Dimension(1024, 768));
 		this.setVisible(true);
+		try{
+			Thread.sleep(4000);
+			this.remove(blocPrincipal);
+			this.setBlocPrincipal(new ResultatView(this));
+			this.add(blocPrincipal);
+			this.repaint();
+		}
+		catch(Exception e){ e.printStackTrace();}
+		
 	}
 	
 
 	/**
+	 * getBlocPrincipale
 	 * @return la variable blocPrincipal
 	 */
 	public JPanel getBlocPrincipal() {
@@ -82,10 +89,19 @@ public class Interface extends Applet {
 	}
 
 	/**
+	 * setBlocPrincipal
 	 * @param le JPanel qui va servir de blocPrincipal 
 	 */
 	public void setBlocPrincipal(JPanel blocPrincipal) {
 		this.blocPrincipal = blocPrincipal;
 	}
 
+	/**
+	 * loadImage
+	 * @param Le nom de l'image
+	 * @return l'image
+	 */
+	public Image loadImage(String nomImage){
+		return getImage(getCodeBase(), "../res/"+nomImage);
+	}
 }

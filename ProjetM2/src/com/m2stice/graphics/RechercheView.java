@@ -1,6 +1,5 @@
 package com.m2stice.graphics;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -45,9 +44,11 @@ public class RechercheView extends JPanel {
 	protected JPanel bloc = new JPanel();							//Bloc container transparent
 	protected JTextField rechercheTextField = new JTextField();		//Zone saisie de la recherche
 	
+	/**
+	 * Mise en place de la vue
+	 */
 	public void init(){
-		//Paramétrage de la vue 
-		this.setBackground(Color.DARK_GRAY);
+		//Paramétrage de la vue
 		this.setOpaque(false);
 		
 		//Paramétrage des composants de la vue
@@ -63,7 +64,6 @@ public class RechercheView extends JPanel {
 		bloc.add(rechercheTextField);
 		bloc.setOpaque(false);
 		bloc.setVisible(true);
-		
 		
 		this.add(bloc);	
 	}
@@ -89,16 +89,21 @@ public class RechercheView extends JPanel {
 		this.interfaceUtilisateur = interfaceUtilisateur;
 	}
 	
+	/**
+	 * Affiche le composant
+	 * @param le paramètre graphique
+	 */
 	public void paint(Graphics g){
-		g.drawImage(interfaceUtilisateur.imageFond, 0, 0,(int)getBounds().getWidth(), (int)getBounds().getHeight(), this);
+		g.drawImage(interfaceUtilisateur.loadImage("RechercheViewImage.jpg"), 0, 0,(int)getBounds().getWidth(), (int)getBounds().getHeight(), this);
 		super.paint(g);
 	}
 	
 	/**
-	 * @return le nom de l'image de fond
+	 * Renvoie le mot saisi dans la barre de recherche
+	 * @return Le mot à rechercher
 	 */
-	public String toString(){
-		return "RechercheViewImage.jpg";
+	public String getRecherche(){
+		return this.rechercheTextField.getText();
 	}
-
+	
 }
