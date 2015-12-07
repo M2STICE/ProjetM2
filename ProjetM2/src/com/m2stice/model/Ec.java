@@ -4,13 +4,46 @@ public class Ec {
 
 	private int code;
 	private String nom;
-	private String resume;
 	private float coefficient;
+	private int nombreEcts;
+	private int volumeHeureCours;
+	private int volumeHeureTP;
+	private int volumeHeureTD;
+	private int volumeHeureBE;
+	private int volumeHeureTPerso;
+	private String resume;
+	private int codeUe;
+	private int responsableEc;
+	
+
+	public Ec() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Ec(int code, String nom, float coefficient, int nombreEcts, int volumeHeureCours, int volumeHeureTP, int volumeHeureTD, int volumeHeureBE,int volumeHeureTPerso, String resume, int codeUe, int responsableEc) {
+		// TODO Auto-generated constructor stub
+		this.code = code;
+		this.nom = nom;
+		this.coefficient = coefficient;
+		this.nombreEcts = nombreEcts;
+		this.volumeHeureCours = volumeHeureCours;
+		this.volumeHeureTP = volumeHeureTP;
+		this.volumeHeureTD = volumeHeureTD;
+		this.volumeHeureBE = volumeHeureBE;
+		this.volumeHeureTPerso = volumeHeureTPerso;
+		this.resume = resume;
+		this.codeUe = codeUe;
+		this.responsableEc = responsableEc;
+	}
 	
 	public int getCode() {
 		return code;
 	}
 
+	public String toString(){
+		return "ID: "+code+" NOM: "+nom+"RESUME: "+resume+"COEFFICIENT: "+coefficient+"\n";
+	}
+	
 	public void setCode(int code) {
 		this.code = code;
 	}
@@ -79,14 +112,28 @@ public class Ec {
 		this.volumeHeureTPerso = volumeHeureTPerso;
 	}
 
-	private int volumeHeureCours;
-	private int volumeHeureTP;
-	private int volumeHeureTD;
-	private int volumeHeureBE;
-	private int volumeHeureTPerso;
-	
-	public Ec() {
-		// TODO Auto-generated constructor stub
+	public int getNombreEcts() {
+		return nombreEcts;
+	}
+
+	public void setNombreEcts(int nombreEcts) {
+		this.nombreEcts = nombreEcts;
+	}
+
+	public int getCodeUe() {
+		return codeUe;
+	}
+
+	public void setCodeUe(int codeUe) {
+		this.codeUe = codeUe;
+	}
+
+	public int getResponsableEc() {
+		return responsableEc;
+	}
+
+	public void setResponsableEc(int responsableEc) {
+		this.responsableEc = responsableEc;
 	}
 
 }

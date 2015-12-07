@@ -4,13 +4,22 @@ public class Intervenant {
 	
 	private int code;
 	private String nom;
-	private String prenom;
 	private String motDePasse;
 	
 	public Intervenant() {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Intervenant(int code, String nom, String motDePasse) {
+		this.code = code;
+		this.nom = nom;
+		this.motDePasse = motDePasse;
+	}
+
+	public String toString(){
+		return "ID: "+code+" NOM: "+nom+" MOT DE PASSE: "+motDePasse+"\n";
+	}
+	
 	public int getCode() {
 		return code;
 	}
@@ -25,14 +34,6 @@ public class Intervenant {
 
 	public void setNom(String nom) {
 		this.nom = nom;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
 	}
 
 	public String getMotDePasse() {

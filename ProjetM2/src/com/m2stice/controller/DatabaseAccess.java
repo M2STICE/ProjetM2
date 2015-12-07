@@ -88,7 +88,7 @@ public class DatabaseAccess {
 	 * @return boolean
 	 * @throws SQLException
 	 */
-	public boolean executeUpdate(Connection conn, String requete) throws SQLException {
+	private boolean executeUpdate(Connection conn, String requete) throws SQLException {
 	    Statement stmt = null;
 	    try {
 	        stmt = conn.createStatement();
@@ -107,7 +107,7 @@ public class DatabaseAccess {
 	 * @return ResultSet
 	 * @throws SQLException
 	 */
-	public ResultSet executeQuery(Connection conn, String command) throws SQLException{
+	private ResultSet executeQuery(Connection conn, String command) throws SQLException{
 		Statement stmt = null;
 		ResultSet query = null;
 	    try {

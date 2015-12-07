@@ -8,7 +8,17 @@ public class Domaine {
 	public Domaine() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Domaine(int code, String nom) {
+		// TODO Auto-generated constructor stub
+		this.code = code;
+		this.nom = nom;
+	}
 
+	public String toString(){
+		return "ID: "+code+" NOM: "+nom+"\n";
+	}
+	
 	public int getCode() {
 		return code;
 	}

@@ -9,6 +9,10 @@ public class Annee {
 		// TODO Auto-generated constructor stub
 	}
 
+	public String toString(){
+		return "ID: "+code+" NOM: "+nom+"\n";
+	}
+	
 	public int getCode() {
 		return code;
 	}

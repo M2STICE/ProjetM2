@@ -11,6 +11,17 @@ public class Etudiant {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Etudiant(int code, String nom, String prenom, String motDePasse) {
+		this.code = code;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.motDePasse = motDePasse;
+	}
+
+	public String toString(){
+		return "ID: "+code+" NOM: "+nom+" PRENOM: "+prenom+" MOT DE PASSE: "+motDePasse+"\n";
+	}
+	
 	public int getCode() {
 		return code;
 	}

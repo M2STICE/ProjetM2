@@ -7,9 +7,47 @@ public class Ue {
 	private String resume;
 	private float coefficient;
 	private int nombreEcts;
+	private int codeSemestre;
+	private int codeIntervenant;
 	
 	public Ue() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public Ue(int code, String nom, int nombreEcts, String resume, float coefficient, int codeSemestre, int codeIntervenant) {
+		this.code = code;
+		this.nom = nom;
+		this.nombreEcts = nombreEcts;
+		this.resume = resume;
+		this.coefficient = coefficient;
+		this.codeSemestre = codeSemestre;
+		this.codeIntervenant = codeIntervenant;
+	}
+
+
+	public String toString(){
+		return "ID: "+code+" NOM: "+nom+"RESUME: "+resume+"COEFFICIENT: "+coefficient+"NOMBRE ECTS: "+nombreEcts+"\n";
+	}
+
+
+	public int getCodeSemestre() {
+		return codeSemestre;
+	}
+
+
+	public void setCodeSemestre(int codeSemestre) {
+		this.codeSemestre = codeSemestre;
+	}
+
+
+	public int getCodeIntervenant() {
+		return codeIntervenant;
+	}
+
+
+	public void setCodeIntervenant(int codeIntervenant) {
+		this.codeIntervenant = codeIntervenant;
 	}
 
 	public int getCode() {

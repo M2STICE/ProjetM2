@@ -8,6 +8,15 @@ public class Competence {
 	public Competence() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Competence(int code, String nom) {
+		this.code = code;
+		this.nom = nom;
+	}
+
+	public String toString(){
+		return "ID: "+code+" NOM: "+nom+"\n";
+	}
 
 	public int getCode() {
 		return code;
