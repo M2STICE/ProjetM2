@@ -67,18 +67,18 @@ public class Controller {
 	private PromotionController promotion ;
 	
 	public Controller() {
-//		databaseName = "u960093295_stice";
-//		username = "u960093295_m2";
-//		pass = "pm2_2015";
-//		server = "sql37.hostinger.fr";
-		databaseName = "m2stice";
-		username = "root";
-		pass = "";
-		server = "localhost";
+		databaseName = "u960093295_stice";
+		username = "u960093295_m2";
+		pass = "pm2_2015";
+		server = "sql37.hostinger.fr";
+//		databaseName = "m2stice";
+//		username = "root";
+//		pass = "";
+//		server = "localhost";
 		setConnection(new DatabaseAccess(username, pass, server, databaseName));
 	}
 	
-	//Szlect
+	//Select 
 	public LinkedList <Annee> getAnnee(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
@@ -177,6 +177,17 @@ public class Controller {
 		return promotion.getSelect(getRequete);
 	}
 	
+	//insert
+	
+	//update
+	
+	public void updateEtudiant(String getRequete) {
+		DatabaseAccess con;
+		con =  getConnection();
+		etudiant = new EtudiantController(con);
+		etudiant.doUpdate(getRequete);
+	}
+	
 	/*
 	 *  Zô pa Conserné 
 	 *    
@@ -195,11 +206,12 @@ public class Controller {
 	public static void main(String[] args) {
 		Controller control = new Controller();
 		
-		String Requete = "SELECT * FROM diplome ";
-		LinkedList<Diplome> l =control.getDiplome(Requete);
+		String Requete = "select * from etudiant";
+//		control.updateEtudiant(Requete);
+		LinkedList<Etudiant> l = control.getEtudiant(Requete);
 		
 		
-		Iterator it= l.iterator(); 
+		Iterator<Etudiant> it= l.iterator(); 
 		
 		while(it.hasNext()){
 			System.out.println(it.next());
@@ -208,5 +220,6 @@ public class Controller {
 		System.out.println("Nou fini");
 		
 	}
+
 
 }

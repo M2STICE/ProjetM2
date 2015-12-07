@@ -37,4 +37,10 @@ public class EtudiantController {
 		return list;
 	}
 
+	public void doUpdate(String getRequete) {
+		String requete = null;
+		requete = getRequete;
+		connection.update(requete);
+	}
+
 }
