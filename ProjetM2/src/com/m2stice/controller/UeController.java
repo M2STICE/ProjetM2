@@ -24,7 +24,7 @@ public class UeController {
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					list.add(new  Ue( resultat.getInt("code_ue"),resultat.getString("nom_ue"), resultat.getInt("nombre_ects"), resultat.getString("resume_ue"),resultat.getFloat("coefficient_ue"), resultat.getInt("code_semestre"), resultat.getInt("code_intervenant")));
+					list.add(new  Ue( resultat.getInt("code_ue"),resultat.getString("nom_ue"), resultat.getInt("nombre_ects"), resultat.getString("resume_ue"),resultat.getFloat("coefficient_ue"), resultat.getInt("code_semestre"), resultat.getInt("code_intervenant"), resultat.getInt("code_diplome")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

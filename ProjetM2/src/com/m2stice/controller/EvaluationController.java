@@ -24,7 +24,7 @@ public class EvaluationController {
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					list.add(new Evaluation(resultat.getInt("code_evaluation"), resultat.getString("note_evaluation"), resultat.getFloat("note_maximale"), resultat.getFloat("coefficient_evaluation"), resultat.getString("type_epreuve"), resultat.getInt("code_sous_item")));
+					list.add(new Evaluation(resultat.getInt("code_evaluation"), resultat.getString("nom_evaluation"), resultat.getFloat("note_maximale"), resultat.getFloat("coefficient_evaluation"), resultat.getString("type_epreuve"), resultat.getInt("code_sous_item")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

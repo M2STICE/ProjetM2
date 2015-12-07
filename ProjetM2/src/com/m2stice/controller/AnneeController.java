@@ -22,7 +22,7 @@ DatabaseAccess connection;
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					System.out.println(resultat.getString("code_annee") + " " +resultat.getString("nom_anne"));
+					System.out.println(resultat.getString("code_annee") + " " +resultat.getString("nom_annee"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

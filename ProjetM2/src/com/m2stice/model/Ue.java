@@ -9,13 +9,14 @@ public class Ue {
 	private int nombreEcts;
 	private int codeSemestre;
 	private int codeIntervenant;
+	private int codeDiplome;
 	
 	public Ue() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	
-	public Ue(int code, String nom, int nombreEcts, String resume, float coefficient, int codeSemestre, int codeIntervenant) {
+	public Ue(int code, String nom, int nombreEcts, String resume, float coefficient, int codeSemestre, int codeIntervenant, int codeDiplome) {
 		this.code = code;
 		this.nom = nom;
 		this.nombreEcts = nombreEcts;
@@ -23,6 +24,7 @@ public class Ue {
 		this.coefficient = coefficient;
 		this.codeSemestre = codeSemestre;
 		this.codeIntervenant = codeIntervenant;
+		this.setCodeDiplome(codeDiplome);
 	}
 
 
@@ -87,6 +89,16 @@ public class Ue {
 
 	public void setNombreEcts(int nombreEcts) {
 		this.nombreEcts = nombreEcts;
+	}
+
+
+	public int getCodeDiplome() {
+		return codeDiplome;
+	}
+
+
+	public void setCodeDiplome(int codeDiplome) {
+		this.codeDiplome = codeDiplome;
 	}
 
 }

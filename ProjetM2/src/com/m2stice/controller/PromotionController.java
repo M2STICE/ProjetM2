@@ -4,28 +4,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import com.m2stice.model.Domaine;
+import com.m2stice.model.Promotion;
 
-public class DomaineController {
-
-	DatabaseAccess connection;
+public class PromotionController {
+DatabaseAccess connection;
 	
-	public DomaineController(DatabaseAccess con) {
+	public PromotionController(DatabaseAccess con) {
 		// TODO Auto-generated constructor stub
 		this.connection = (DatabaseAccess) con;
 	}
 	
-	public LinkedList<Domaine> getSelect(String getRequete) {
+	public LinkedList<Promotion> getSelect(String getRequete) {
 		String requete = null;
 		ResultSet resultat;
-		LinkedList<Domaine> list = new LinkedList<Domaine>(); 
+		LinkedList<Promotion> list = new LinkedList<Promotion>(); 
 				
 		requete = getRequete;
 		resultat = connection.getRequest(requete);
 		if (resultat != null) {
 			try {
 				while(resultat.next()){						                                                                                                                                                                                                                                  
-					list.add(new Domaine( resultat.getInt("code_domaine"), resultat.getString("nom"), resultat.getInt("code_diplome")));
+					list.add(new Promotion(resultat.getInt("code_promotion"), resultat.getString("nom_promotion"), resultat.getInt("annee_debut_promotion"), resultat.getInt("annee_fin_promotion"), resultat.getInt("code_annee"), resultat.getInt("code_diplome")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

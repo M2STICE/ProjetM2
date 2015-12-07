@@ -4,15 +4,16 @@ public class Domaine {
 
 	private int code;
 	private String nom;
+	private int codeDiplome;
 	
 	public Domaine() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Domaine(int code, String nom) {
-		// TODO Auto-generated constructor stub
+	public Domaine(int code, String nom, int codeDiplome) {
 		this.code = code;
 		this.nom = nom;
+		this.codeDiplome = codeDiplome;
 	}
 
 	public String toString(){
@@ -33,6 +34,14 @@ public class Domaine {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+
+	public int getCodeDiplome() {
+		return codeDiplome;
+	}
+
+	public void setCodeDiplome(int codeDiplome) {
+		this.codeDiplome = codeDiplome;
 	}
 
 }

@@ -13,6 +13,7 @@ import com.m2stice.model.Evaluation;
 import com.m2stice.model.EvaluationEtudiant;
 import com.m2stice.model.Intervenant;
 import com.m2stice.model.Item;
+import com.m2stice.model.Promotion;
 import com.m2stice.model.Semestre;
 import com.m2stice.model.SousItem;
 import com.m2stice.model.Ue;
@@ -63,6 +64,7 @@ public class Controller {
 	private SemestreController semestre  ;
 	private SousItemController sousItem ;
 	private UeController ue ;
+	private PromotionController promotion ;
 	
 	public Controller() {
 //		databaseName = "u960093295_stice";
@@ -76,6 +78,7 @@ public class Controller {
 		setConnection(new DatabaseAccess(username, pass, server, databaseName));
 	}
 	
+	//Szlect
 	public LinkedList <Annee> getAnnee(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
@@ -166,6 +169,14 @@ public class Controller {
 		ec = new EcController(con);
 		return ec.getSelect(getRequete);
 	}
+	
+	public LinkedList <Promotion> getPromotion(String getRequete){
+		DatabaseAccess con;
+		con =  getConnection();
+		promotion = new PromotionController(con);
+		return promotion.getSelect(getRequete);
+	}
+	
 	/*
 	 *  Zô pa Conserné 
 	 *    

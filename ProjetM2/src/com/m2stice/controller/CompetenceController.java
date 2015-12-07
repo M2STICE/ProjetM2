@@ -24,7 +24,7 @@ public class CompetenceController {
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					list.add(new  Competence(resultat.getInt("code_compétence"),resultat.getString("nom_competence")));
+					list.add(new  Competence(resultat.getInt("code_compétence"),resultat.getString("nom_competence"), resultat.getInt("code_domaine")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

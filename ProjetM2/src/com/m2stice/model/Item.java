@@ -7,10 +7,8 @@ public class Item {
 	private int codeCompetence;
 	private int codeEvaluation;
 	
-	
-
 	public Item() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Item(int code, String nom, int codeCompetence, int codeEvaluation) {

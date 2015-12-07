@@ -14,13 +14,14 @@ public class Ec {
 	private String resume;
 	private int codeUe;
 	private int responsableEc;
+	private int codeSemestre;
 	
 
 	public Ec() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Ec(int code, String nom, float coefficient, int nombreEcts, int volumeHeureCours, int volumeHeureTP, int volumeHeureTD, int volumeHeureBE,int volumeHeureTPerso, String resume, int codeUe, int responsableEc) {
+	public Ec(int code, String nom, float coefficient, int nombreEcts, int volumeHeureCours, int volumeHeureTP, int volumeHeureTD, int volumeHeureBE,int volumeHeureTPerso, String resume, int codeUe, int responsableEc, int codeSemestre) {
 		// TODO Auto-generated constructor stub
 		this.code = code;
 		this.nom = nom;
@@ -34,6 +35,7 @@ public class Ec {
 		this.resume = resume;
 		this.codeUe = codeUe;
 		this.responsableEc = responsableEc;
+		this.codeSemestre = codeSemestre;
 	}
 	
 	public int getCode() {
@@ -134,6 +136,14 @@ public class Ec {
 
 	public void setResponsableEc(int responsableEc) {
 		this.responsableEc = responsableEc;
+	}
+
+	public int getCodeSemestre() {
+		return codeSemestre;
+	}
+
+	public void setCodeSemestre(int codeSemestre) {
+		this.codeSemestre = codeSemestre;
 	}
 
 }
