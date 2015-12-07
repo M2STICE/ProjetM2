@@ -65,6 +65,7 @@ nombre_ects int,
 resume_ue varchar(1000),
 code_semestre int,
 code_intervenant int,
+coefficient_ue float,
 code_diplome,
 primary key(code_ue),
 foreign key(code_semestre) references semestre(code_semestre),
@@ -87,9 +88,11 @@ volume_heure_TPERSO float,
 resume_ec varchar(1000),
 code_ue int,
 responsable_ec int,
+code_semestre,
 primary key(code_ec),
 foreign key(code_ue) references ue(code_ue),
 foreign key(responsable_ec) references intervenant(code_intervenant)
+foreign key(code_semestre) references semestre(code_semestre)
 )
 ENGINE=INNODB;
 
@@ -148,9 +151,7 @@ ENGINE=INNODB;
 create table sous_item(
 	code_sous_item int not null auto_increment, 
 	nom_sous_item varchar(255), 
-	code_item int,
-	primary key(code_sous_item),
-	foreign key(code_item) references item(code_item)
+	primary key(code_sous_item)
 )
 ENGINE=INNODB;
 
@@ -189,11 +190,21 @@ foreign key(code_sous_item) references sous_item(code_sous_item)
 )
 ENGINE=INNODB;
 
+/*Création table ec_item*/
+create table ec_item(
+code_ec int
+code_item int
+primary key(code_ec,code_item),
+foreign key(code_ec) references ec(code_ec),
+foreign key(code_item) references sous_item(code_item)
+)ENGINE=INNODB;
+
 /*Création table promotion*/
 create table promotion(
 code_promotion int not null auto_increment,
 nom_promotion varchar(100),
-annee_promotion int,
+annee_debut_promotion int,
+annee_fin_promotion int,
 code_annee int,
 code_diplome int,
 primary key(code_promotion),
