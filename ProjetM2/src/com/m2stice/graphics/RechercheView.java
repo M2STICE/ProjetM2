@@ -9,6 +9,8 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.m2stice.listener.RechercheViewListener;
+
 
 /*
 * Nom de classe : RechercheView
@@ -39,20 +41,23 @@ public class RechercheView extends JPanel {
 	 */
 	private static final long serialVersionUID = 971L;
 	
-	private Interface interfaceUtilisateur = null; 					//Lien vers l'applet
+	private Interface interfaceUtilisateur; 					//Lien vers l'applet
 	
-	protected JPanel bloc = new JPanel();							//Bloc container transparent
-	protected JTextField rechercheTextField = new JTextField();		//Zone saisie de la recherche
+	private JPanel bloc = new JPanel();							//Bloc container transparent
+	private JTextField rechercheTextField = new JTextField();		//Zone saisie de la recherche
+	private RechercheViewListener rechercheViewListener;
 	
 	/**
 	 * Mise en place de la vue
 	 */
 	public void init(){
 		//Paramétrage de la vue
+		rechercheViewListener = new RechercheViewListener(interfaceUtilisateur, this);
 		this.setOpaque(false);
 		
 		//Paramétrage des composants de la vue
 		//
+		rechercheTextField.addKeyListener(rechercheViewListener.getKeyListener());
 		rechercheTextField.setText("Saisir un diplôme...");
 		rechercheTextField.setToolTipText("Outils de recherche");
 		rechercheTextField.setFont(new Font("Gill Sans MT",Font.ITALIC,24));
