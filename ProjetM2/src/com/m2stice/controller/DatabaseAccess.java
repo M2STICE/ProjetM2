@@ -29,19 +29,16 @@ import java.util.Properties;
 * @revision 07/12/2015
 * Emmanuel
 */
-
-
 public class DatabaseAccess {
 
 	private String userName;		/**Pseudo utilisateur pour l'accès à la base de donnée*/
 	private String password;		/**Password pour l'accès à la base de donnée*/
 	private String serverName;		/**Nom du serveur hébergeant la base*/
 	private String dbName;			/**Nom de la base de donnée*/
-//	private String tableName;		/***/
 	
-	private Connection connector = null;
+	private Connection connector;	/**Objet permettant la connexion*/
 	
-	private int portNumber = 3306;	/*......*/
+	private int portNumber = 3306;	/**Numéro du port par default*/
 	
 	/**
 	 * Constructeur pour l'accès à la base de donnée 
@@ -50,7 +47,6 @@ public class DatabaseAccess {
 	 * @param server
 	 * @param databaseName
 	 */
-	
 	public DatabaseAccess(String username, String pass, String server, String databaseName) {
 		this.userName = username;
 		this.password = pass;
@@ -71,7 +67,6 @@ public class DatabaseAccess {
 	 * @return Connection
 	 * @throws SQLException
 	 */
-	
 	public Connection getConnection() throws SQLException {
 		Connection conn = null;
 		
