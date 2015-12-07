@@ -68,14 +68,14 @@ public class Interface extends Applet {
 	public void start(){
 		this.setMinimumSize(new Dimension(1024, 768));
 		this.setVisible(true);
-		try{
+		/*try{
 			Thread.sleep(4000);
 			this.remove(blocPrincipal);
 			this.setBlocPrincipal(new ResultatView(this));
 			this.add(blocPrincipal);
 			this.repaint();
 		}
-		catch(Exception e){ e.printStackTrace();}
+		catch(Exception e){ e.printStackTrace();}*/
 		
 	}
 	

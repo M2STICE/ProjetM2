@@ -26,6 +26,8 @@ import java.util.Properties;
 * @author ASDRUBAL & NERES
 * @copyright (C) Master 2 2015
 * @date 03/12/2015
+* @revision 07/12/2015
+* Emmanuel
 */
 
 
@@ -57,9 +59,9 @@ public class DatabaseAccess {
 		
 		try {
 			connector = getConnection();
-			System.out.println("Connected to database");
+			System.out.println("[Log-DATABASE_ACCESS]: La connecxion avec la base de données est établi.");
 		} catch (SQLException e) {
-			System.out.println("ERROR: Could not connect to the database");
+			System.err.println("[Log-DATABASE_ACCESS]: La connecxion avec la base de données a échoué.");
 			e.printStackTrace();
 		}
 	}
@@ -92,7 +94,7 @@ public class DatabaseAccess {
 	    Statement stmt = null;
 	    try {
 	        stmt = conn.createStatement();
-	        stmt.executeUpdate(requete); // This will throw a SQLException if it fails
+	        stmt.executeUpdate(requete.toLowerCase()); // This will throw a SQLException if it fails
 	        return true;
 	    } catch(SQLException e){
 	    	e.printStackTrace();
@@ -112,7 +114,7 @@ public class DatabaseAccess {
 		ResultSet query = null;
 	    try {
 	        stmt = conn.createStatement();
-	        query = stmt.executeQuery(command); // This will throw a SQLException if it fails
+	        query = stmt.executeQuery(command.toLowerCase()); // This will throw a SQLException if it fails
 	        return query;
 	    } catch(SQLException e){
 	    	e.printStackTrace();
