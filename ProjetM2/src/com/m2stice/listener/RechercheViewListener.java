@@ -40,8 +40,9 @@ public class RechercheViewListener {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				 if (e.getKeyCode()==KeyEvent.VK_ENTER){
-					 	diplomes = interfaceUtilisateur.getController().getDiplome("SELECT * FROM DIPLOME;");
+					 	diplomes = interfaceUtilisateur.getController().getDiplome("SELECT * FROM DIPLOME WHERE NOM_DIPLOME LIKE '%"+rechercheView.getRecherche()+"%' ;");
 					 	resultatView = new ResultatView(interfaceUtilisateur);
+					 	resultatView.setEntete(rechercheView.getRecherche(),diplomes.size());
 				        interfaceUtilisateur.setBlocPrincipal(resultatView);
 				 }
 				

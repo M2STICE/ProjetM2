@@ -85,4 +85,12 @@ public class ResultatView extends JPanel {
 		this.interfaceUtilisateur = interfaceUtilisateur;
 	}
 	
+	/**
+	 * @param Le titre de la recherche
+	 */
+	public void setEntete(String titreRecherche,int nombreTrouvés){
+		this.titreRecherche.setText(" 🔍  Résultat de la recherche \""+titreRecherche+"\"");
+		this.detailRecherche.setText("     "+nombreTrouvés+" résultats trouvés");
+	}
+	
 }

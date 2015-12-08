@@ -53,6 +53,7 @@ public class RechercheView extends JPanel {
 	public void init(){
 		//Paramétrage de la vue
 		rechercheViewListener = new RechercheViewListener(interfaceUtilisateur, this);
+		this.setVisible(true);
 		this.setOpaque(false);
 		
 		//Paramétrage des composants de la vue
