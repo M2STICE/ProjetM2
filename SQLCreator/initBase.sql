@@ -165,9 +165,7 @@ create table evaluation(
 	note_maximale float, 
 	coefficient_evaluation float, 
 	type_epreuve varchar(255),
-	code_sous_item int,
 	primary key(code_evaluation),
-	foreign key(code_sous_item) references sous_item(code_sous_item)
 )
 ENGINE=INNODB;
 
@@ -223,5 +221,15 @@ create table etudiant_promotion(
 	primary key(code_etudiant,code_promotion),
 	foreign key(code_etudiant) references etudiant(code_etudiant),
 	foreign key(code_promotion) references promotion(code_promotion)
+)
+ENGINE=INNODB;
+
+/*Création table sous_item_evaluation*/
+create table sous_item_evaluation(
+	code_sous_item int,
+	code_evaluation int,
+	primary key(code_sous_item,code_evaluation),
+	foreign key(code_sous_item) references sous_item(code_sous_item),
+	foreign key(code_evaluation) references evaluation(code_evaluation)
 )
 ENGINE=INNODB;
