@@ -1,14 +1,31 @@
 package com.m2stice.model;
 
+import com.m2stice.controller.DatabaseAccess;
+
+/**
+*  Semestre - Classe représentant un semestre d'une année scolaire
+*
+* @version 1.1
+*
+* @author ASDRUBAL, CISNEROS & NERES
+* @copyright (C) Master 2 2015
+* @date 01/12/2015
+* @revision 04/12
+* 
+*/
 public class Semestre {
 
 	private int code;
 	private String nom;
 	private int codeAnnee;
 	
-	public Semestre() {
-		// TODO Auto-generated constructor stub
-	}
+	/**
+	 * Constructeur de l'objet Semestre
+	 * 
+	 * @param code
+	 * @param nom
+	 * @param codeAnnee
+	 */
 
 	public Semestre(int code, String nom, int codeAnnee) {
 		this.code = code;

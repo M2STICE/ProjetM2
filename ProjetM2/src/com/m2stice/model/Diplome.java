@@ -1,15 +1,29 @@
 package com.m2stice.model;
 
+/**
+*  Diplome - Classe représentant un diplôme
+*
+* @version 1.1
+*
+* @author ASDRUBAL, CISNEROS & NERES
+* @copyright (C) Master 2 2015
+* @date 01/12/2015
+* @revision 04/12
+* 
+*/
 public class Diplome {
 
 	private int code;
 	private String nom;
 	private String description;
 	
-	public Diplome() {
-		// TODO Auto-generated constructor stub
-	}
-
+	/**
+	 * Constructeur de l'objet Diplome
+	 * 
+	 * @param code
+	 * @param nom
+	 * @param description
+	 */
 	public Diplome(int code, String nom, String description) {
 		// TODO Auto-generated constructor stub
 		this.code=code;

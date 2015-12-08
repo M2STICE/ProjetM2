@@ -1,5 +1,16 @@
 package com.m2stice.model;
 
+/**
+*  Evaluation - Classe représentant une évaluation 
+*
+* @version 1.1
+*
+* @author ASDRUBAL, CISNEROS & NERES
+* @copyright (C) Master 2 2015
+* @date 01/12/2015
+* @revision 04/12
+* 
+*/
 public class Evaluation {
 
 	private int code;
@@ -9,9 +20,16 @@ public class Evaluation {
 	private String typeEpreuve;
 	private int codeSousItem;
 	
-	public Evaluation() {
-		// TODO Auto-generated constructor stub
-	}
+	/**
+	 * Constructeur de la classe Evaluation
+	 * 
+	 * @param code
+	 * @param nom
+	 * @param notemaximale
+	 * @param coefficient
+	 * @param typeEpreuve
+	 * @param codeSousItem
+	 */
 
 	public Evaluation(int code, String nom, float notemaximale, float coefficient, String typeEpreuve, int codeSousItem) {
 		this.code = code;

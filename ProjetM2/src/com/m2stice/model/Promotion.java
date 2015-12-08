@@ -1,5 +1,16 @@
 package com.m2stice.model;
 
+/**
+*  Promotion - Classe représentant une promotion
+*
+* @version 1.1
+*
+* @author ASDRUBAL, CISNEROS & NERES
+* @copyright (C) Master 2 2015
+* @date 01/12/2015
+* @revision 04/12
+* 
+*/
 public class Promotion {
 	
 	private int code;
@@ -9,9 +20,16 @@ public class Promotion {
 	private int codeAnnee;
 	private int codeDiplome;
 	
-	public Promotion() {
-		// TODO Auto-generated constructor stub
-	}
+	/**
+	 * Constructeur de l'objet Promotion
+	 * 
+	 * @param code
+	 * @param nom
+	 * @param anneeDebutPromotion
+	 * @param anneeFinPromotion
+	 * @param codeAnnee
+	 * @param codeDiplome
+	 */
 
 	public Promotion(int code, String nom, int anneeDebutPromotion, int anneeFinPromotion, int codeAnnee, int codeDiplome) {
 		this.code = code;
