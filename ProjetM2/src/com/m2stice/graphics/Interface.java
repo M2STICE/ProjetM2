@@ -8,6 +8,8 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
+import com.m2stice.controller.Controller;
+
 /*
 * Nom de classe : Interface
 *
@@ -33,6 +35,7 @@ import javax.swing.JPanel;
 public class Interface extends Applet {
 	
 	private JPanel blocPrincipal; //JPanel qui contient le bloc principal
+	private Controller controller;
 	
 	/**
 	 * Numéro de série
@@ -43,6 +46,7 @@ public class Interface extends Applet {
 	 * Méthode appelée par le navigateur lorsque l'applet est chargée
 	 */
 	public void init(){
+		this.controller = new Controller();
 		super.init();
 		
 		//Paramétrage de l'applet
@@ -68,14 +72,14 @@ public class Interface extends Applet {
 	public void start(){
 		this.setMinimumSize(new Dimension(1024, 768));
 		this.setVisible(true);
-		try{
+		/*try{
 			Thread.sleep(4000);
 			this.remove(blocPrincipal);
 			this.setBlocPrincipal(new ResultatView(this));
 			this.add(blocPrincipal);
 			this.repaint();
 		}
-		catch(Exception e){ e.printStackTrace();}
+		catch(Exception e){ e.printStackTrace();}*/
 		
 	}
 	
@@ -93,7 +97,10 @@ public class Interface extends Applet {
 	 * @param le JPanel qui va servir de blocPrincipal 
 	 */
 	public void setBlocPrincipal(JPanel blocPrincipal) {
-		this.blocPrincipal = blocPrincipal;
+		this.remove(this.blocPrincipal);
+		this.blocPrincipal = (ResultatView)blocPrincipal;
+		this.add(this.blocPrincipal,BorderLayout.CENTER);
+		this.repaint();
 	}
 
 	/**
@@ -104,4 +111,12 @@ public class Interface extends Applet {
 	public Image loadImage(String nomImage){
 		return getImage(getCodeBase(), "../res/"+nomImage);
 	}
+
+	/**
+	 * @return the controller
+	 */
+	public Controller getController() {
+		return controller;
+	}
+
 }

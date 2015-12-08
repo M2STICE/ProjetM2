@@ -26,20 +26,19 @@ import java.util.Properties;
 * @author ASDRUBAL & NERES
 * @copyright (C) Master 2 2015
 * @date 03/12/2015
+* @revision 07/12/2015
+* Emmanuel
 */
-
-
 public class DatabaseAccess {
 
 	private String userName;		/**Pseudo utilisateur pour l'accès à la base de donnée*/
 	private String password;		/**Password pour l'accès à la base de donnée*/
 	private String serverName;		/**Nom du serveur hébergeant la base*/
 	private String dbName;			/**Nom de la base de donnée*/
-//	private String tableName;		/***/
 	
-	private Connection connector = null;
+	private Connection connector;	/**Objet permettant la connexion*/
 	
-	private int portNumber = 3306;	/*......*/
+	private int portNumber = 3306;	/**Numéro du port par default*/
 	
 	/**
 	 * Constructeur pour l'accès à la base de donnée 
@@ -48,7 +47,6 @@ public class DatabaseAccess {
 	 * @param server
 	 * @param databaseName
 	 */
-	
 	public DatabaseAccess(String username, String pass, String server, String databaseName) {
 		this.userName = username;
 		this.password = pass;
@@ -57,9 +55,9 @@ public class DatabaseAccess {
 		
 		try {
 			connector = getConnection();
-			System.out.println("Connected to database");
+			System.out.println("[Log-DATABASE_ACCESS]: La connecxion avec la base de données est établi.");
 		} catch (SQLException e) {
-			System.out.println("ERROR: Could not connect to the database");
+			System.err.println("[Log-DATABASE_ACCESS]: La connecxion avec la base de données a échoué.");
 			e.printStackTrace();
 		}
 	}
@@ -69,7 +67,6 @@ public class DatabaseAccess {
 	 * @return Connection
 	 * @throws SQLException
 	 */
-	
 	public Connection getConnection() throws SQLException {
 		Connection conn = null;
 		
@@ -92,7 +89,7 @@ public class DatabaseAccess {
 	    Statement stmt = null;
 	    try {
 	        stmt = conn.createStatement();
-	        stmt.executeUpdate(requete); // This will throw a SQLException if it fails
+	        stmt.executeUpdate(requete.toLowerCase()); // This will throw a SQLException if it fails
 	        return true;
 	    } catch(SQLException e){
 	    	e.printStackTrace();
@@ -112,7 +109,7 @@ public class DatabaseAccess {
 		ResultSet query = null;
 	    try {
 	        stmt = conn.createStatement();
-	        query = stmt.executeQuery(command); // This will throw a SQLException if it fails
+	        query = stmt.executeQuery(command.toLowerCase()); // This will throw a SQLException if it fails
 	        return query;
 	    } catch(SQLException e){
 	    	e.printStackTrace();
