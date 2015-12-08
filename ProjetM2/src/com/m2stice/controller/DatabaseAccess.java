@@ -117,24 +117,11 @@ public class DatabaseAccess {
 		return null;
 	}
 	
-	/**
-	 * 
-	 * fonction appelé pour faire une insertion dans la base de donnée
-	 * @param toInsert
-	 * @return boolean
-	 */
-	public boolean insertData(String toInsert){
-		boolean insertion = false;
-		try {
-			String insertString = toInsert;
-			this.executeUpdate(connector, insertString);
-			insertion = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return insertion;
-	}
-
+/**
+ * fonction permettant de faire un count
+ * @param select
+ * @return
+ */
 	public ResultSet getCount(String select){
 		ResultSet rs = null;
 		try {
@@ -169,7 +156,7 @@ public class DatabaseAccess {
 	 * @param upToDate
 	 * @return boolean
 	 */
-	public boolean update(String upToDate){
+	public boolean modification(String upToDate){
 		boolean update = false;
 		try {
 			String updateString = upToDate;

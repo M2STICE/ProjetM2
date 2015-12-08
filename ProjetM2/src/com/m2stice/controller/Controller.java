@@ -282,15 +282,25 @@ public class Controller {
 
 		return list;
 	}
-	//insert
 	
-	//update
-	
-	public void updateEtudiant(String getRequete) {
+	//update, insert, delete .....
+	/**
+	 * Fonction permettatnt de faire toute requête de modification (insert, update, delete ....)
+	 * @param getRequete
+	 */
+	public void modification(String getRequete) {
+		boolean done = false;
 		DatabaseAccess con;
 		con = getConnection();
-		etudiant = new EtudiantController(con);
-		etudiant.doUpdate(getRequete);
+		String requete = null;
+		requete = getRequete;
+		done = con.modification(requete);
+		if(done){
+			System.out.println("modification effectué");
+		}
+		else{
+			System.out.println("modification non effectué");
+		}
 	}
 	
 	/*
