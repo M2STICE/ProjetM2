@@ -40,10 +40,12 @@ ENGINE=INNODB;
 
 /*Création de la table*/ 
 create table diplome_annee(
-	code_diplome int not null auto_increment, 
+	code_diplome int, 
 	code_annee int,
 	foreign key(code_annee) references annee(code_annee),
-	primary key(code_diplome)
+	foreign key (code_diplome) references diplome(code_diplome),
+	primary key(code_diplome),
+	primary key(code_annee)
 )
 ENGINE=INNODB;
 
