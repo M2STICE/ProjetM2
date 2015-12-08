@@ -1,5 +1,17 @@
 package com.m2stice.model;
 
+/**
+*  Ue - Classe représentant un unité d'enseignement
+*
+* @version 1.1
+*
+* @author ASDRUBAL, CISNEROS & NERES
+* @copyright (C) Master 2 2015
+* @date 01/12/2015
+* @revision 04/12
+* 
+*/
+
 public class Ue {
 
 	private int code;
@@ -11,11 +23,19 @@ public class Ue {
 	private int codeIntervenant;
 	private int codeDiplome;
 	
-	public Ue() {
-		// TODO Auto-generated constructor stub
-	}
 	
-	
+	/**
+	 *  Constructeur de l'objet Ue
+	 * 
+	 * @param code
+	 * @param nom
+	 * @param nombreEcts
+	 * @param resume
+	 * @param coefficient
+	 * @param codeSemestre
+	 * @param codeIntervenant
+	 * @param codeDiplome
+	 */
 	public Ue(int code, String nom, int nombreEcts, String resume, float coefficient, int codeSemestre, int codeIntervenant, int codeDiplome) {
 		this.code = code;
 		this.nom = nom;

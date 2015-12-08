@@ -1,5 +1,18 @@
 package com.m2stice.model;
 
+import com.m2stice.controller.DatabaseAccess;
+
+/**
+*  Ec - Classe représentant un élement constitutif d'une unité d'enseignement
+*
+* @version 1.1
+*
+* @author ASDRUBAL, CISNEROS & NERES
+* @copyright (C) Master 2 2015
+* @date 01/12/2015
+* @revision 04/12
+* 
+*/
 public class Ec {
 
 	private int code;
@@ -17,10 +30,23 @@ public class Ec {
 	private int codeSemestre;
 	
 
-	public Ec() {
-		// TODO Auto-generated constructor stub
-	}
-	
+	/**
+	 * Constructeur de l'objet Ec
+	 * 
+	 * @param code
+	 * @param nom
+	 * @param coefficient
+	 * @param nombreEcts
+	 * @param volumeHeureCours
+	 * @param volumeHeureTP
+	 * @param volumeHeureTD
+	 * @param volumeHeureBE
+	 * @param volumeHeureTPerso
+	 * @param resume
+	 * @param codeUe
+	 * @param responsableEc
+	 * @param codeSemestre
+	 */
 	public Ec(int code, String nom, float coefficient, int nombreEcts, int volumeHeureCours, int volumeHeureTP, int volumeHeureTD, int volumeHeureBE,int volumeHeureTPerso, String resume, int codeUe, int responsableEc, int codeSemestre) {
 		// TODO Auto-generated constructor stub
 		this.code = code;

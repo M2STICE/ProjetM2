@@ -1,5 +1,19 @@
 package com.m2stice.model;
 
+import com.m2stice.controller.DatabaseAccess;
+
+/**
+*  Item - Classe représentant une sous-compétence
+*
+* @version 1.1
+*
+* @author ASDRUBAL, CISNEROS & NERES
+* @copyright (C) Master 2 2015
+* @date 01/12/2015
+* @see DatabaseAccess
+* @revision 04/12
+* 
+*/
 public class Item {
 
 	private int code;
@@ -7,10 +21,14 @@ public class Item {
 	private int codeCompetence;
 	private int codeEvaluation;
 	
-	public Item() {
-		
-	}
-
+	/**
+	 * Constructeur de l'objet Item
+	 * 
+	 * @param code
+	 * @param nom
+	 * @param codeCompetence
+	 * @param codeEvaluation
+	 */
 	public Item(int code, String nom, int codeCompetence, int codeEvaluation) {
 		this.code = code;
 		this.nom = nom;

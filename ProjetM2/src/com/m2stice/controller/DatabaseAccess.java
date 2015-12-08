@@ -135,6 +135,18 @@ public class DatabaseAccess {
 		return insertion;
 	}
 
+	public ResultSet getCount(String select){
+		ResultSet rs = null;
+		try {
+			String requestString = select;
+			rs = this.executeQuery(connector, requestString);
+		}
+		catch(SQLException ex){
+			ex.printStackTrace();
+		}
+		return rs;
+	}
+	
 	/**
 	 * fonction permettant de faire un Select au niveau de la base de donnée
 	 * @param select
