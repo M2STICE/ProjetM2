@@ -79,7 +79,7 @@ public class Interface extends Applet {
 			this.add(blocPrincipal);
 			this.repaint();
 		}
-		catch(Exception e){ e.printStackTrace();}*/
+		catch(Exception e){ e.printStackTrace();}**/
 		
 	}
 	
