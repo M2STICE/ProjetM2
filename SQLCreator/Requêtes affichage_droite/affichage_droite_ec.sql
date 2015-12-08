@@ -80,7 +80,8 @@ and ec.code_ue = ue.code_ue));
 /*Liste des evaluations */
 select evaluation.nom_evaluation
 from evaluation
-where evaluation.code_sous_item = select sous_item.code_sous_item
+where evaluation.code_evaluation = evaluation_sous_item.code_evaluation and
+evaluation_sous_item = select sous_item.code_sous_item
 from sous_item,ec_sous_item
 where sous_item.code_sous_item = ec_sous_item.code_sous_item 
 and ec_sous_item.code_ec = (select ec.code_ec

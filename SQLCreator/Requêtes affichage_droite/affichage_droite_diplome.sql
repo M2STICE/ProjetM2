@@ -44,8 +44,10 @@ where ec.nom_ec = /*nom ec sélectionné*/
 
 /*Pour l'affichage*/
 select nom_sous_item
-from ec,sous_item
+from ec,ec_sous_item,sous_item
 where ec.code_ec = /*code ec selectionné*/
+and ec.code_ec = ec_sous_item.code_ec
+and sous_item.code_sous_item = ec_sous_item.code_sous_item;
 
 /*Pour la suite du traitement*/
 select code_sous_item
@@ -55,5 +57,7 @@ where sous_item.nom = /*nom item selectionné*/
 /*Pour l'affichage*/
 select nom_evaluation
 from evaluation, sous_item
-where evaluation.code_sous_item = /*code sous item selectionné*/
+where evaluation.code_evaluation = evaluation_sous_item.code_evaluation and
+evaluation_sous_item.code_sous_item = sous_item.code_sous_item and
+sous_item.code_sous_item =/*code sous item selectionné*/
 
