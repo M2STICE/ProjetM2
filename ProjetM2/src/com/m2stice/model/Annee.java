@@ -1,10 +1,24 @@
 package com.m2stice.model;
 
+/**
+*  Annee - Classe représentant une année scolaire
+*
+* @version 1.1
+*
+* @author ASDRUBAL, CISNEROS & NERES
+* @copyright (C) Master 2 2015
+* @date 01/12/2015
+* @revision 04/12
+* 
+*/
 public class Annee {
 	
 	private int code;
 	private String nom;
 
+	/**
+	 * Constructeur de l'objet Annee
+	 */
 	public Annee() {
 		// TODO Auto-generated constructor stub
 	}

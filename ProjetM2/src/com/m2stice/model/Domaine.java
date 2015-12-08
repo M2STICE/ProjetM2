@@ -1,15 +1,29 @@
 package com.m2stice.model;
 
+/**
+* Domaine - Classe représentant un domaine de compétence
+*
+* @version 1.1
+*
+* @author ASDRUBAL, CISNEROS & NERES
+* @copyright (C) Master 2 2015
+* @date 01/12/2015
+* @revision 04/12
+* 
+*/
 public class Domaine {
 
 	private int code;
 	private String nom;
 	private int codeDiplome;
 	
-	public Domaine() {
-		// TODO Auto-generated constructor stub
-	}
-	
+	/**
+	 * Constructeur de l'objet Domaine
+	 * 
+	 * @param code
+	 * @param nom
+	 * @param codeDiplome
+	 */
 	public Domaine(int code, String nom, int codeDiplome) {
 		this.code = code;
 		this.nom = nom;
