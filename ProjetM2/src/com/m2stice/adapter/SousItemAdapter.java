@@ -1,31 +1,31 @@
-package com.m2stice.controller;
+package com.m2stice.adapter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import com.m2stice.model.Semestre;
+import com.m2stice.controller.DatabaseAccess;
+import com.m2stice.model.SousItem;
 
-public class SemestreController {
+public class SousItemAdapter {
 
-
-	public SemestreController(DatabaseAccess con) {
+	public SousItemAdapter(DatabaseAccess con) {
 		this.connection = (DatabaseAccess) con;
 	}
 	
 	DatabaseAccess connection;
 
-	public LinkedList<Semestre> getSelect(String getRequete) {
+	public LinkedList<SousItem> getSelect(String getRequete) {
 		String requete = null;
 		ResultSet resultat;
-		LinkedList<Semestre> list = new LinkedList<Semestre>(); 
+		LinkedList<SousItem> list = new LinkedList<SousItem>(); 
 				
 		requete = getRequete;
 		resultat = connection.getRequest(requete);
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					list.add(new  Semestre(resultat.getInt("code_semestre"),resultat.getString("nom_semestre"),resultat.getInt("code_annee")));
+					list.add(new  SousItem(resultat.getInt("code_sous_item"),resultat.getString("nom_sous_item"),resultat.getInt("code_item")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

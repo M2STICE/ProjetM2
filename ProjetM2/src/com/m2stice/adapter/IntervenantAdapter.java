@@ -1,33 +1,31 @@
-package com.m2stice.controller;
+package com.m2stice.adapter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import com.m2stice.model.Diplome;
+import com.m2stice.controller.DatabaseAccess;
+import com.m2stice.model.Intervenant;
 
-/*
- * Gestion d'exception à faire
- */
-public class DiplomeController {
+public class IntervenantAdapter {
 
-	public DiplomeController(DatabaseAccess con) {
+	public IntervenantAdapter(DatabaseAccess con) {
 		this.connection = (DatabaseAccess) con;
 	}
 	
 	DatabaseAccess connection;
 
-	public LinkedList<Diplome> getSelect(String getRequete) {
+	public LinkedList<Intervenant> getSelect(String getRequete) {
 		String requete = null;
 		ResultSet resultat;
-		LinkedList<Diplome> list = new LinkedList<Diplome>(); 
+		LinkedList<Intervenant> list = new LinkedList<Intervenant>(); 
 				
 		requete = getRequete;
 		resultat = connection.getRequest(requete);
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					list.add(new  Diplome( resultat.getInt("code_diplome"),resultat.getString("nom_diplome"), resultat.getString("description_diplome")));
+					list.add(new Intervenant(resultat.getInt("code_intervenant"), resultat.getString("nom_intervenant"), resultat.getString("mot_de_passe")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -39,6 +37,5 @@ public class DiplomeController {
 
 		return list;
 	}
-
 
 }

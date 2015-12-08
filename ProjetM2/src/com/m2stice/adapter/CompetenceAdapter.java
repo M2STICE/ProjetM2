@@ -1,30 +1,31 @@
-package com.m2stice.controller;
+package com.m2stice.adapter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import com.m2stice.model.Item;
+import com.m2stice.controller.DatabaseAccess;
+import com.m2stice.model.Competence;
 
-public class ItemController {
+public class CompetenceAdapter {
 
-	public ItemController(DatabaseAccess con) {
+	public CompetenceAdapter(DatabaseAccess con) {
 		this.connection = (DatabaseAccess) con;
 	}
 	
 	DatabaseAccess connection;
 
-	public LinkedList<Item> getSelect(String getRequete) {
+	public LinkedList<Competence> getSelect(String getRequete) {
 		String requete = null;
 		ResultSet resultat;
-		LinkedList<Item> list = new LinkedList<Item>(); 
+		LinkedList<Competence> list = new LinkedList<Competence>(); 
 				
 		requete = getRequete;
 		resultat = connection.getRequest(requete);
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					list.add(new Item(resultat.getInt("code_item"), resultat.getString("nom_item"), resultat.getInt("code_competence"), resultat.getInt("code_evaluation")));
+					list.add(new  Competence(resultat.getInt("code_compétence"),resultat.getString("nom_competence"), resultat.getInt("code_domaine")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -36,6 +37,5 @@ public class ItemController {
 
 		return list;
 	}
-	
-	
+
 }

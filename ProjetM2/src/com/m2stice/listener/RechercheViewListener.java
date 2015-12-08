@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedList;
 
-import com.m2stice.controller.DiplomeController;
+import com.m2stice.adapter.DiplomeAdapter;
 import com.m2stice.graphics.Interface;
 import com.m2stice.graphics.RechercheView;
 import com.m2stice.graphics.ResultatView;

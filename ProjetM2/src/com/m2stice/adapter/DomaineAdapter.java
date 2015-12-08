@@ -1,16 +1,17 @@
-package com.m2stice.controller;
+package com.m2stice.adapter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Domaine;
 
-public class DomaineController {
+public class DomaineAdapter {
 
 	DatabaseAccess connection;
 	
-	public DomaineController(DatabaseAccess con) {
+	public DomaineAdapter(DatabaseAccess con) {
 		// TODO Auto-generated constructor stub
 		this.connection = (DatabaseAccess) con;
 	}

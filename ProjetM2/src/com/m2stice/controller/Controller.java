@@ -5,6 +5,20 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.m2stice.adapter.AnneeAdapter;
+import com.m2stice.adapter.CompetenceAdapter;
+import com.m2stice.adapter.DiplomeAdapter;
+import com.m2stice.adapter.DomaineAdapter;
+import com.m2stice.adapter.EcAdapter;
+import com.m2stice.adapter.EtudiantAdapter;
+import com.m2stice.adapter.EvaluationAdapter;
+import com.m2stice.adapter.EvaluationEtudiantAdapter;
+import com.m2stice.adapter.IntervenantAdapter;
+import com.m2stice.adapter.ItemAdapter;
+import com.m2stice.adapter.PromotionAdapter;
+import com.m2stice.adapter.SemestreAdapter;
+import com.m2stice.adapter.SousItemAdapter;
+import com.m2stice.adapter.UeAdapter;
 import com.m2stice.model.Annee;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Diplome;
@@ -23,7 +37,7 @@ import com.m2stice.model.Ue;
 /*
 * Nom de classe : Controller
 *
-* Description: Classe controller
+* Description: Classe Controller
 *
 * Version : 1.0
 *
@@ -53,20 +67,20 @@ public class Controller {
 	private String server;
 	private String databaseName;
 	
-	private AnneeController annee;
-	private CompetenceController competence ;
-	private DiplomeController diplome;
-	private DomaineController domaine ;
-	private EcController ec ;
-	private EtudiantController etudiant ;
-	private EvaluationController evaluation ;
-	private EvaluationEtudiantController evaluationEtudiant ;
-	private IntervenantController intervenant ;
-	private ItemController item ;
-	private SemestreController semestre  ;
-	private SousItemController sousItem ;
-	private UeController ue ;
-	private PromotionController promotion ;
+	private AnneeAdapter annee;
+	private CompetenceAdapter competence ;
+	private DiplomeAdapter diplome;
+	private DomaineAdapter domaine ;
+	private EcAdapter ec ;
+	private EtudiantAdapter etudiant ;
+	private EvaluationAdapter evaluation ;
+	private EvaluationEtudiantAdapter evaluationEtudiant ;
+	private IntervenantAdapter intervenant ;
+	private ItemAdapter item ;
+	private SemestreAdapter semestre  ;
+	private SousItemAdapter sousItem ;
+	private UeAdapter ue ;
+	private PromotionAdapter promotion ;
 	
 	/*
 	 * 
@@ -91,7 +105,7 @@ public class Controller {
 	public LinkedList <Annee> getAnnee(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		annee = new AnneeController(con);
+		annee = new AnneeAdapter(con);
 		return annee.getSelect(getRequete);
 	}
 	
@@ -103,7 +117,7 @@ public class Controller {
 	public LinkedList <Competence> getCompetence(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		competence = new CompetenceController(con);
+		competence = new CompetenceAdapter(con);
 		return competence.getSelect(getRequete);
 	}
 	
@@ -115,7 +129,7 @@ public class Controller {
 	public LinkedList <Domaine> getDomaine(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		domaine = new DomaineController(con);
+		domaine = new DomaineAdapter(con);
 		return domaine.getSelect(getRequete);
 	}
 	
@@ -127,7 +141,7 @@ public class Controller {
 	public LinkedList <SousItem> getSousItem(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		sousItem = new SousItemController(con);
+		sousItem = new SousItemAdapter(con);
 		return sousItem.getSelect(getRequete);
 	}
 	
@@ -139,7 +153,7 @@ public class Controller {
 	public LinkedList <Etudiant> getEtudiant(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		etudiant = new EtudiantController(con);
+		etudiant = new EtudiantAdapter(con);
 		return etudiant.getSelect(getRequete);
 	}
 	
@@ -151,7 +165,7 @@ public class Controller {
 	public LinkedList <Evaluation> getEvaluation(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		evaluation = new EvaluationController(con);
+		evaluation = new EvaluationAdapter(con);
 		return evaluation.getSelect(getRequete);
 	}
 	
@@ -164,7 +178,7 @@ public class Controller {
 	public LinkedList <EvaluationEtudiant> getEvaluationEtudiant(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		evaluationEtudiant = new EvaluationEtudiantController(con);
+		evaluationEtudiant = new EvaluationEtudiantAdapter(con);
 		return evaluationEtudiant.getSelect(getRequete);
 	}
 	
@@ -176,7 +190,7 @@ public class Controller {
 	public LinkedList <Intervenant> getIntervenant(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		intervenant = new IntervenantController(con);
+		intervenant = new IntervenantAdapter(con);
 		return intervenant.getSelect(getRequete);
 	}
 	
@@ -188,7 +202,7 @@ public class Controller {
 	public LinkedList <Item> getItem(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		item = new ItemController(con);
+		item = new ItemAdapter(con);
 		return item.getSelect(getRequete);
 	}
 	
@@ -200,7 +214,7 @@ public class Controller {
 	public LinkedList <Semestre> getSemestre(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		semestre = new SemestreController(con);
+		semestre = new SemestreAdapter(con);
 		return semestre.getSelect(getRequete);
 	}
 	
@@ -212,7 +226,7 @@ public class Controller {
 	public LinkedList <Ue> getUe(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		ue = new UeController(con);
+		ue = new UeAdapter(con);
 		return ue.getSelect(getRequete);
 	}
 	
@@ -224,7 +238,7 @@ public class Controller {
 	public LinkedList <Diplome> getDiplome(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		diplome = new DiplomeController(con);
+		diplome = new DiplomeAdapter(con);
 		return diplome.getSelect(getRequete);
 	}
 	
@@ -236,7 +250,7 @@ public class Controller {
 	public LinkedList <Ec> getEc(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		ec = new EcController(con);
+		ec = new EcAdapter(con);
 		return ec.getSelect(getRequete);
 	}
 	
@@ -248,7 +262,7 @@ public class Controller {
 	public LinkedList <Promotion> getPromotion(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
-		promotion = new PromotionController(con);
+		promotion = new PromotionAdapter(con);
 		return promotion.getSelect(getRequete);
 	}
 	

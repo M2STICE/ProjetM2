@@ -1,30 +1,31 @@
-package com.m2stice.controller;
+package com.m2stice.adapter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import com.m2stice.model.SousItem;
+import com.m2stice.controller.DatabaseAccess;
+import com.m2stice.model.Annee;
 
-public class SousItemController {
-
-	public SousItemController(DatabaseAccess con) {
-		this.connection = (DatabaseAccess) con;
-	}
+public class AnneeAdapter {
 	
 	DatabaseAccess connection;
 
-	public LinkedList<SousItem> getSelect(String getRequete) {
+	public AnneeAdapter(DatabaseAccess con) {
+		this.connection = (DatabaseAccess) con;
+	}
+
+	public LinkedList<Annee> getSelect(String getRequete) {
 		String requete = null;
 		ResultSet resultat;
-		LinkedList<SousItem> list = new LinkedList<SousItem>(); 
+		LinkedList<Annee> list = new LinkedList<Annee>(); 
 				
 		requete = getRequete;
 		resultat = connection.getRequest(requete);
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					list.add(new  SousItem(resultat.getInt("code_sous_item"),resultat.getString("nom_sous_item"),resultat.getInt("code_item")));
+					System.out.println(resultat.getString("code_annee") + " " +resultat.getString("nom_annee"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -33,8 +34,8 @@ public class SousItemController {
 		else{
 			System.out.println("vide");
 		}
-
 		return list;
 	}
+
 
 }

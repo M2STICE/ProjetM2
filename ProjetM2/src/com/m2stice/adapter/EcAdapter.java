@@ -1,16 +1,17 @@
-package com.m2stice.controller;
+package com.m2stice.adapter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Ec;
 
-public class EcController {
+public class EcAdapter {
 
 	DatabaseAccess connection;
 	
-	public EcController(DatabaseAccess con) {
+	public EcAdapter(DatabaseAccess con) {
 		this.connection = (DatabaseAccess) con;
 	}
 	
