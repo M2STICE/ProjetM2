@@ -40,4 +40,5 @@ public class DiplomeController {
 		return list;
 	}
 
+
 }
