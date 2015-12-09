@@ -291,7 +291,7 @@ public class Controller {
 			}
 		}
 		else{
-			System.out.println("vide");
+			System.out.println("[Log-CONTROLLER]: Résultat vide.");
 		}
 
 		return list;
@@ -308,12 +308,12 @@ public class Controller {
 		con = getConnection();
 		String requete = null;
 		requete = getRequete;
-		done = con.modification(requete);
+		done = con.modification(requete.toLowerCase());
 		if(done){
-			System.out.println("modification effectué");
+			System.out.println("[Log-CONTROLLER]: Les modifications ont été effectuer.");
 		}
 		else{
-			System.out.println("modification non effectué");
+			System.err.println("[Log-CONTROLLER]: Les modifications n'ont pas été effectuer.");
 		}
 	}
 	
