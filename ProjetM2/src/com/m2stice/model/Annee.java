@@ -1,7 +1,7 @@
 package com.m2stice.model;
 
 /**
-*  Annee - Classe représentant une année scolaire
+*  Annee - Classe reprï¿½sentant une annï¿½e scolaire
 *
 * @version 1.1
 *
@@ -21,6 +21,11 @@ public class Annee {
 	 */
 	public Annee() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public Annee(int code, String nom) {
+		this.code = code;
+		this.nom = nom;
 	}
 
 	public String toString(){
