@@ -47,7 +47,7 @@ import com.m2stice.model.Ue;
 */
 
 /**
-*  Controller - Classe de controle pour rï¿½aliser les actions sur la base de donnï¿½e
+*  Controller - Classe de controle pour réaliser les actions sur la base de donnée
 *
 * @version 1.1
 *
@@ -98,9 +98,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Annee dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Annee dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Annee> getAnnee(String getRequete){
 		DatabaseAccess con;
@@ -110,9 +110,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Competence dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Competence dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Competence> getCompetence(String getRequete){
 		DatabaseAccess con;
@@ -122,9 +122,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Domaine dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Domaine dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Domaine> getDomaine(String getRequete){
 		DatabaseAccess con;
@@ -134,9 +134,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Item dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Item dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <SousItem> getSousItem(String getRequete){
 		DatabaseAccess con;
@@ -146,9 +146,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Etudiant dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Etudiant dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Etudiant> getEtudiant(String getRequete){
 		DatabaseAccess con;
@@ -158,9 +158,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Evaluation dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Evaluation dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Evaluation> getEvaluation(String getRequete){
 		DatabaseAccess con;
@@ -170,11 +170,11 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type EvaluationEtudiant dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type EvaluationEtudiant dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
-	//Sera px etre supprimï¿½
+	//Sera px etre supprimé
 	public LinkedList <EvaluationEtudiant> getEvaluationEtudiant(String getRequete){
 		DatabaseAccess con;
 		con = getConnection();
@@ -183,9 +183,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Interrvenant dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Interrvenant dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Intervenant> getIntervenant(String getRequete){
 		DatabaseAccess con;
@@ -195,9 +195,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Item dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Item dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Item> getItem(String getRequete){
 		DatabaseAccess con;
@@ -207,9 +207,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Semestre dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Semestre dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Semestre> getSemestre(String getRequete){
 		DatabaseAccess con;
@@ -219,9 +219,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Ue dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Ue dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Ue> getUe(String getRequete){
 		DatabaseAccess con;
@@ -231,9 +231,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Diplome dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Diplome dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Diplome> getDiplome(String getRequete){
 		DatabaseAccess con;
@@ -243,9 +243,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Ec dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Ec dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Ec> getEc(String getRequete){
 		DatabaseAccess con;
@@ -255,9 +255,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Cette fonction va rï¿½cupï¿½rer les objets de type Promotion dans la base de donnï¿½e
+	 * Cette fonction va récupérer les objets de type Promotion dans la base de donnée
 	 * @param getRequete
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList <Promotion> getPromotion(String getRequete){
 		DatabaseAccess con;
@@ -268,10 +268,10 @@ public class Controller {
 	
 	//Get Sql functions
 	/**
-	 * Cette fonction permet de compter les ï¿½lï¿½ments
+	 * Cette fonction permet de compter les éléments
 	 * @param getRequete
-	 * @param champAs
-	 * @return liste d'objet du type de la donnï¿½e
+	 * @param champs
+	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList<Double> getSqlFunctions(String getRequete, String champAs){
 		DatabaseAccess con;
@@ -299,7 +299,7 @@ public class Controller {
 	
 	//update, insert, delete .....
 	/**
-	 * Fonction permettatnt de faire toute requï¿½te de modification (insert, update, delete ....)
+	 * Fonction permettatnt de faire toute requête de modification (insert, update, delete ....)
 	 * @param getRequete
 	 */
 	public void modification(String getRequete) {
@@ -318,9 +318,9 @@ public class Controller {
 	}
 	
 	/*
-	 *  Zï¿½ pa Consernï¿½ 
+	 *  Zo pa Conserné 
 	 *    
-	 *  java et reflexcivitï¿½ - Instanciation dynamique
+	 *  java et reflexcivité - Instanciation dynamique
 	 * 
 	 */
 	public DatabaseAccess getConnection() {
