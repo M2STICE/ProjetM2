@@ -25,7 +25,7 @@ public class AnneeAdapter {
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					System.out.println(resultat.getString("code_annee") + " " +resultat.getString("nom_annee"));
+					list.add(new Annee(resultat.getInt("code_annee") , resultat.getString("nom_annee")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

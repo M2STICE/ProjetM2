@@ -82,8 +82,8 @@ public class Controller {
 	private UeAdapter ue ;
 	private PromotionAdapter promotion ;
 	
-	/*
-	 * 
+	/**
+	 * Classe qui permet d'interfacer la base de données
 	 */
 	public Controller() {
 //		databaseName = "u960093295_stice";
@@ -270,7 +270,7 @@ public class Controller {
 	/**
 	 * Cette fonction permet de compter les éléments
 	 * @param getRequete
-	 * @param champAs
+	 * @param champs
 	 * @return liste d'objet du type de la donnée
 	 */
 	public LinkedList<Double> getSqlFunctions(String getRequete, String champAs){
@@ -291,7 +291,7 @@ public class Controller {
 			}
 		}
 		else{
-			System.out.println("vide");
+			System.out.println("[Log-CONTROLLER]: Resultat vide.");
 		}
 
 		return list;
@@ -310,15 +310,15 @@ public class Controller {
 		requete = getRequete;
 		done = con.modification(requete);
 		if(done){
-			System.out.println("modification effectué");
+			System.out.println("[Log-CONTROLLER]: Les modifications ont ete effectuees.");
 		}
 		else{
-			System.out.println("modification non effectué");
+			System.err.println("[Log-CONTROLLER]: Les modifications n'ont pas ete effectuees.");
 		}
 	}
 	
 	/*
-	 *  Zô pa Conserné 
+	 *  Zo pa Conserné 
 	 *    
 	 *  java et reflexcivité - Instanciation dynamique
 	 * 
