@@ -58,6 +58,8 @@ public class ResultatView extends JPanel {
 		blocEntete.add(banniere,BorderLayout.NORTH);
 		blocEntete.add(blocRecherche,BorderLayout.CENTER);
 		//
+		blocResultat.setOpaque(false);
+		//
 		bloc.setLayout(new BorderLayout());
 		bloc.add(blocEntete, BorderLayout.NORTH);
 		bloc.add(blocResultat, BorderLayout.CENTER);

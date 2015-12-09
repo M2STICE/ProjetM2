@@ -12,8 +12,8 @@ public class BanniereComponent extends JPanel{
 	 */
 	private static final long serialVersionUID = 971L;
 	
-	protected Interface iu;					//Le lien avec l'interface utilisateur
-	protected String nomImageFond;			//Le nom de l'image en fond de bannière
+	private Interface iu;					//Le lien avec l'interface utilisateur
+	private String nomImageFond;			//Le nom de l'image en fond de bannière
 	
 	/**
 	 * Constructeur par defaut

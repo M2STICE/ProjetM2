@@ -82,8 +82,8 @@ public class Controller {
 	private UeAdapter ue ;
 	private PromotionAdapter promotion ;
 	
-	/*
-	 * 
+	/**
+	 * Classe qui permet d'interfacer la base de données
 	 */
 	public Controller() {
 		databaseName = "u960093295_stice";
@@ -308,7 +308,7 @@ public class Controller {
 		con = getConnection();
 		String requete = null;
 		requete = getRequete;
-		done = con.modification(requete.toLowerCase());
+		done = con.modification(requete);
 		if(done){
 			System.out.println("[Log-CONTROLLER]: Les modifications ont été effectuer.");
 		}

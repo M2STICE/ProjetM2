@@ -72,15 +72,6 @@ public class Interface extends Applet {
 	public void start(){
 		this.setMinimumSize(new Dimension(1024, 768));
 		this.setVisible(true);
-		/*try{
-			Thread.sleep(4000);
-			this.remove(blocPrincipal);
-			this.setBlocPrincipal(new ResultatView(this));
-			this.add(blocPrincipal);
-			this.repaint();
-		}
-		catch(Exception e){ e.printStackTrace();}**/
-		
 	}
 	
 
@@ -97,8 +88,8 @@ public class Interface extends Applet {
 	 * @param le JPanel qui va servir de blocPrincipal 
 	 */
 	public void setBlocPrincipal(JPanel blocPrincipal) {
-		this.remove(this.blocPrincipal);
-		this.blocPrincipal = (ResultatView)blocPrincipal;
+		this.removeAll();
+		this.blocPrincipal = blocPrincipal;
 		this.add(this.blocPrincipal,BorderLayout.CENTER);
 		this.repaint();
 	}
@@ -117,6 +108,16 @@ public class Interface extends Applet {
 	 */
 	public Controller getController() {
 		return controller;
+	}
+	
+	/**
+	 * Permet de rafraichir la page
+	 * le super.repaint() ne fonctionne pas bien
+	 */
+	public void repaint(){
+		super.repaint();
+		this.resize(1025,768);
+		this.resize(1024,768);
 	}
 
 }
