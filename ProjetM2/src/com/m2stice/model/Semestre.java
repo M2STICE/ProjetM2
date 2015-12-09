@@ -1,7 +1,5 @@
 package com.m2stice.model;
 
-import com.m2stice.controller.DatabaseAccess;
-
 /**
 *  Semestre - Classe représentant un semestre d'une année scolaire
 *

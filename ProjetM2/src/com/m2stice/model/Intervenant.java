@@ -1,7 +1,5 @@
 package com.m2stice.model;
 
-import com.m2stice.controller.DatabaseAccess;
-
 /**
 *  Intervenant - Classe représentant un intervenant dans un élement constitutif d'une unité d'enseignement
 *

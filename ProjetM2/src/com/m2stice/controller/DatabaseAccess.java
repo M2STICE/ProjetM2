@@ -86,13 +86,16 @@ public class DatabaseAccess {
 	 * @throws SQLException
 	 */
 	private boolean executeUpdate(Connection conn, String requete) throws SQLException {
+		connector.setAutoCommit(false);
 	    Statement stmt = null;
 	    try {
 	        stmt = conn.createStatement();
 	        stmt.executeUpdate(requete.toLowerCase()); // This will throw a SQLException if it fails
+	        connector.commit();
 	        return true;
 	    } catch(SQLException e){
 	    	e.printStackTrace();
+	    	connector.rollback();
 	    }
 		return false;
 	}

@@ -1,7 +1,5 @@
 package com.m2stice.model;
 
-import com.m2stice.controller.DatabaseAccess;
-
 /**
 *  Ec - Classe représentant un élement constitutif d'une unité d'enseignement
 *
