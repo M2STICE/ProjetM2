@@ -1,8 +1,8 @@
-/*Création de la base M2STICE:*/
-/*Attention le nom de la base de données en ligne est u960093295_stice*/
+/*CrÃ©ation de la base M2STICE:*/
+/*Attention le nom de la base de donnï¿½es en ligne est u960093295_stice*/
 create database M2STICE character 'utf8';
 
-/*Création de la table diplome*/
+/*CrÃ©ation de la table diplome*/
 create table diplome(
 	code_diplome int not null auto_increment, 
 	nom_diplome varchar(255), 
@@ -21,7 +21,7 @@ create table domaine(
 ) 
 ENGINE=INNODB;
 
-/*Création table intervenant*/
+/*CrÃ©ation table intervenant*/
 create table intervenant(
 	code_intervenant int not null auto_increment,
 	nom_intervenant varchar(100),
@@ -30,7 +30,7 @@ create table intervenant(
 )
 ENGINE=INNODB;
 
-/*Création de la table année*/
+/*CrÃ©ation de la table annÃ©e*/
 create table annee(
 	code_annee int not null auto_increment, 
 	nom_annee varchar(255),
@@ -38,18 +38,17 @@ create table annee(
 )
 ENGINE=INNODB;
 
-/*Création de la table*/ 
+/*CrÃ©ation de la table*/ 
 create table diplome_annee(
 	code_diplome int, 
 	code_annee int,
 	foreign key(code_annee) references annee(code_annee),
 	foreign key (code_diplome) references diplome(code_diplome),
-	primary key(code_diplome),
-	primary key(code_annee)
+	primary key(code_diplome,code_annee)
 )
 ENGINE=INNODB;
 
-/*Création table semestre*/
+/*CrÃ©ation table semestre*/
 create table semestre(
 	code_semestre int not null auto_increment,
 	nom_semestre varchar(100),
@@ -59,7 +58,7 @@ create table semestre(
 )
 ENGINE=INNODB;
 
-/*Création table UE*/
+/*CrÃ©ation table UE*/
 create table ue(
 	code_ue int not null auto_increment,
 	nom_ue varchar(100),
@@ -76,7 +75,7 @@ create table ue(
 )
 ENGINE=INNODB;
 
-/*Création table EC*/
+/*CrÃ©ation table EC*/
 create table ec(
 	code_ec int not null auto_increment,
 	nom_ec varchar(255),
@@ -98,7 +97,7 @@ create table ec(
 )
 ENGINE=INNODB;
 
-/*Création de la table compétences*/
+/*CrÃ©ation de la table compÃ©tences*/
 create table competence(
 	code_competence int not null auto_increment, 
 	nom_competence varchar(255),
@@ -108,7 +107,7 @@ create table competence(
 )
 ENGINE=INNODB;
 
-/*Création table etudiant*/
+/*CrÃ©ation table etudiant*/
 create table etudiant(
 	code_etudiant int not null auto_increment,
 	nom_etudiant varchar(100),
@@ -118,7 +117,7 @@ create table etudiant(
 )
 ENGINE=INNODB;
 
-/*Création table intervenant_ec*/
+/*CrÃ©ation table intervenant_ec*/
 create table intervenant_ec(
 	code_intervenant int,
 	code_ec int,
@@ -128,7 +127,7 @@ create table intervenant_ec(
 )
 ENGINE=INNODB;
 
-/*Création table etudiant_diplome*/
+/*CrÃ©ation table etudiant_diplome*/
 create table etudiant_diplome(
 code_etudiant int, 
 code_diplome int,
@@ -138,7 +137,7 @@ foreign key(code_diplome)references diplome(code_diplome)
 )
 ENGINE=INNODB;
 
-/*Création de la table item*/
+/*CrÃ©ation de la table item*/
 create table item(
 	code_item int not null auto_increment, 
 	nom_item varchar(255),
@@ -149,7 +148,7 @@ create table item(
 )
 ENGINE=INNODB;
 
-/*Création de la table sous-item*/
+/*CrÃ©ation de la table sous-item*/
 create table sous_item(
 	code_sous_item int not null auto_increment, 
 	nom_sous_item varchar(255), 
@@ -158,7 +157,7 @@ create table sous_item(
 ENGINE=INNODB;
 
 
-/*Création de la table evaluation*/
+/*CrÃ©ation de la table evaluation*/
 create table evaluation(
 	code_evaluation int not null auto_increment, 
 	nom_evaluation varchar(255), 
@@ -169,7 +168,7 @@ create table evaluation(
 )
 ENGINE=INNODB;
 
-/*Création table etudiant_evaluation*/
+/*CrÃ©ation table etudiant_evaluation*/
 create table etudiant_evaluation(
 	code_etudiant int,
 	code_evaluation int,
@@ -180,7 +179,7 @@ create table etudiant_evaluation(
 )
 ENGINE=INNODB;
 
-/*Création table ec_sous_item*/
+/*CrÃ©ation table ec_sous_item*/
 create table ec_sous_item(
 	code_ec int,
 	code_sous_item int,
@@ -190,7 +189,7 @@ create table ec_sous_item(
 )
 ENGINE=INNODB;
 
-/*Création table ec_item*/
+/*CrÃ©ation table ec_item*/
 create table ec_item(
 	code_ec int,
 	code_item int,
@@ -200,7 +199,7 @@ create table ec_item(
 )
 ENGINE=INNODB;
 
-/*Création table promotion*/
+/*CrÃ©ation table promotion*/
 create table promotion(
 	code_promotion int not null auto_increment,
 	nom_promotion varchar(100),
@@ -214,7 +213,7 @@ create table promotion(
 )
 ENGINE=INNODB;
 
-/*Création table etudiant_promotion*/
+/*CrÃ©ation table etudiant_promotion*/
 create table etudiant_promotion(
 	code_etudiant int,
 	code_promotion int,
@@ -224,7 +223,7 @@ create table etudiant_promotion(
 )
 ENGINE=INNODB;
 
-/*Création table sous_item_evaluation*/
+/*CrÃ©ation table sous_item_evaluation*/
 create table sous_item_evaluation(
 	code_sous_item int,
 	code_evaluation int,

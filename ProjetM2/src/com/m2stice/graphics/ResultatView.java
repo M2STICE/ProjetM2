@@ -2,6 +2,7 @@ package com.m2stice.graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.util.LinkedList;
 
@@ -58,6 +59,7 @@ public class ResultatView extends JPanel {
 		blocEntete.add(banniere,BorderLayout.NORTH);
 		blocEntete.add(blocRecherche,BorderLayout.CENTER);
 		//
+		blocResultat.setLayout(new FlowLayout());
 		blocResultat.setOpaque(false);
 		//
 		bloc.setLayout(new BorderLayout());
@@ -101,7 +103,9 @@ public class ResultatView extends JPanel {
 	}
 	
 	public void setResultat(LinkedList<Diplome> diplomes){
-		
+		for(Diplome d:diplomes){
+			this.blocResultat.add(new JLabel(d.getNom()) );
+		}
 	}
 	
 }

@@ -3,19 +3,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.jdom2.Document;         // |
 import org.jdom2.Element;          // |\ Libreries
 import org.jdom2.JDOMException;    // |/ JDOM
 import org.jdom2.input.SAXBuilder; // |
 
 import com.m2stice.controller.Controller;
-import com.m2stice.controller.DatabaseAccess;
-import com.m2stice.model.Annee;
 import com.m2stice.model.Diplome;
 import com.m2stice.model.Domaine;
-import com.m2stice.model.Ec;
-import com.m2stice.model.Semestre;
-import com.m2stice.model.Ue;
 
 /*
 * Nom de classe : Lire_XML
@@ -70,7 +66,7 @@ public class Lire_XML {
             List<Element> niveauPosition = tableRacine.getChildren("node");
             Element cote_competences = (Element) niveauPosition.get(0);
             //System.out.println( "Coté: " + cote_competences.getAttributeValue("TEXT"));
-            Element cote_syllabus = (Element) niveauPosition.get(1);
+            //Element cote_syllabus = (Element) niveauPosition.get(1);
             //System.out.println( "Coté: " + cote_syllabus.getAttributeValue("TEXT"));
             
             // COTE COMPETENCES
@@ -246,7 +242,6 @@ public class Lire_XML {
 
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Xml_vers_DB();
 	}
 

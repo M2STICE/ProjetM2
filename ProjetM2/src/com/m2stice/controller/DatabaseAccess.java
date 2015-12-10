@@ -9,7 +9,7 @@ import java.util.Properties;
 /*
 * Nom de classe : DatabaseAccess
 *
-* Description: Classe permettant l'accées à la base de donnée
+* Description: Classe permettant l'accÃ¨s Ã  la base de donnÃ©e
 *
 * Version : 1.0
 *
@@ -19,7 +19,7 @@ import java.util.Properties;
 */
 
 /**
-*  DatabaseAccess - Classe de controle pour réaliser les actions sur la base de donnée
+*  DatabaseAccess - Classe de controle pour rÃ©aliser les actions sur la base de donnÃ©e
 *
 * @version 1.0
 *
@@ -31,17 +31,17 @@ import java.util.Properties;
 */
 public class DatabaseAccess {
 
-	private String userName;		/**Pseudo utilisateur pour l'accès à la base de donnée*/
-	private String password;		/**Password pour l'accès à la base de donnée*/
-	private String serverName;		/**Nom du serveur hébergeant la base*/
-	private String dbName;			/**Nom de la base de donnée*/
+	private String userName;		/**Pseudo utilisateur pour l'accÃ©s Ã  la base de donnÃ©e*/
+	private String password;		/**Password pour l'accÃ¨s Ã  la base de donnÃ©e*/
+	private String serverName;		/**Nom du serveur hÃ©bergeant la base*/
+	private String dbName;			/**Nom de la base de donnÃ©e*/
 	
 	private Connection connector;	/**Objet permettant la connexion*/
 	
-	private int portNumber = 3306;	/**Numéro du port par default*/
+	private int portNumber = 3306;	/**NumÃ©ro du port par default*/
 	
 	/**
-	 * Constructeur pour l'accès à la base de donnée 
+	 * Constructeur pour l'accÃ©s Ã s la base de donnÃ©e 
 	 * @param username
 	 * @param pass
 	 * @param server
@@ -55,15 +55,15 @@ public class DatabaseAccess {
 		
 		try {
 			connector = getConnection();
-			System.out.println("[Log-DATABASE_ACCESS]: La connecxion avec la base de données est établi.");
+			System.out.println("[Log-DATABASE_ACCESS]: La connecxion avec la base de donnÃ©es est Ã©tabli.");
 		} catch (SQLException e) {
-			System.err.println("[Log-DATABASE_ACCESS]: La connecxion avec la base de données a échoué.");
+			System.err.println("[Log-DATABASE_ACCESS]: La connecxion avec la base de donnÃ©es a Ã©chouÃ©.");
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Cette fonction permet d'obtenir l'accès à la base de donnée
+	 * Cette fonction permet d'obtenir l'accï¿½s ï¿½ la base de donnÃ©e
 	 * @return Connection
 	 * @throws SQLException
 	 */
@@ -79,7 +79,7 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * Fonction permettant l'éxécution des requêtes lié à toutes actions de mise à jour sur la base de donnée
+	 * Fonction permettant l'Ã©xÃ©cution des requÃªtes liÃ©es Ã  toutes actions de mise Ã  jour sur la base de donnÃ©e
 	 * @param conn
 	 * @param requete
 	 * @return boolean
@@ -101,7 +101,7 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * fonction permettant de faire les requêtes select sur la base
+	 * fonction permettant de faire les requtes select sur la base
 	 * @param conn
 	 * @param command
 	 * @return ResultSet
@@ -138,7 +138,7 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * fonction permettant de faire un Select au niveau de la base de donnée
+	 * fonction permettant de faire un Select au niveau de la base de donnÃ©e
 	 * @param select
 	 * @return ResultSet
 	 */

@@ -13,7 +13,7 @@ import com.m2stice.controller.Controller;
 /*
 * Nom de classe : Interface
 *
-* Description: La classe qui va générer l'interface graphique du système.
+* Description: La classe qui va gÃ©nÃ©rer l'interface graphique du systÃ¨me.
 *
 * Version : 1.0
 *
@@ -24,12 +24,12 @@ import com.m2stice.controller.Controller;
 
 /**
  * 
- * Fenetre - Classe qui va générer l'interface graphique du système.
+ * Fenetre - Classe qui va gÃ©nÃ©rer l'interface graphique du systÃ¨me.
  * @author Emmanuel
  * @version 1.0
  * @copyright (C) Master 2 2015
  * @date 03/12/2015
- * @notes Elle va être utiliser dans le main.
+ * @notes Elle va Ãªtre utiliser dans le main.
  *
  */
 public class Interface extends Applet {
@@ -38,18 +38,18 @@ public class Interface extends Applet {
 	private Controller controller;
 	
 	/**
-	 * Numéro de série
+	 * Numï¿½ro de sï¿½rie
 	 */
 	private static final long serialVersionUID = 971L;
 	
 	/**
-	 * Méthode appelée par le navigateur lorsque l'applet est chargée
+	 * Mï¿½thode appelï¿½e par le navigateur lorsque l'applet est chargï¿½e
 	 */
 	public void init(){
 		this.controller = new Controller();
 		super.init();
 		
-		//Paramétrage de l'applet
+		//Paramï¿½trage de l'applet
 		this.blocPrincipal = new RechercheView(this);
 		this.setLayout(new BorderLayout());
 		this.setSize(1024,768);
@@ -60,7 +60,7 @@ public class Interface extends Applet {
 	}
 	
 	/**
-	 * Méthode qui redéfini la taille
+	 * Mï¿½thode qui redï¿½fini la taille
 	 */
 	public void setSize(int largeur, int hauteur){
 		super.setSize(largeur, hauteur);

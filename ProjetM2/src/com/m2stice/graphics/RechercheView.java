@@ -15,7 +15,7 @@ import com.m2stice.listener.RechercheViewListener;
 /*
 * Nom de classe : RechercheView
 *
-* Description: La classe qui va générer la vue de recherche.
+* Description: La classe qui va gï¿½nï¿½rer la vue de recherche.
 *
 * Version : 1.0
 *
@@ -26,24 +26,24 @@ import com.m2stice.listener.RechercheViewListener;
 
 /**
  * 
- * RechercheView - La classe qui va générer la vue de recherche.
+ * RechercheView - La classe qui va gÃ©nÃ©rer la vue de recherche.
  * @author Emmanuel
  * @version 1.0
  * @copyright (C) Master 2 2015
  * @date 03/12/2015
- * @notes Elle va être utiliser dans le main.
+ * @notes Elle va Ãªtre utiliser dans le main.
  *
  */
 public class RechercheView extends JPanel {
 
 	/**
-	 * Numéro de série
+	 * NumÃ©ro de sÃ©rie
 	 */
 	private static final long serialVersionUID = 971L;
 	
-	private Interface interfaceUtilisateur; 					//Lien vers l'applet
+	private Interface interfaceUtilisateur; 						//Lien vers l'applet
 	
-	private JPanel bloc = new JPanel();							//Bloc container transparent
+	private JPanel bloc = new JPanel();								//Bloc container transparent
 	private JTextField rechercheTextField = new JTextField();		//Zone saisie de la recherche
 	private RechercheViewListener rechercheViewListener;
 	
@@ -51,15 +51,15 @@ public class RechercheView extends JPanel {
 	 * Mise en place de la vue
 	 */
 	public void init(){
-		//Paramétrage de la vue
+		//ParamÃ©trage de la vue
 		rechercheViewListener = new RechercheViewListener(interfaceUtilisateur, this);
 		this.setVisible(true);
 		this.setOpaque(false);
 		
-		//Paramétrage des composants de la vue
+		//ParamÃ©trage des composants de la vue
 		//
 		rechercheTextField.addKeyListener(rechercheViewListener.getKeyListener());
-		rechercheTextField.setText("Saisir un diplôme...");
+		rechercheTextField.setText("Saisir un diplÃ´me...");
 		rechercheTextField.setToolTipText("Outils de recherche");
 		rechercheTextField.setFont(new Font("Gill Sans MT",Font.ITALIC,24));
 		rechercheTextField.setPreferredSize(new Dimension(400,32));
@@ -97,7 +97,7 @@ public class RechercheView extends JPanel {
 	
 	/**
 	 * Affiche le composant
-	 * @param le paramètre graphique
+	 * @param le paramï¿½tre graphique
 	 */
 	public void paint(Graphics g){
 		g.drawImage(interfaceUtilisateur.loadImage("RechercheViewImage.jpg"), 0, 0,(int)getBounds().getWidth(), (int)getBounds().getHeight(), this);
@@ -106,7 +106,7 @@ public class RechercheView extends JPanel {
 	
 	/**
 	 * Renvoie le mot saisi dans la barre de recherche
-	 * @return Le mot à rechercher
+	 * @return Le mot ï¿½ rechercher
 	 */
 	public String getRecherche(){
 		return this.rechercheTextField.getText();
