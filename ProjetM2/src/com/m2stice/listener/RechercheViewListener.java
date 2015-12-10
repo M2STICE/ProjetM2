@@ -9,6 +9,11 @@ import com.m2stice.graphics.RechercheView;
 import com.m2stice.graphics.ResultatView;
 import com.m2stice.model.Diplome;
 
+/**
+ * RechercheViewListener
+ * @author Emmanuel
+ *
+ */
 public class RechercheViewListener {
 	
 	private Interface interfaceUtilisateur;
