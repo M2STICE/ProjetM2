@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import org.jdom2.Document;         // |
 import org.jdom2.Element;          // |\ Libreries
@@ -7,10 +8,35 @@ import org.jdom2.JDOMException;    // |/ JDOM
 import org.jdom2.input.SAXBuilder; // |
 
 
+
+/*
+* Nom de classe : Lire_XML
+*
+* Description: Lit un fichier xml et met l'information dans la base de données
+*
+* Version : 1.0
+*
+* Date : 09/12/2015
+*
+* Copyright : (C) Master 2 2015
+*/
+
+/**
+*  Lire_XML - Lit un fichier xml et met l'information dans la base de données
+*
+* @version 1.1
+*
+* @author CISNEROS BRIDON
+* @copyright (C) Master 2 2015
+* @date 09/12/2015
+* @revision 09/12
+* 
+*/
+
 public class Lire_XML {
-	
-	public static void charger_Xml()
-	{
+		
+	public static void Xml_vers_DB()
+	{		
 	    // Créer un SAXBuilder pour pouvoir parser le fichier
 	    SAXBuilder builder = new SAXBuilder();
 	    File xmlFile = new File("competences.xml");
@@ -23,7 +49,10 @@ public class Lire_XML {
 	        Element rootNodes = document.getRootElement();
 	        List<Element> listNodesRacine = rootNodes.getChildren("node");
 	        Element tableRacine = (Element) listNodesRacine.get(0);
-            System.out.println( "Diplome: " + tableRacine.getAttributeValue("TEXT"));
+	        String nomDiplome = tableRacine.getAttributeValue("TEXT");
+            System.out.println( "Diplome: " + nomDiplome);
+            
+            
  
             // RACINE
             List<Element> niveauPosition = tableRacine.getChildren("node");
@@ -31,50 +60,6 @@ public class Lire_XML {
             System.out.println( "Coté: " + cote_competences.getAttributeValue("TEXT"));
             Element cote_syllabus = (Element) niveauPosition.get(1);
             System.out.println( "Coté: " + cote_syllabus.getAttributeValue("TEXT"));
-            
-            
-            // COTE SYLLABUS
-            System.out.println("\nCOTE SYLLABUS");
-            List<Element> liste01NiveauAIgnorerPourBD = cote_syllabus.getChildren("node");
-            
-            // NIVEAU A IGNORER POUR LA BD
-            for (int u = 0; u < liste01NiveauAIgnorerPourBD.size(); u++)
-            {
-            	Element niveau01AIgnorerPourBD = (Element) liste01NiveauAIgnorerPourBD.get(u);
-            	
-            	List<Element> listeAnnees = niveau01AIgnorerPourBD.getChildren("node");
-            	System.out.println("(" + (u+1) + ") NIVEAU A IGNORER: " + niveau01AIgnorerPourBD.getAttributeValue("TEXT"));
-            	for (int w = 0; w < listeAnnees.size(); w++)
-            	{
-            		// ANNEES
-            		Element annees = (Element) listeAnnees.get(w);
-            		System.out.println("Annee: " + annees.getAttributeValue("TEXT"));
-            		
-            		List<Element> listeSemestres = annees.getChildren("node");
-            		for (int a = 0; a < listeSemestres.size(); a++)
-            		{
-            			// SEMESTRE
-            			Element semestres = (Element) listeSemestres.get(a);
-            			System.out.println("Semestre: " + semestres.getAttributeValue("TEXT"));
-            			
-            			List<Element> listeUE = semestres.getChildren("node");
-            			for (int b = 0; b < listeUE.size(); b++)
-            			{
-            				// UE
-            				Element ue = (Element) listeUE.get(b);
-            				System.out.println("UE-> " + ue.getAttributeValue("TEXT"));
-            				
-            				List<Element> listeEC = ue.getChildren("node");
-            				for (int c = 0; c < listeEC.size(); c++)
-            				{
-            					// EC
-            					Element ec = (Element) listeEC.get(c);
-            					System.out.println("EC: " + ec.getAttributeValue("TEXT"));
-            				}
-            			}
-            		}
-            	}
-            }
             
             // COTE COMPETENCES
             System.out.println("\nCOTE COMPETENCES");
@@ -87,18 +72,25 @@ public class Lire_XML {
             	
             	List<Element> listeDomaines = niveau11AIgnorerPourBD.getChildren("node");
             	System.out.println("(" + (i+1) + ") NIVEAU A IGNORER: "+ niveau11AIgnorerPourBD.getAttributeValue("TEXT"));
-            	for (int j = 0; j < listeDomaines.size(); j++)
-            	{
+            	
+            	
+        		for (int j = 0; j < listeDomaines.size(); j++)
+            	{   
             		// DOMAINE
             		Element domaine = (Element) listeDomaines.get(j);
-            		System.out.println("Nom domaine: " + domaine.getAttributeValue("TEXT"));
+            		String nomDomaine = domaine.getAttributeValue("TEXT").replace("'", "`");
+            		System.out.println("Nom domaine: " + nomDomaine);            		
+      
             		
             		List<Element> listeCompetences = domaine.getChildren("node");
             		for (int k = 0; k < listeCompetences.size(); k++)
             		{
             			// DOMAINES DE COMPETENCE
             			Element competences = (Element) listeCompetences.get(k);
+          
             			System.out.println("Competence: " + competences.getAttributeValue("TEXT"));
+            			
+            			
             			
             			List<Element> listeItems = competences.getChildren("node");
             			for (int f = 0; f < listeItems.size(); f++)
@@ -134,6 +126,53 @@ public class Lire_XML {
             		}	
             	}
             }
+            
+            // COTE SYLLABUS
+            System.out.println("\nCOTE SYLLABUS");
+            List<Element> liste01NiveauAIgnorerPourBD = cote_syllabus.getChildren("node");
+            
+            // NIVEAU A IGNORER POUR LA BD (Fait partie du nom du diplome)
+            for (int u = 0; u < liste01NiveauAIgnorerPourBD.size(); u++)
+            {
+            	Element niveau01AIgnorerPourBD = (Element) liste01NiveauAIgnorerPourBD.get(u);
+            	
+            	List<Element> listeAnnees = niveau01AIgnorerPourBD.getChildren("node");
+            	System.out.println("(" + (u+1) + ") NIVEAU A IGNORER: " + niveau01AIgnorerPourBD.getAttributeValue("TEXT"));
+            	
+            	for (int w = 0; w < listeAnnees.size(); w++)
+            	{
+            		// ANNEES
+            		Element annees = (Element) listeAnnees.get(w);
+            		System.out.println("Annee: " + annees.getAttributeValue("TEXT"));
+            		
+            		
+            		
+            		List<Element> listeSemestres = annees.getChildren("node");
+            		for (int a = 0; a < listeSemestres.size(); a++)
+            		{
+            			// SEMESTRE
+            			Element semestres = (Element) listeSemestres.get(a);
+            			
+            			List<Element> listeUE = semestres.getChildren("node");
+            			for (int b = 0; b < listeUE.size(); b++)
+            			{
+            				// UE
+            				Element ue = (Element) listeUE.get(b);
+            				System.out.println("UE-> " + ue.getAttributeValue("TEXT"));
+            				
+            				List<Element> listeEC = ue.getChildren("node");
+            				for (int c = 0; c < listeEC.size(); c++)
+            				{
+            					// EC
+            					Element ec = (Element) listeEC.get(c);
+            					
+            					System.out.println("EC: " + ec.getAttributeValue("TEXT"));
+            					
+            				}
+            			}
+            		}
+            	}
+            }
 	        
 	    }catch ( IOException io ) {
 	        System.out.println( io.getMessage() );
@@ -145,7 +184,7 @@ public class Lire_XML {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		charger_Xml();
+		Xml_vers_DB();
 	}
 
 }

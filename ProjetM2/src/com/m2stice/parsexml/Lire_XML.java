@@ -9,9 +9,37 @@ import org.jdom2.JDOMException;    // |/ JDOM
 import org.jdom2.input.SAXBuilder; // |
 
 import com.m2stice.controller.Controller;
+import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Annee;
 import com.m2stice.model.Diplome;
+import com.m2stice.model.Domaine;
+import com.m2stice.model.Ec;
+import com.m2stice.model.Semestre;
+import com.m2stice.model.Ue;
 
+/*
+* Nom de classe : Lire_XML
+*
+* Description: Lit un fichier xml et met l'information dans la base de données
+*
+* Version : 1.0
+*
+* Date : 09/12/2015
+*
+* Copyright : (C) Master 2 2015
+*/
+
+/**
+*  Lire_XML - Lit un fichier xml et met l'information dans la base de données
+*
+* @version 1.1
+*
+* @author CISNEROS BRIDON
+* @copyright (C) Master 2 2015
+* @date 09/12/2015
+* @revision 09/12
+* 
+*/
 
 public class Lire_XML {
 		
@@ -33,75 +61,17 @@ public class Lire_XML {
 	        List<Element> listNodesRacine = rootNodes.getChildren("node");
 	        Element tableRacine = (Element) listNodesRacine.get(0);
 	        String nomDiplome = tableRacine.getAttributeValue("TEXT");
-            System.out.println( "Diplome: " + nomDiplome);
+            //System.out.println( "Diplome: " + nomDiplome);
+            
+            String diplomeComplet = null;
+            LinkedList<Diplome> codeDiplome = new LinkedList<Diplome>();
  
             // RACINE
             List<Element> niveauPosition = tableRacine.getChildren("node");
             Element cote_competences = (Element) niveauPosition.get(0);
-            System.out.println( "Coté: " + cote_competences.getAttributeValue("TEXT"));
+            //System.out.println( "Coté: " + cote_competences.getAttributeValue("TEXT"));
             Element cote_syllabus = (Element) niveauPosition.get(1);
-            System.out.println( "Coté: " + cote_syllabus.getAttributeValue("TEXT"));
-            
-            
-            // COTE SYLLABUS
-            System.out.println("\nCOTE SYLLABUS");
-            List<Element> liste01NiveauAIgnorerPourBD = cote_syllabus.getChildren("node");
-            
-            // NIVEAU A IGNORER POUR LA BD (Fait partie du nom du diplome)
-            for (int u = 0; u < liste01NiveauAIgnorerPourBD.size(); u++)
-            {
-            	Element niveau01AIgnorerPourBD = (Element) liste01NiveauAIgnorerPourBD.get(u);
-            	
-            	List<Element> listeAnnees = niveau01AIgnorerPourBD.getChildren("node");
-            	//System.out.println("(" + (u+1) + ") NIVEAU A IGNORER: " + niveau01AIgnorerPourBD.getAttributeValue("TEXT"));
-            	
-            	String diplomeComplet = nomDiplome + " " + niveau01AIgnorerPourBD.getAttributeValue("TEXT");
-            	
-            	requete = "insert into diplome (nom_diplome) values ('"+ diplomeComplet  + "');";
-                monController.modification(requete);
-                
-                LinkedList<Diplome> codeDiplome = new LinkedList<Diplome>();   
-                requete = "select * FROM diplome ORDER BY code_diplome DESC LIMIT 1;";
-                codeDiplome = monController.getDiplome(requete);
-                
-                for (int w = 0; w < listeAnnees.size(); w++)
-            	{
-            		// ANNEES
-            		Element annees = (Element) listeAnnees.get(w);
-            		//System.out.println("Annee: " + annees.getAttributeValue("TEXT"));
-            		
-            		LinkedList<Annee> codeAnnee = new LinkedList<Annee>();
-            		requete = "select * from annee where nom_annee = '" + annees.getAttributeValue("TEXT") + "';";
-            		codeAnnee = monController.getAnnee(requete);
-            		
-            		requete = "insert into diplome_annee (code_diplome, code_annee) values (" + codeDiplome.get(0).getCode() + ", " + codeAnnee.get(0).getCode() + ")";
-            		monController.modification(requete);
-            		
-            		List<Element> listeSemestres = annees.getChildren("node");
-            		for (int a = 0; a < listeSemestres.size(); a++)
-            		{
-            			// SEMESTRE
-            			Element semestres = (Element) listeSemestres.get(a);
-            			System.out.println("Semestre: " + semestres.getAttributeValue("TEXT"));
-            			
-            			List<Element> listeUE = semestres.getChildren("node");
-            			for (int b = 0; b < listeUE.size(); b++)
-            			{
-            				// UE
-            				Element ue = (Element) listeUE.get(b);
-            				System.out.println("UE-> " + ue.getAttributeValue("TEXT"));
-            				
-            				List<Element> listeEC = ue.getChildren("node");
-            				for (int c = 0; c < listeEC.size(); c++)
-            				{
-            					// EC
-            					Element ec = (Element) listeEC.get(c);
-            					System.out.println("EC: " + ec.getAttributeValue("TEXT"));
-            				}
-            			}
-            		}
-            	}
-            }
+            //System.out.println( "Coté: " + cote_syllabus.getAttributeValue("TEXT"));
             
             // COTE COMPETENCES
             System.out.println("\nCOTE COMPETENCES");
@@ -113,19 +83,46 @@ public class Lire_XML {
             	Element niveau11AIgnorerPourBD = (Element) liste11NiveauAIgnorerPourBD.get(i);
             	
             	List<Element> listeDomaines = niveau11AIgnorerPourBD.getChildren("node");
-            	System.out.println("(" + (i+1) + ") NIVEAU A IGNORER: "+ niveau11AIgnorerPourBD.getAttributeValue("TEXT"));
+            	//System.out.println("(" + (i+1) + ") NIVEAU A IGNORER: "+ niveau11AIgnorerPourBD.getAttributeValue("TEXT"));
+            	
+            	diplomeComplet = nomDiplome + " " + niveau11AIgnorerPourBD.getAttributeValue("TEXT");
+            	
+            	requete = "select * from diplome where nom_diplome = '" + diplomeComplet + "';";
+        		codeDiplome = monController.getDiplome(requete);
+            	
+        		if (codeDiplome.size() == 0)
+        		{
+        			requete = "insert into diplome (nom_diplome) values ('"+ diplomeComplet  + "');";
+                    monController.modification(requete);
+                    
+                    requete = "select * FROM diplome ORDER BY code_diplome DESC LIMIT 1;";
+                    codeDiplome = monController.getDiplome(requete);
+        		}
+        		
             	for (int j = 0; j < listeDomaines.size(); j++)
-            	{
+            	{   
             		// DOMAINE
             		Element domaine = (Element) listeDomaines.get(j);
-            		System.out.println("Nom domaine: " + domaine.getAttributeValue("TEXT"));
+            		String nomDomaine = domaine.getAttributeValue("TEXT").replace("'", "`");
+            		//System.out.println("Nom domaine: " + nomDomaine);
+            		
+            		requete = "insert into domaine (nom_domaine, code_diplome) values ('" + nomDomaine + "', " + codeDiplome.get(0).getCode() + ");";
+            		monController.modification(requete);
+            		
+            		requete = "select * FROM domaine ORDER BY code_domaine DESC LIMIT 1;";
+                    LinkedList<Domaine> codeDomaine = new LinkedList<Domaine>();
+                    codeDomaine = monController.getDomaine(requete);
             		
             		List<Element> listeCompetences = domaine.getChildren("node");
             		for (int k = 0; k < listeCompetences.size(); k++)
             		{
             			// DOMAINES DE COMPETENCE
             			Element competences = (Element) listeCompetences.get(k);
-            			System.out.println("Competence: " + competences.getAttributeValue("TEXT"));
+            			String nomCompetence = competences.getAttributeValue("TEXT").replace("'", "`");
+            			//System.out.println("Competence: " + competences.getAttributeValue("TEXT"));
+            			
+            			requete = "insert into competence (nom_competence, code_domaine) values ('"+ nomCompetence + "', " + codeDomaine.get(0).getCode() + ");";
+            			monController.modification(requete);
             			
             			List<Element> listeItems = competences.getChildren("node");
             			for (int f = 0; f < listeItems.size(); f++)
@@ -161,6 +158,84 @@ public class Lire_XML {
             		}	
             	}
             }
+            
+            // COTE SYLLABUS
+            /*System.out.println("\nCOTE SYLLABUS");
+            List<Element> liste01NiveauAIgnorerPourBD = cote_syllabus.getChildren("node");
+            
+            // NIVEAU A IGNORER POUR LA BD (Fait partie du nom du diplome)
+            for (int u = 0; u < liste01NiveauAIgnorerPourBD.size(); u++)
+            {
+            	Element niveau01AIgnorerPourBD = (Element) liste01NiveauAIgnorerPourBD.get(u);
+            	
+            	List<Element> listeAnnees = niveau01AIgnorerPourBD.getChildren("node");
+            	//System.out.println("(" + (u+1) + ") NIVEAU A IGNORER: " + niveau01AIgnorerPourBD.getAttributeValue("TEXT"));
+            	
+            	diplomeComplet = nomDiplome + " " + niveau01AIgnorerPourBD.getAttributeValue("TEXT");
+            	diplomeComplet.replace("'", "`");
+            	
+            	requete = "insert into diplome (nom_diplome) values ('"+ diplomeComplet  + "');";
+                monController.modification(requete);
+                   
+                requete = "select * FROM diplome ORDER BY code_diplome DESC LIMIT 1;";
+                codeDiplome = monController.getDiplome(requete);
+                
+                for (int w = 0; w < listeAnnees.size(); w++)
+            	{
+            		// ANNEES
+            		Element annees = (Element) listeAnnees.get(w);
+            		//System.out.println("Annee: " + annees.getAttributeValue("TEXT"));
+            		
+            		LinkedList<Annee> codeAnnee = new LinkedList<Annee>();
+            		requete = "select * from annee where nom_annee = '" + annees.getAttributeValue("TEXT") + "';";
+            		codeAnnee = monController.getAnnee(requete);
+            		
+            		requete = "insert into diplome_annee (code_diplome, code_annee) values (" + codeDiplome.get(0).getCode() + ", " + codeAnnee.get(0).getCode() + ")";
+            		monController.modification(requete);
+            		
+            		List<Element> listeSemestres = annees.getChildren("node");
+            		for (int a = 0; a < listeSemestres.size(); a++)
+            		{
+            			// SEMESTRE
+            			Element semestres = (Element) listeSemestres.get(a);
+            			
+            			LinkedList<Semestre> codeSemestre = new LinkedList<Semestre>();
+            			requete = "select * from semestre where nom_semestre = '" + semestres.getAttributeValue("TEXT") + "';";
+            			codeSemestre = monController.getSemestre(requete);
+            			
+            			List<Element> listeUE = semestres.getChildren("node");
+            			for (int b = 0; b < listeUE.size(); b++)
+            			{
+            				// UE
+            				Element ue = (Element) listeUE.get(b);
+            				//System.out.println("UE-> " + ue.getAttributeValue("TEXT"));
+            				
+            				LinkedList<Ue> uE = new LinkedList<Ue>();
+            				String nomUe = ue.getAttributeValue("TEXT").replace("'", "`");
+            				requete = "insert into ue (nom_ue, code_semestre, code_diplome) values ('" + nomUe + "', " + codeSemestre.get(0).getCode() + ", " + codeDiplome.get(0).getCode() + ");";
+            				monController.modification(requete);
+            				
+            				List<Element> listeEC = ue.getChildren("node");
+            				for (int c = 0; c < listeEC.size(); c++)
+            				{
+            					// EC
+            					Element ec = (Element) listeEC.get(c);
+            					
+            					LinkedList<Ue> codeUe = new LinkedList<Ue>();   
+            	                requete = "select * FROM ue ORDER BY code_ue DESC LIMIT 1;";
+            	                codeUe = monController.getUe(requete);
+            					
+            					//System.out.println("EC: " + ec.getAttributeValue("TEXT"));
+            					String nomEc = ec.getAttributeValue("TEXT").replace("'", "`");
+            					
+            					LinkedList<Ec> eC = new LinkedList<Ec>();
+            					requete = "insert into ec (nom_ec, code_ue, code_semestre) values ('" + nomEc + "', " + codeUe.get(0).getCode() + ", " + codeSemestre.get(0).getCode() + ")";
+            					monController.modification(requete);
+            				}
+            			}
+            		}
+            	}
+            }*/
 	        
 	    }catch ( IOException io ) {
 	        System.out.println( io.getMessage() );
