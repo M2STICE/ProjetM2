@@ -97,7 +97,7 @@ public class RechercheView extends JPanel {
 	
 	/**
 	 * Affiche le composant
-	 * @param le param�tre graphique
+	 * @param le paramétre graphique
 	 */
 	public void paint(Graphics g){
 		g.drawImage(interfaceUtilisateur.loadImage("RechercheViewImage.jpg"), 0, 0,(int)getBounds().getWidth(), (int)getBounds().getHeight(), this);

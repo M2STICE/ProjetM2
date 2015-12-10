@@ -42,6 +42,7 @@ public class RechercheViewListener {
 					 	diplomes = interfaceUtilisateur.getController().getDiplome("SELECT * FROM DIPLOME WHERE NOM_DIPLOME LIKE '%"+rechercheView.getRecherche()+"%' ;");
 					 	resultatView = new ResultatView(interfaceUtilisateur);
 					 	resultatView.setEntete(rechercheView.getRecherche(),diplomes.size());
+					 	resultatView.setResultat(diplomes);
 				        interfaceUtilisateur.setBlocPrincipal(resultatView);
 				 }
 				

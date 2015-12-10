@@ -1,9 +1,12 @@
 package com.m2stice.graphics;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
 import javax.swing.JLabel;
@@ -104,8 +107,63 @@ public class ResultatView extends JPanel {
 	
 	public void setResultat(LinkedList<Diplome> diplomes){
 		for(Diplome d:diplomes){
-			this.blocResultat.add(new JLabel(d.getNom()) );
+			JLabel jl = new JLabel("  "+d.getNom().substring(0,1).toUpperCase()+d.getNom().substring(1));
+			jl.setPreferredSize(new Dimension(1024,40));
+			jl.setOpaque(true);
+			jl.setFont(new Font("Gill Sans MT",Font.BOLD,20));
+			//jl.setForeground(Color.WHITE);
+			jl.setBackground(Color.decode("#66a8da"));
+			jl.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					jl.setBackground(Color.decode("#66a8da"));
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					jl.setBackground(Color.decode("#ffb401"));
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			this.blocResultat.add(jl);
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void repaint(){
+		try{
+			int largeur = interfaceUtilisateur.getWidth();
+			titreRecherche.setPreferredSize(new Dimension(largeur,40));
+			detailRecherche.setPreferredSize(new Dimension(largeur,25));
+			blocRecherche.setPreferredSize(new Dimension(largeur,70));
+			blocEntete.setPreferredSize(new Dimension(largeur,150));
+		}
+		catch(Exception e){
+			//e.printStackTrace();
+		}
+		super.repaint();
 	}
 	
 }
