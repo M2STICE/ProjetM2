@@ -1,4 +1,4 @@
-package com.m2stice.listener;
+package com.m2stice.controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
