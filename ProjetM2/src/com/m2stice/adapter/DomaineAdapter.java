@@ -26,7 +26,7 @@ public class DomaineAdapter {
 		if (resultat != null) {
 			try {
 				while(resultat.next()){						                                                                                                                                                                                                                                  
-					list.add(new Domaine( resultat.getInt("code_domaine"), resultat.getString("nom"), resultat.getInt("code_diplome")));
+					list.add(new Domaine( resultat.getInt("code_domaine"), resultat.getString("nom_domaine"), resultat.getInt("code_diplome")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
