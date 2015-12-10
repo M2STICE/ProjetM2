@@ -1,8 +1,9 @@
 /*Pour l'affichage */
 select nom_annee
-from annee,promotion,diplome
-where promotion.code_annee = annee.code_annee 
-and diplome.code_diplome = promotion.code_diplome;
+from annee,diplome
+where annee.code_annee = diplome_annee.code_annee 
+and diplome.code_diplome = diplome_annee.code_diplome
+and diplome.code_diplome =/*code diplome sélectionner*/;
 
 /*Pour la suite du traitement*/
 select code_annee

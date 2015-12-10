@@ -25,6 +25,7 @@ ENGINE=INNODB;
 create table intervenant(
 	code_intervenant int not null auto_increment,
 	nom_intervenant varchar(100),
+	prenom_intervenant varchar(100),
 	mot_de_passe varchar(100),
 	primary key(code_intervenant)
 )
