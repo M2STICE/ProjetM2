@@ -9,7 +9,7 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.m2stice.listener.RechercheViewListener;
+import com.m2stice.controller.RechercheViewListener;
 
 
 /*

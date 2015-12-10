@@ -1,7 +1,7 @@
 package com.m2stice.model;
 
 /**
-*  Evaluation - Classe représentant une évaluation 
+*  Evaluation - Classe reprï¿½sentant une ï¿½valuation 
 *
 * @version 1.1
 *
@@ -18,7 +18,6 @@ public class Evaluation {
 	private float noteMaximale;
 	private float coefficient;
 	private String typeEpreuve;
-	private int codeSousItem;
 	
 	/**
 	 * Constructeur de la classe Evaluation
@@ -31,13 +30,12 @@ public class Evaluation {
 	 * @param codeSousItem
 	 */
 
-	public Evaluation(int code, String nom, float notemaximale, float coefficient, String typeEpreuve, int codeSousItem) {
+	public Evaluation(int code, String nom, float notemaximale, float coefficient, String typeEpreuve) {
 		this.code = code;
 		this.nom = nom;
 		this.noteMaximale = notemaximale;
 		this.coefficient = coefficient;
 		this.typeEpreuve = typeEpreuve;
-		this.codeSousItem = codeSousItem;
 	}
 
 	public String toString(){
@@ -84,12 +82,5 @@ public class Evaluation {
 		this.typeEpreuve = typeEpreuve;
 	}
 
-	public int getCodeSousItem() {
-		return codeSousItem;
-	}
-
-	public void setCodeSousItem(int codeSousItem) {
-		this.codeSousItem = codeSousItem;
-	}
 
 }

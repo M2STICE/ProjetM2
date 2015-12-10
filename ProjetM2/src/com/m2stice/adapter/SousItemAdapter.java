@@ -25,7 +25,7 @@ public class SousItemAdapter {
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					list.add(new  SousItem(resultat.getInt("code_sous_item"),resultat.getString("nom_sous_item"),resultat.getInt("code_item")));
+					list.add(new  SousItem(resultat.getInt("code_sous_item"),resultat.getString("nom_sous_item")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
