@@ -1,7 +1,7 @@
 package com.m2stice.model;
 
 /**
-*  SousItem - Classe représentant une sous compétence secondaire
+*  SousItem - Classe reprï¿½sentant une sous compï¿½tence secondaire
 *
 * @version 1.1
 *
@@ -15,7 +15,6 @@ public class SousItem {
 
 	private int code;
 	private String nom;
-	private int codeItem;
 	
 	/**
 	 * Constructeur de l'objet SousItem
@@ -24,14 +23,13 @@ public class SousItem {
 	 * @param nom
 	 * @param codetItem
 	 */
-	public SousItem(int code, String nom, int codetItem) {
+	public SousItem(int code, String nom) {
 		this.code = code;
 		this.nom = nom;
-		this.codeItem = codetItem;
 	}
 
 	public String toString(){
-		return "ID: "+code+" NOM: "+nom+" CODE_ITEM: "+ codeItem +"\n";
+		return "ID: "+code+" NOM: "+nom+"\n";
 	}
 	
 	public int getCode() {
@@ -50,12 +48,6 @@ public class SousItem {
 		this.nom = nom;
 	}
 
-	public int getCodeItem() {
-		return codeItem;
-	}
-
-	public void setCodeItem(int codeItem) {
-		this.codeItem = codeItem;
-	}
+	
 
 }
