@@ -165,7 +165,7 @@ create table evaluation(
 	note_maximale float, 
 	coefficient_evaluation float, 
 	type_epreuve varchar(255),
-	primary key(code_evaluation),
+	primary key(code_evaluation)
 )
 ENGINE=INNODB;
 
