@@ -269,12 +269,18 @@ public class Lire_XML {
 	            							String nomEvaluation = evaluations.getAttributeValue("TEXT").replace("'", "`");
 	            							//System.out.println("Evaluations: " + evaluations.getAttributeValue("TEXT"));
 	            							
-	            							requete = "insert into evaluation (nom_evaluation) values ('" + nomEvaluation + "');";
-	            							monController.modification(requete);
-	            							
 	            							LinkedList<Evaluation> codeEvaluation = new LinkedList<Evaluation>();
-			            					requete = "select * FROM evaluation ORDER BY code_evaluation DESC LIMIT 1;";
-			            					codeEvaluation = monController.getEvaluation(requete);
+	            							requete = "select * from evaluation where nom_evaluation = '" + nomEvaluation + "';";
+	            							codeEvaluation = monController.getEvaluation(requete);
+	            							
+	            							if (codeEvaluation.size() == 0)
+	            							{
+	            								requete = "insert into evaluation (nom_evaluation) values ('" + nomEvaluation + "');";
+		            							monController.modification(requete);
+		            							
+		            							requete = "select * FROM evaluation ORDER BY code_evaluation DESC LIMIT 1;";
+				            					codeEvaluation = monController.getEvaluation(requete);
+	            							}
 	            							
 	            							requete = "insert into sous_item_evaluation (code_sous_item, code_evaluation) values (" + codeSousItem.get(0).getCode() + ", " + codeEvaluation.get(0).getCode() + ");";
 	            							monController.modification(requete);

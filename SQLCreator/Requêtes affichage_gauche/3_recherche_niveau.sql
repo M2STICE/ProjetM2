@@ -8,6 +8,3 @@ and diplome.code_diplome = promotion.code_diplome;
 select code_annee
 from annee
 where annee.nom_annee = /*nom annee selectionner*/;
-
-sss
-s

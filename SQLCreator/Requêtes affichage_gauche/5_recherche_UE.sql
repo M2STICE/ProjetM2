@@ -1,11 +1,14 @@
 /*Pour l'affichage */
-select nom_ue
-from diplome,promotion,annee,semestre,ue
-where diplome.code_diplome = ue.code_diplome 
-and semestre.code_semestre = ue.code_semestre
+SELECT nom_ue
+FROM diplome, annee, semestre, ue
+WHERE diplome.code_diplome = ue.code_diplome
+AND semestre.code_semestre = ue.code_semestre
+AND annee.code_annee = 1
+AND semestre.code_semestre =1
+AND diplome.code_diplome = 23
 
 /*Pour la suite du traitement */
 
 select code_ue
 from ue
-where ue.nom_ue =/*ue sélectionnée*/
+where ue.nom_ue =/*ue sï¿½lectionnï¿½e*/

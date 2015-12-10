@@ -3,11 +3,11 @@
 select annee_promotion
 from promotion, diplome
 where promotion.code_diplome = diplome.code_diplome 
-and diplome.code=/* code diplome selectionné*/;
+and diplome.code=/* code diplome selectionnï¿½*/;
 
 /*Pour la suite du traitement */
 select code_promotion
-from promtiom, diplome
+from promotiom, diplome
 where promotion.code_diplome = diplome.code_diplome
-and annee_promotion=/*annee selectionnée*/
+and annee_promotion=/*annee selectionnï¿½e*/
 
