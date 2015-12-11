@@ -25,7 +25,7 @@ public class CompetenceAdapter {
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					list.add(new  Competence(resultat.getInt("code_compétence"),resultat.getString("nom_competence"), resultat.getInt("code_domaine")));
+					list.add(new  Competence(resultat.getInt("code_competence"),resultat.getString("nom_competence"), resultat.getInt("code_domaine")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
