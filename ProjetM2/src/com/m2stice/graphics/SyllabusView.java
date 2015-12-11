@@ -1,5 +1,6 @@
 package com.m2stice.graphics;
 
+import java.awt.BorderLayout;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -35,6 +36,7 @@ public class SyllabusView extends JPanel {
 	
 	public void init() {
 		
+		this.setLayout(new BorderLayout());
 		dip = interfaceUtilisateur.getController();
 
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Syllabus");
@@ -55,7 +57,7 @@ public class SyllabusView extends JPanel {
 	       
 			while(it.hasNext()){
 				Diplome diplome=it.next();
-				formation = new DefaultMutableTreeNode(diplome.getNom());
+				formation = new DefaultMutableTreeNode(diplome.getNom().toUpperCase());
 				
 				listA = dip.getAnnee(Requetes.ANNEE.toString(diplome.getCode()));
 				it2 = listA.iterator(); 
@@ -93,7 +95,8 @@ public class SyllabusView extends JPanel {
 			}
 			
 	       tree = new JTree(root);
-	       this.add(new JScrollPane(tree));
+	       tree.setRootVisible(false);
+	       this.add(new JScrollPane(tree),BorderLayout.CENTER);
 	}
 	/**
 	 * Constructeur de la vue 
