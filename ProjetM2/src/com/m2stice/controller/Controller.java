@@ -350,6 +350,15 @@ public class Controller {
 		System.out.println("Nou fini");
 		
 	}
+	
+	/**
+	 * Fonction permettant de demander la supression de l'accèes à la base de donnée (A utiliser lors de la fermeture de l'applet)
+	 */
+	
+	public void closeConnection() {
+		connection.closeAccess();
+		System.out.println("[Log-DATABASE_ACCESS]: Accèss à la base de donnée fermé.");
+	}
 
 
 }

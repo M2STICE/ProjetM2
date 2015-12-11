@@ -170,5 +170,17 @@ public class DatabaseAccess {
 		}
 		return update;
 	}
+
+	/**
+	 * Fonction permettant de demander supprimer l'accèes à la base de donnée (A utiliser lors de la fermeture de l'applet)
+	 */
+	public void closeAccess() {
+		try {
+			System.out.println("[Log-DATABASE_ACCESS]: Demande de fermeture d'accès reçu");
+			connector.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
