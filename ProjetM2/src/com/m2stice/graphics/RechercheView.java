@@ -1,11 +1,11 @@
 package com.m2stice.graphics;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.GridBagLayout;
 
-import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -64,15 +64,14 @@ public class RechercheView extends JPanel {
 		rechercheTextField.setFont(new Font("Gill Sans MT",Font.ITALIC,24));
 		rechercheTextField.setPreferredSize(new Dimension(400,32));
 		//
-		bloc.setLayout(new GridLayout(40,1));
-		for(int i=0;i<12;i++)
-			bloc.add(Box.createGlue());
+		bloc.setLayout(new GridBagLayout());
 		bloc.add(rechercheTextField);
 		bloc.setOpaque(false);
 		bloc.setVisible(true);
 		
 		//Agencement de la vue
-		this.add(bloc);	
+		this.setLayout(new BorderLayout());
+		this.add(bloc,BorderLayout.CENTER);	
 	}
 	
 	public RechercheView(Interface interfaceUtilisateur){
