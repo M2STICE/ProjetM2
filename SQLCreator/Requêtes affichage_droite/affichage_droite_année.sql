@@ -1,24 +1,24 @@
-/*************Affichage au niveau annnée de l'application**************/
+/*************Affichage au niveau annnï¿½e de l'application**************/
 
 
-/*Liste des étudiants dans la promotion du diplome recherché pour l'année */
+/*Liste des ï¿½tudiants dans la promotion du diplome recherchÃ© pour l'annï¿½e */
 
 select code_etudiant
 from etudiant, promotion
 where etudiant.code_etudiant = etudiant_promotion.code_etudiant 
 and promotion.code_promotion = etudiant_promotion.code_promotion
-and promotion.code_promotion =/*code promotion récupéré*/
-and promotion.code_diplome =/*code diplome récupéré*/
-and promotion.code_annee =/* code année récupéré*/;
+and promotion.code_promotion =/*code promotion rÃ©cupÃ©rÃ©*/
+and promotion.code_diplome =/*code diplome rÃ©cupÃ©rÃ©*/
+and promotion.code_annee =/* code annÃ©e rÃ©cupÃ©rÃ©*/;
 
-/*Nombres dans la promotion du diplome recherché*/
+/*Nombres dans la promotion du diplome recherchÃ©*/
 select count(code_etudiant) as nb_etudiant
 from etudiant, promotion
 where etudiant.code_etudiant = etudiant_promotion.code_etudiant 
 and promotion.code_promotion = etudiant_promotion.code_promotion
-and promotion.code_promotion =/*code promotion récupéré*/
-and promotion.code_diplome =/*code diplome récupéré*/
-and promotion.code_annee =/* code année récupéré*/;
+and promotion.code_promotion =/*code promotion rÃ©cupÃ©rÃ©*/
+and promotion.code_diplome =/*code diplome rÃ©cupÃ©rÃ©*/
+and promotion.code_annee =/* code annï¿½e rÃ©cupÃ©rÃ©*/;
 
 /*Moyenne des notes des evaluations pour chaque sous_item */ 
 select sum(evaluation_etudiant.note_evaluation)
@@ -29,16 +29,16 @@ and etudiant_evaluation.code_etudiant = (select code_etudiant
 from etudiant, promotion
 where etudiant.code_etudiant = etudiant_promotion.code_etudiant 
 and promotion.code_promotion = etudiant_promotion.code_promotion
-and promotion.code_promotion =/*code promotion récupéré*/
-and promotion.code_diplome =/*code diplome récupéré*/
-and promotion.code_annee =/* code année récupéré*/);
+and promotion.code_promotion =/*code promotion rÃ©cupÃ©rÃ©*/
+and promotion.code_diplome =/*code diplome rÃ©cupÃ©rÃ©*/
+and promotion.code_annee =/* code annï¿½e rÃ©cupÃ©rÃ©*/);
 
 
 /*Liste des ec*/
 select ec.code_ec
 from ue,ec,diplome,semestre,annee
-where ue.code_diplome = /*code diplome récupéré*/
-and annee.code_annee = /*code annee récupérée*/
+where ue.code_diplome = /*code diplome rï¿½cupï¿½rï¿½*/
+and annee.code_annee = /*code annee rï¿½cupï¿½rï¿½e*/
 and semestre.code_annee = annee.code_annee
 and ue.code_semestre = semestre.code_semestre
 and ec.code_ue = ue.code_ue;
@@ -49,8 +49,8 @@ from item,ec_item
 where item.code_item = ec_item.code_item and ec_item.code_ec = 
 (select ec.code_ec
 from ue,ec,diplome,semestre,annee
-where ue.code_diplome = /*code diplome récupéré*/
-and annee.code_annee = /*code annee récupérée*/
+where ue.code_diplome = /*code diplome rï¿½cupï¿½rï¿½*/
+and annee.code_annee = /*code annee rï¿½cupï¿½rï¿½e*/
 and semestre.code_annee = annee.code_annee
 and ue.code_semestre = semestre.code_semestre
 and ec.code_ue = ue.code_ue);
@@ -63,13 +63,13 @@ from item,ec_item
 where item.code_item = ec_item.code_item and ec_item.code_ec = 
 (select ec.code_ec
 from ue,ec,diplome,semestre,annee
-where ue.code_diplome = /*code diplome récupéré*/
-and annee.code_annee = /*code annee récupérée*/
+where ue.code_diplome = /*code diplome rï¿½cupï¿½rï¿½*/
+and annee.code_annee = /*code annee rï¿½cupï¿½rï¿½e*/
 and semestre.code_annee = annee.code_annee
 and ue.code_semestre = semestre.code_semestre
 and ec.code_ue = ue.code_ue));
 
-/*Liste des domaines de compétence*/
+/*Liste des domaines de compï¿½tence*/
 select domaine.nom_domaine
 from domaine
 where domaine.code_domaine =(select competence.code_domaine
@@ -79,8 +79,8 @@ from item,ec_item
 where item.code_item = ec_item.code_item and ec_item.code_ec = 
 (select ec.code_ec
 from ue,ec,diplome,semestre,annee
-where ue.code_diplome = /*code diplome récupéré*/
-and annee.code_annee = /*code annee récupérée*/
+where ue.code_diplome = /*code diplome rï¿½cupï¿½rï¿½*/
+and annee.code_annee = /*code annee rï¿½cupï¿½rï¿½e*/
 and semestre.code_annee = annee.code_annee
 and ue.code_semestre = semestre.code_semestre
 and ec.code_ue = ue.code_ue)));
@@ -91,8 +91,8 @@ from sous_item,ec_sous_item
 where sous_item.code_sous_item = ec_sous_item.code_sous_item 
 and ec_sous_item.code_ec = (select ec.code_ec
 from ue,ec,diplome,semestre,annee
-where ue.code_diplome = /*code diplome récupéré*/
-and annee.code_annee = /*code annee récupérée*/
+where ue.code_diplome = /*code diplome rï¿½cupï¿½rï¿½*/
+and annee.code_annee = /*code annee rï¿½cupï¿½rï¿½e*/
 and semestre.code_annee = annee.code_annee
 and ue.code_semestre = semestre.code_semestre
 and ec.code_ue = ue.code_ue));
@@ -106,8 +106,8 @@ from sous_item,ec_sous_item
 where sous_item.code_sous_item = ec_sous_item.code_sous_item 
 and ec_sous_item.code_ec = (select ec.code_ec
 from ue,ec,diplome,semestre,annee
-where ue.code_diplome = /*code diplome récupéré*/
-and annee.code_annee = /*code annee récupérée*/
+where ue.code_diplome = /*code diplome rï¿½cupï¿½rï¿½*/
+and annee.code_annee = /*code annee rï¿½cupï¿½rï¿½e*/
 and semestre.code_annee = annee.code_annee
 and ue.code_semestre = semestre.code_semestre
 and ec.code_ue = ue.code_ue)));
