@@ -1,7 +1,7 @@
 package com.m2stice.model;
 
 /**
-*  Ue - Classe représentant un unité d'enseignement
+*  Ue - Classe reprÃ©sentant un unitï¿½ d'enseignement
 *
 * @version 1.1
 *
@@ -44,7 +44,7 @@ public class Ue {
 		this.coefficient = coefficient;
 		this.codeSemestre = codeSemestre;
 		this.codeIntervenant = codeIntervenant;
-		this.setCodeDiplome(codeDiplome);
+		this.codeDiplome = codeDiplome;
 	}
 
 
