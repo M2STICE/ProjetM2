@@ -7,14 +7,36 @@ import java.util.LinkedList;
 import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Intervenant;
 
+/**
+* IntervenantAdapter - Classe de requêtage pour les Intervenants
+*
+* @version 1.1
+*
+* @author ASDRUBAL & NERES
+* @copyright (C) Master 2 2015
+* @date 07/12/2015
+* 
+*/
+
 public class IntervenantAdapter {
 
+	/**
+	 * Recuparation de la connexion
+	 * @param con
+	 */
+	
 	public IntervenantAdapter(DatabaseAccess con) {
 		this.connection = (DatabaseAccess) con;
 	}
 	
 	DatabaseAccess connection;
 
+	/**
+	 * méthode permmettant de créer la liste des intervenants
+	 * @param getRequete
+	 * @return liste des intervenants
+	 */
+	
 	public LinkedList<Intervenant> getSelect(String getRequete) {
 		String requete = null;
 		ResultSet resultat;

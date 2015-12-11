@@ -7,14 +7,35 @@ import java.util.LinkedList;
 import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Annee;
 
+/**
+* AnneeAdapter - Classe de requêtage pour les Annees
+*
+* @version 1.1
+*
+* @author ASDRUBAL & NERES
+* @copyright (C) Master 2 2015
+* @date 07/12/2015
+* 
+*/
 public class AnneeAdapter {
 	
 	DatabaseAccess connection;
 
+	/**
+	 * Recuparation de la connexion
+	 * @param con
+	 */
+	
 	public AnneeAdapter(DatabaseAccess con) {
 		this.connection = (DatabaseAccess) con;
 	}
 
+	/**
+	 * méthode permmettant de créer la liste des Annees
+	 * @param getRequete
+	 * @return liste des Annees
+	 */
+	
 	public LinkedList<Annee> getSelect(String getRequete) {
 		String requete = null;
 		ResultSet resultat;

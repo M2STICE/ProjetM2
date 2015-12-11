@@ -7,14 +7,36 @@ import java.util.LinkedList;
 import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Evaluation;
 
+/**
+* EvaluationAdapter - Classe de requêtage pour les Evaluations
+*
+* @version 1.1
+*
+* @author ASDRUBAL & NERES
+* @copyright (C) Master 2 2015
+* @date 07/12/2015
+* 
+*/
+
 public class EvaluationAdapter {
 
+	/**
+	 * Recuparation de la connexion
+	 * @param con
+	 */
+	
 	public EvaluationAdapter(DatabaseAccess con) {
 		this.connection = (DatabaseAccess) con;
 	}
 	
 	DatabaseAccess connection;
 
+	/**
+	 * méthode permmettant de créer la liste des Evaluations
+	 * @param getRequete
+	 * @return liste des Evaluations
+	 */
+	
 	public LinkedList<Evaluation> getSelect(String getRequete) {
 		String requete = null;
 		ResultSet resultat;

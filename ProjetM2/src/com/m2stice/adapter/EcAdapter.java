@@ -7,15 +7,37 @@ import java.util.LinkedList;
 import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Ec;
 
+/**
+* EcAdapter - Classe de requêtage pour les Ec
+*
+* @version 1.1
+*
+* @author ASDRUBAL & NERES
+* @copyright (C) Master 2 2015
+* @date 07/12/2015
+* 
+*/
+
 public class EcAdapter {
 
 	DatabaseAccess connection;
+	
+	/**
+	 * Recuparation de la connexion
+	 * @param con
+	 */
 	
 	public EcAdapter(DatabaseAccess con) {
 		this.connection = (DatabaseAccess) con;
 	}
 	
 
+	/**
+	 * méthode permmettant de créer la liste des Ec
+	 * @param getRequete
+	 * @return liste des Ec
+	 */
+	
 	public LinkedList<Ec> getSelect(String getRequete) {
 		String requete = null;
 		ResultSet resultat;
