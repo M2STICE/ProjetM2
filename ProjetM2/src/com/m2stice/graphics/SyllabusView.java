@@ -21,19 +21,22 @@ public class SyllabusView extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 528033812897381067L;
-
+	private static final long serialVersionUID = 971L;
+	
+	private Interface interfaceUtilisateur;
 	private JTree tree;
 	   
-	   public LinkedList<Diplome> listD;
-	   public LinkedList<Annee> listA;
-	   public LinkedList<Semestre> listS;
-	   public LinkedList<Ue> listUe;
-	   public LinkedList<Ec> listEc;
-	   public Controller dip = new Controller();
+	private LinkedList<Diplome> listD;
+	private LinkedList<Annee> listA;
+	private LinkedList<Semestre> listS;
+	private LinkedList<Ue> listUe;
+	private LinkedList<Ec> listEc;
+	private Controller dip;
 	
-	public SyllabusView() {
-		// TODO Auto-generated constructor stub
+	public void init() {
+		
+		dip = interfaceUtilisateur.getController();
+
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Syllabus");
 	       DefaultMutableTreeNode formation = null;
 	       DefaultMutableTreeNode annee = null;
@@ -91,6 +94,14 @@ public class SyllabusView extends JPanel {
 			
 	       tree = new JTree(root);
 	       this.add(new JScrollPane(tree));
+	}
+	/**
+	 * Constructeur de la vue 
+	 * @param interfaceUtilisateur
+	 */
+	public SyllabusView(Interface interfaceUtilisateur){
+		this.interfaceUtilisateur = interfaceUtilisateur;
+		init();
 	}
 
 }
