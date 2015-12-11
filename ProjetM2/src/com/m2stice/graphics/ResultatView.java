@@ -9,11 +9,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.m2stice.controller.ResultatViewListener;
 import com.m2stice.model.Diplome;
 /*
  * Classe ResultatView
@@ -34,6 +36,7 @@ public class ResultatView extends JPanel {
 	private static final long serialVersionUID = 971L;
 	
 	private Interface interfaceUtilisateur;					//Lien vers l'applet
+	private ResultatViewListener resultatViewListener;
 	
 	private JPanel bloc = new JPanel();						//Bloc container transparent
 	private JPanel blocEntete = new JPanel();				//Bloc contenant l'entete
@@ -42,19 +45,25 @@ public class ResultatView extends JPanel {
 	private JLabel titreRecherche = new JLabel(" 🔍  Résultat de la recherche: '...'");
 	private JLabel detailRecherche = new JLabel("     X résultats trouvés");
 	private BanniereComponent banniere;						//La banniere de la vue
+	private JButton retourBouton = new JButton("retour");
 	
 	/**
 	 * Mise en place de la vue
 	 */
 	public void init(){
 		//Paramétrage de la vue
+		this.resultatViewListener = new ResultatViewListener(interfaceUtilisateur, this);
 		this.setLayout(new BorderLayout());
 		this.setOpaque(false);
 		
 		//Paramétrage des composants de la vue
 		//
+		retourBouton.addActionListener(resultatViewListener.getRetourBoutonListener());
+		//
 		banniere = new BanniereComponent(interfaceUtilisateur,"ResultatViewBanniere.jpg");
 		banniere.setPreferredSize(new Dimension(1024,69));
+		banniere.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		banniere.add(retourBouton);
 		//
 		titreRecherche.setFont(new Font("Gill Sans MT",Font.BOLD,30));
 		titreRecherche.setPreferredSize(new Dimension(1024,40));

@@ -2,8 +2,8 @@ package com.m2stice.graphics;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -23,29 +23,39 @@ import javax.swing.border.Border;
 
 public class AuthentificationView extends JPanel{
 
-	private JTextField jtIdentifiant = null;
-	private JPasswordField jpMotdepasse = null;
-	private JButton btnValider = null;
-	private JComboBox jcUtilisateur;
+	/**
+	 * Numéro de série
+	 */
+	private static final long serialVersionUID = 971L;
+	
+	private JTextField jtIdentifiant;
+	private JPasswordField jpMotdepasse;
+	private JButton btnValider;
+	private JComboBox<String> jcUtilisateur;
 	private Interface interfaceUtilisateur;	
 	private JPasswordField JP = new JPasswordField();
-	char defaut_char= JP.getEchoChar();
-	Border border_defaut = JP.getBorder();
-	private JPanel monJpanel = null;
+	private Border border_defaut = JP.getBorder();
+	private JPanel bloc = new JPanel();
 	
-	public void init()
-	{
-		monJpanel = new JPanel();
-		monJpanel.setLayout(new GridLayout(7,1));
-		monJpanel.add(getjtidentifiant());
-		monJpanel.add(Box.createHorizontalGlue());
-		monJpanel.add(getjtmotdepasse());
-		monJpanel.add(Box.createHorizontalGlue());
-		monJpanel.add(getjcquestion());
-		monJpanel.add(Box.createHorizontalGlue());
-		monJpanel.add(getbtnvalider());
+	public void init(){
+		//Paramètrage de la vue
+		this.setOpaque(false);
+		this.setVisible(true);
+		
+		//Paramètrage des composants de la vue
+		bloc.setLayout(new GridLayout(7,1));
+		bloc.add(getjtidentifiant());
+		bloc.add(Box.createHorizontalGlue());
+		bloc.add(getjtmotdepasse());
+		bloc.add(Box.createHorizontalGlue());
+		bloc.add(getjcquestion());
+		bloc.add(Box.createHorizontalGlue());
+		bloc.add(getbtnvalider());
+		bloc.setOpaque(false);
+		
+		//Agencement de la vue
 		this.setLayout(new GridBagLayout());
-		this.add(monJpanel);
+		this.add(bloc);
 	}
 	
 	public AuthentificationView(Interface interfaceUtilisateur){
@@ -67,16 +77,15 @@ public class AuthentificationView extends JPanel{
 			jtIdentifiant.setBackground(new Color(255, 255, 255));
 			jtIdentifiant.setHorizontalAlignment(JTextField.CENTER);
 			jtIdentifiant.setText(defaut);
-			jtIdentifiant.setFont(new Font("TimesRoman",Font.ITALIC, 20));
+			jtIdentifiant.setFont(new Font("TimesRoman",Font.ITALIC, 15));
 			jtIdentifiant.setForeground(placeholder);
-			
 			
 			jtIdentifiant.addFocusListener(new FocusListener(){
 
 				@Override
 				public void focusGained(FocusEvent arg0) {
 					jtIdentifiant.setText("");
-					jtIdentifiant.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+					jtIdentifiant.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 					jtIdentifiant.setForeground(new Color(0,0,0));
 					jtIdentifiant.setBorder(border);
 				}
@@ -84,9 +93,8 @@ public class AuthentificationView extends JPanel{
 				@Override
 				public void focusLost(FocusEvent arg0) {
 					if(jtIdentifiant.getText().trim().length()==0){
-						
 						jtIdentifiant.setText(defaut);
-						jtIdentifiant.setFont(new Font("TimesRoman",Font.ITALIC, 20));
+						jtIdentifiant.setFont(new Font("TimesRoman",Font.ITALIC, 15));
 						jtIdentifiant.setForeground(placeholder);
 						
 					}
@@ -112,7 +120,7 @@ public class AuthentificationView extends JPanel{
 			jpMotdepasse.setBackground(new Color(255, 255, 255));
 			jpMotdepasse.setHorizontalAlignment(JTextField.CENTER);
 			jpMotdepasse.setText(defaut);
-			jpMotdepasse.setFont(new Font("TimesRoman",Font.ITALIC, 20));
+			jpMotdepasse.setFont(new Font("TimesRoman",Font.ITALIC, 15));
 			jpMotdepasse.setForeground(placeholder);
 		}
 		char defaut_char = jpMotdepasse.getEchoChar();
@@ -123,27 +131,22 @@ public class AuthentificationView extends JPanel{
 			public void focusGained(FocusEvent arg0) {
 				jpMotdepasse.setEchoChar(defaut_char);
 				jpMotdepasse.setText("");
-				jpMotdepasse.setFont(new Font("TimesRoman", Font.PLAIN, 25));
+				jpMotdepasse.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 				jpMotdepasse.setForeground(new Color(0,0,0));
 				jpMotdepasse.setBorder(border);
 			}
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				if(jpMotdepasse.getText().trim().length()==0){
-					
+				if(jpMotdepasse.getPassword().toString().trim().length()==0){
 					jpMotdepasse.setEchoChar('\0');
 					jpMotdepasse.setText(defaut);
-					jpMotdepasse.setFont(new Font("TimesRoman",Font.ITALIC, 20));
+					jpMotdepasse.setFont(new Font("TimesRoman",Font.ITALIC, 15));
 					jpMotdepasse.setForeground(placeholder);
-					
 				}
 				jpMotdepasse.setBorder(border_defaut);
 			}
-			
 		});
-		
-		
 		return jpMotdepasse;
 	}
 
@@ -165,21 +168,28 @@ public class AuthentificationView extends JPanel{
 		return btnValider;
 	}
 	
-	private JComboBox getjcquestion()
+	private JComboBox<String> getjcquestion()
 	{
 		if(jcUtilisateur == null)
 		{
 			String[] tab = {"Admin", "Etudiant", "Enseignant"};
-			jcUtilisateur = new JComboBox(tab);
+			jcUtilisateur = new JComboBox<String>(tab);
 			jcUtilisateur.setSelectedIndex(0);
 			jcUtilisateur.setSize(new Dimension(450, 35));
 			jcUtilisateur.setLocation(new Point(180, 185));
 			jcUtilisateur.setBackground(new Color(255, 255, 255));
-			jcUtilisateur.setFont(new Font("TimesRoman",Font.ITALIC, 20));
+			jcUtilisateur.setFont(new Font("TimesRoman",Font.ITALIC, 15));
 		}
 		return jcUtilisateur;
 	}
 	
-	
+	/**
+	 * Affiche le composant
+	 * @param le paramétre graphique
+	 */
+	public void paint(Graphics g){
+		g.drawImage(interfaceUtilisateur.loadImage("RechercheViewImage.jpg"), 0, 0,(int)getBounds().getWidth(), (int)getBounds().getHeight(), this);
+		super.paint(g);
+	}
 	
 }
