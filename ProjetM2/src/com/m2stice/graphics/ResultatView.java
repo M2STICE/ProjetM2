@@ -15,7 +15,17 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import com.m2stice.model.Diplome;
-
+/*
+ * Classe ResultatView
+ */
+/**
+ * ResultatView - Génère la vue des résultats de la recherche
+ * @author Emmanuel
+ * @version 1.0
+ * @version 1.0
+ * @copyright (C) Master 2 2015
+ * @date 03/12/2015
+ */
 public class ResultatView extends JPanel {
 
 	/**
@@ -71,6 +81,7 @@ public class ResultatView extends JPanel {
 		bloc.setOpaque(false);
 		bloc.setVisible(true);
 		
+		//Agencement de la vue
 		this.add(bloc,BorderLayout.CENTER);
 	}
 	
@@ -111,19 +122,16 @@ public class ResultatView extends JPanel {
 			jl.setPreferredSize(new Dimension(1024,40));
 			jl.setOpaque(true);
 			jl.setFont(new Font("Gill Sans MT",Font.BOLD,20));
-			//jl.setForeground(Color.WHITE);
 			jl.setBackground(Color.decode("#66a8da"));
 			jl.addMouseListener(new MouseListener() {
 				
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 				
 				@Override
 				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 				
@@ -141,7 +149,6 @@ public class ResultatView extends JPanel {
 				
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 			});

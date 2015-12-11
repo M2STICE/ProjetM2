@@ -45,14 +45,14 @@ public class RechercheView extends JPanel {
 	
 	private JPanel bloc = new JPanel();								//Bloc container transparent
 	private JTextField rechercheTextField = new JTextField();		//Zone saisie de la recherche
-	private RechercheViewListener rechercheViewListener;
+	private RechercheViewListener rechercheViewListener;			//Controler de la vue
 	
 	/**
 	 * Mise en place de la vue
 	 */
 	public void init(){
 		//Paramétrage de la vue
-		rechercheViewListener = new RechercheViewListener(interfaceUtilisateur, this);
+		this.rechercheViewListener = new RechercheViewListener(interfaceUtilisateur, this);
 		this.setVisible(true);
 		this.setOpaque(false);
 		
@@ -71,6 +71,7 @@ public class RechercheView extends JPanel {
 		bloc.setOpaque(false);
 		bloc.setVisible(true);
 		
+		//Agencement de la vue
 		this.add(bloc);	
 	}
 	

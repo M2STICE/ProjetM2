@@ -5,7 +5,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Toolkit;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.m2stice.controller.Controller;
@@ -21,15 +24,14 @@ import com.m2stice.controller.Controller;
 *
 * Copyright : Emmanuel
 */
-
 /**
  * 
- * Fenetre - Classe qui va générer l'interface graphique du système.
+ * Interface - Classe qui va générer l'interface graphique du système.
  * @author Emmanuel
  * @version 1.0
  * @copyright (C) Master 2 2015
  * @date 03/12/2015
- * @notes Elle va être utiliser dans le main.
+ * @notes Elle va créer l'interface utilisateur.
  *
  */
 public class Interface extends Applet {
@@ -38,18 +40,18 @@ public class Interface extends Applet {
 	private Controller controller;
 	
 	/**
-	 * Num�ro de s�rie
+	 * Numéro de série
 	 */
 	private static final long serialVersionUID = 971L;
 	
 	/**
-	 * M�thode appel�e par le navigateur lorsque l'applet est charg�e
+	 * Méthode appelée par le navigateur lorsque l'applet est chargée
 	 */
 	public void init(){
 		this.controller = new Controller();
 		super.init();
 		
-		//Param�trage de l'applet
+		//Paramétrage de l'applet
 		this.blocPrincipal = new RechercheView(this);
 		this.setLayout(new BorderLayout());
 		this.setSize(1024,768);
@@ -60,7 +62,7 @@ public class Interface extends Applet {
 	}
 	
 	/**
-	 * M�thode qui red�fini la taille
+	 * Méthode qui redéfini la taille
 	 */
 	public void setSize(int largeur, int hauteur){
 		super.setSize(largeur, hauteur);
@@ -119,5 +121,17 @@ public class Interface extends Applet {
 		this.resize(1025,768);
 		this.resize(1024,768);
 	}
-
+	
+	/**
+	 * Permet d'afficher un message d'erreur
+	 */
+	public void showMessageAlert(String text){
+	    Toolkit.getDefaultToolkit().beep();
+	    JOptionPane optionPane = new JOptionPane(text,JOptionPane.WARNING_MESSAGE);
+	    JDialog dialog = optionPane.createDialog("Attention!");
+	    dialog.setAlwaysOnTop(true);
+	    //this.add(dialog);
+	    dialog.setVisible(true);
+	    
+	}
 }

@@ -9,6 +9,15 @@ import com.m2stice.graphics.RechercheView;
 import com.m2stice.graphics.ResultatView;
 import com.m2stice.model.Diplome;
 
+
+/**
+ *Classe RechercheViewListener qui gère les actions 
+ *@author Emmanuel
+ *@version 1.0
+ *@version 1.0
+ *@copyright (C) Master 2 2015
+ *@date 03/12/2015
+ */
 public class RechercheViewListener {
 	
 	private Interface interfaceUtilisateur;
@@ -39,11 +48,14 @@ public class RechercheViewListener {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				 if (e.getKeyCode()==KeyEvent.VK_ENTER){
-					 	diplomes = interfaceUtilisateur.getController().getDiplome("SELECT * FROM DIPLOME WHERE NOM_DIPLOME LIKE '%"+rechercheView.getRecherche()+"%' ;");
+					 	diplomes = interfaceUtilisateur.getController().getDiplome("SELECT * FROM DIPLOME WHERE NOM_DIPLOME LIKE '%"+rechercheView.getRecherche()+"%' AND NOM_DIPLOME NOT LIKE '%null%';");
 					 	resultatView = new ResultatView(interfaceUtilisateur);
 					 	resultatView.setEntete(rechercheView.getRecherche(),diplomes.size());
 					 	resultatView.setResultat(diplomes);
 				        interfaceUtilisateur.setBlocPrincipal(resultatView);
+				 }
+				 if (e.getKeyCode()==KeyEvent.VK_SPACE){
+					 interfaceUtilisateur.showMessageAlert("Alert!!!");
 				 }
 				
 			}
