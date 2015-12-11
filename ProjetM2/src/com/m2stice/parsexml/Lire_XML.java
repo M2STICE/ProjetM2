@@ -51,7 +51,7 @@ public class Lire_XML {
 	{		
 	    // Créer un SAXBuilder pour pouvoir parser le fichier
 	    SAXBuilder builder = new SAXBuilder();
-	    File xmlFile = new File("competences.xml");
+	    File xmlFile = new File("competences_1.xml");
 	    try
 	    {
 	    	Controller monController = new Controller();
