@@ -1,9 +1,16 @@
 package com.m2stice.utils;
 
 /**
- * @author 
- *
- */
+*  Requetes - ENUM
+*
+* @version 1.1
+*
+* @author ASDRUBAL & NERES
+* @copyright (C) Master 2 2015
+* @date 11/12/2015
+* 
+*/
+
 public enum Requetes {
 	
 	FORMATION("SELECT * from diplome"),

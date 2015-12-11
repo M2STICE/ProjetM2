@@ -16,6 +16,18 @@ import com.m2stice.model.Semestre;
 import com.m2stice.model.Ue;
 import com.m2stice.utils.Requetes;
 
+/**
+*  Syllabus - Classe d'affichage de la partie syllabus
+*
+* @version 1.1
+*
+* @author ASDRUBAL & NERES
+* @copyright (C) Master 2 2015
+* @date 11/12/2015
+* @see Requetes
+* 
+*/
+
 public class SyllabusView extends JPanel {
 
 	/**
@@ -95,6 +107,7 @@ public class SyllabusView extends JPanel {
 	       tree = new JTree(root);
 	       this.add(new JScrollPane(tree));
 	}
+	
 	/**
 	 * Constructeur de la vue 
 	 * @param interfaceUtilisateur
