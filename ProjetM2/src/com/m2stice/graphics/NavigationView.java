@@ -1,6 +1,7 @@
 package com.m2stice.graphics;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -18,13 +19,15 @@ public class NavigationView extends JPanel {
 	 */
 	private static final long serialVersionUID = 971L;
 	
-	private String mouseMode = "click"; 			//Type de pointeur (click ou zoom_plus ou zoom_moins)
+	//private String mouseMode = "click"; 			//Type de pointeur (click ou zoom_plus ou zoom_moins)
 	
 	private Interface interfaceUtilisateur;			//Liaison avec l'applet
 	private JPanel bloc = new JPanel();				//Bloc de container transparent
 	private JPanel blocEntete = new JPanel();   	//Bloc de l'entete
 	private JPanel blocCommande = new JPanel(); 	//Bloc qui contient les boutons
 	private JButton clickButton = new JButton();
+	private JButton zoomPlusButton = new JButton();
+	private JButton zoomMoinsButton = new JButton();
 	private BanniereComponent banniere;				//Bannière de la fenêtre
 	
 	public void init(){
@@ -36,9 +39,20 @@ public class NavigationView extends JPanel {
 		//
 		clickButton.setPreferredSize(new Dimension(50,50));
 		clickButton.setIcon(new ImageIcon(interfaceUtilisateur.loadImage("BoutonFlecheIcon.png")));
+		clickButton.setBackground(Color.LIGHT_GRAY);
+		//
+		zoomPlusButton.setPreferredSize(new Dimension(50,50));
+		zoomPlusButton.setIcon(new ImageIcon(interfaceUtilisateur.loadImage("BoutonZoomPlusIcon.png")));
+		zoomPlusButton.setBackground(Color.LIGHT_GRAY);
+		//
+		zoomMoinsButton.setPreferredSize(new Dimension(50,50));
+		zoomMoinsButton.setIcon(new ImageIcon(interfaceUtilisateur.loadImage("BoutonZoomMoinsIcon.png")));
+		zoomMoinsButton.setBackground(Color.LIGHT_GRAY);
 		//
 		blocCommande.setLayout(new FlowLayout());
 		blocCommande.setPreferredSize(new Dimension(1024,60));
+		blocCommande.add(zoomMoinsButton,FlowLayout.LEFT);
+		blocCommande.add(zoomPlusButton,FlowLayout.LEFT);
 		blocCommande.add(clickButton,FlowLayout.LEFT);
 		//
 		blocEntete.setLayout(new BorderLayout());
