@@ -86,14 +86,14 @@ public class Controller {
 	 * Classe qui permet d'interfacer la base de donnees
 	 */
 	public Controller() {
-		databaseName = "u960093295_stice";
-		username = "u960093295_m2";
-		pass = "pm2_2015";
-		server = "sql37.hostinger.fr";
-//		databaseName = "m2stice";
-//		username = "root";
-//		pass = "";
-//		server = "localhost";
+//		databaseName = "u960093295_stice";
+//		username = "u960093295_m2";
+//		pass = "pm2_2015";
+//		server = "sql37.hostinger.fr";
+		databaseName = "m2stice";
+		username = "root";
+		pass = "";
+		server = "localhost";
 		setConnection(new DatabaseAccess(username, pass, server, databaseName));
 	}
 	
@@ -349,6 +349,15 @@ public class Controller {
 		
 		System.out.println("Nou fini");
 		
+	}
+	
+	/**
+	 * Fonction permettant de demander la supression de l'accèes à la base de donnée (A utiliser lors de la fermeture de l'applet)
+	 */
+	
+	public void closeConnection() {
+		connection.closeAccess();
+		System.out.println("[Log-DATABASE_ACCESS]: Accèss à la base de donnée fermé.");
 	}
 
 
