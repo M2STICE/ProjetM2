@@ -52,7 +52,7 @@ public class Interface extends Applet {
 		super.init();
 		
 		//Paramétrage de l'applet
-		this.blocPrincipal = new NavigationView(this);
+		this.blocPrincipal = new AuthentificationView(this);
 		this.setLayout(new BorderLayout());
 		this.setSize(1024,768);
 		this.setBackground(Color.GRAY);
