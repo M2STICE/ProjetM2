@@ -158,7 +158,7 @@ public class ResultatView extends JPanel {
 				
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					
+					resultatViewListener.getNavigationView(d);
 				}
 			});
 			this.blocResultat.add(jl);

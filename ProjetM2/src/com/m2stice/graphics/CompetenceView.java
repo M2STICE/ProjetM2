@@ -1,11 +1,15 @@
 package com.m2stice.graphics;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import com.m2stice.controller.NavigationViewListener;
 import com.m2stice.model.Domaine;
 
 /**
@@ -23,27 +27,23 @@ public class CompetenceView extends JPanel {
 	 * Numéro de série
 	 */
 	private static final long serialVersionUID = 971L;
+	private JScrollPane blocInferrieure;
+	public JPanel bloc = new JPanel();
 	
-	private String titreDomaine[];
-	private String titreCompetence[];
-	private String titreItem[];
-	private String titreEc[];
-	private String titreSousItem[];
-	private String titreEvaluation[];
-	
-	private JTable tableauDomaine;
+	public JTable tableauDomaine;
 	private JTable tableauCompetence;
 	private JTable tableauItem;
 	private JTable tableauEC;
 	private JTable tableauSousItem;
 	private JTable tableauEvaluation;
 	
-	Object[][] donneesDomaine;
+	private Object[][] donneesDomaine;
 	Object[][] donneesCompetence;
 	Object[][] donneesItem;
 	Object[][] donneesEC;
 	Object[][] donneesSousItem;
 	Object[][] donneesEvaluation;
+	
 	
 	private Interface interfaceUtilisateur;						//Liaison avec l'interface
 	
@@ -51,13 +51,12 @@ public class CompetenceView extends JPanel {
 	 * Création de la vue
 	 */
 	public void init(){
-		titreDomaine[0] = "Domaines de compétences";
-		titreCompetence[0] = "Compétences";
-		titreItem[0] = "Items";
-		titreEc[0] = "EC";
-		titreSousItem[0] = "Sous Items";
-		titreEvaluation[0] = "Evaluations";
 		
+		this.setLayout(new BorderLayout());
+		bloc.setLayout(new FlowLayout(FlowLayout.LEADING));
+		blocInferrieure = new JScrollPane(bloc);
+		blocInferrieure.setBackground(Color.WHITE);
+		this.add(blocInferrieure,BorderLayout.CENTER);
 	}
 	
 	/**
@@ -73,10 +72,14 @@ public class CompetenceView extends JPanel {
 		donneesDomaine = new Object[ld.size()][1];
 		int cpt = 0;
 		for(Domaine d:ld){
-			donneesDomaine[cpt][0] = d.getNom();
+			System.out.println(d.getNom());
+			donneesDomaine[cpt][0] = d.getNom().toUpperCase();
 			cpt++;
 		}
-		tableauDomaine = new JTable(donneesDomaine,titreDomaine);
+		String[] titre = {"Domaines de compétences"};
+		tableauDomaine = new JTable(donneesDomaine,titre);
+		tableauDomaine.setPreferredSize(new Dimension(50,1000));
+		this.bloc.add(new JScrollPane(tableauDomaine));
 	}
 
 }

@@ -110,6 +110,7 @@ public class NavigationView extends JPanel {
 		//
 		competenceView = new CompetenceView(interfaceUtilisateur);
 		navigationViewListener.setCompetenceView(competenceView);
+		navigationViewListener.setDomaine();
 		//
 		blocCompetences.setBackground(Color.WHITE);
 		blocCompetences.setLayout(new BorderLayout());
@@ -136,8 +137,9 @@ public class NavigationView extends JPanel {
 		this.add(bloc,BorderLayout.CENTER);
 	}
 	
-	public NavigationView(Interface interfaceUtilisateur){
+	public NavigationView(Interface interfaceUtilisateur,Diplome diplome){
 		this.interfaceUtilisateur = interfaceUtilisateur;
+		this.diplome_courant = diplome;
 		this.init();
 	}
 	
