@@ -1,13 +1,17 @@
 package com.m2stice.graphics;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 import com.m2stice.controller.Controller;
 import com.m2stice.model.Annee;
@@ -108,6 +112,24 @@ public class SyllabusView extends JPanel {
 			
 	       tree = new JTree(root);
 	       tree.setRootVisible(false);
+	       tree.setCellRenderer(new  DefaultTreeCellRenderer(){
+	    	   public Component getTreeCellRendererComponent(JTree tree,
+	    			   Object value, 
+	    			   boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus){
+	    		    	   
+	    		 super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+	    		   DefaultMutableTreeNode node = (DefaultMutableTreeNode)value; ;
+	    		   if(node.getParent()!=null){
+	    			   if(((DefaultMutableTreeNode) node.getParent()).isRoot())
+	    				   this.setIcon(new ImageIcon((interfaceUtilisateur.loadImage("puce2.png"))));
+	    		   }
+	    		   
+	    		   return this;
+	    	   }
+	       });
+	       DefaultTreeCellRenderer puce  = (DefaultTreeCellRenderer) tree.getCellRenderer();
+	       Icon image = new ImageIcon((interfaceUtilisateur.loadImage("puce3.png")));
+	       puce.setLeafIcon(image);
 	       this.add(new JScrollPane(tree),BorderLayout.CENTER);
 	}
 	
