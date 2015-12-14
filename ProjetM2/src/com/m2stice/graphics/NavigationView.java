@@ -47,12 +47,12 @@ public class NavigationView extends JPanel {
 	private BanniereComponent banniere;					//Bannière de la fenêtre
 	private NavigationViewListener navigationViewListener;
 	
-	public Diplome diplome_courant;
-	public Domaine domaine_courant;
-	public Competence competence_courante;
-	public Ue ue_courante;
-	public Ec ec_courant;
-	public SousItem sous_item_courant;
+	public Diplome diplomeCourant;
+	public Domaine domaineCourant;
+	public Competence competenceCourante;
+	public Ue ueCourante;
+	public Ec ecCourant;
+	public SousItem sousItemCourant;
 	
 	
 	public void init(){
@@ -150,7 +150,7 @@ public class NavigationView extends JPanel {
 	
 	public NavigationView(Interface interfaceUtilisateur,Diplome diplome){
 		this.interfaceUtilisateur = interfaceUtilisateur;
-		this.diplome_courant = diplome;
+		this.diplomeCourant = diplome;
 		this.init();
 	}
 	
