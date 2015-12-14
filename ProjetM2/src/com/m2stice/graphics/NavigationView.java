@@ -14,7 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.m2stice.controller.NavigationViewListener;
+import com.m2stice.model.Competence;
 import com.m2stice.model.Diplome;
+import com.m2stice.model.Domaine;
+import com.m2stice.model.Ec;
+import com.m2stice.model.SousItem;
+import com.m2stice.model.Ue;
 /**
  * 
  * @author Emmanuel
@@ -43,6 +48,12 @@ public class NavigationView extends JPanel {
 	private NavigationViewListener navigationViewListener;
 	
 	public Diplome diplome_courant;
+	public Domaine domaine_courant;
+	public Competence competence_courante;
+	public Ue ue_courante;
+	public Ec ec_courant;
+	public SousItem sous_item_courant;
+	
 	
 	public void init(){
 		

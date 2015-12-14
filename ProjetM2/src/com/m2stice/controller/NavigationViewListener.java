@@ -36,5 +36,44 @@ public class NavigationViewListener {
 		competenceView.setDomaineJTable(interfaceUtilisateur.getController().getDomaine(requete));
 	}
 	
+	public void setCompetence()
+	{
+		int codeDomaine = navigationView.domaine_courant.getCode();
+		String requete = "select * from competence "
+				+ "where competence.code_domaine = " + codeDomaine + ";";
+		
+	}
+	
+	public void setItem()
+	{
+		int codeCompetence = navigationView.competence_courante.getCode();
+		String requete = "select * from item "
+				+ "where item.code_competence = " + codeCompetence + ";";
+		
+	}
+	
+	public void setEc()
+	{
+		int codeUe = navigationView.ue_courante.getCode();
+		String requete = "select * from ec "
+				+ "where Ec.code_ue = " + codeUe + ";";
+		
+	}
+	
+	public void setSousItem()
+	{
+		int codeEc = navigationView.ec_courant.getCode();
+		String requete = "select * from sous_item"
+				+ "where sous_item.code_ec = " + codeEc + ";";
+		
+	}
+	
+	public void setEvaluation()
+	{
+		int codeSousItem = navigationView.sous_item_courant.getCode();
+		String requete = "select * from evaluation "
+				+ "where evaluation.code_sous_item = " + codeSousItem + ";";
+		
+	}
 
 }
