@@ -113,7 +113,12 @@ public class SyllabusView extends JPanel {
 	       tree = new JTree(root);
 	       tree.setRootVisible(false);
 	       tree.setCellRenderer(new  DefaultTreeCellRenderer(){
-	    	   public Component getTreeCellRendererComponent(JTree tree,
+	    	 /**
+			 * Numéro de série
+			 */
+			private static final long serialVersionUID = 9711L;
+
+			public Component getTreeCellRendererComponent(JTree tree,
 	    			   Object value, 
 	    			   boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus){
 	    		    	   

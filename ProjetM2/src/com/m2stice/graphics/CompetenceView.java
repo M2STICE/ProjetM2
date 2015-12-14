@@ -72,7 +72,7 @@ public class CompetenceView extends JPanel {
 		donneesDomaine = new Object[ld.size()][1];
 		int cpt = 0;
 		for(Domaine d:ld){
-			System.out.println(d.getNom());
+			//System.out.println(d.getNom());
 			donneesDomaine[cpt][0] = d.getNom().toUpperCase();
 			cpt++;
 		}
