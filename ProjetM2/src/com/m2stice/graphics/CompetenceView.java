@@ -30,7 +30,7 @@ public class CompetenceView extends JPanel {
 	private JScrollPane blocInferrieure;
 	public JPanel bloc = new JPanel();
 	
-	public JTable tableauDomaine;
+	private JTable tableauDomaine;
 	private JTable tableauCompetence;
 	private JTable tableauItem;
 	private JTable tableauEC;
