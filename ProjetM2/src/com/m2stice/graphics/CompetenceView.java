@@ -30,12 +30,12 @@ public class CompetenceView extends JPanel {
 	private JScrollPane blocInferrieure;
 	public JPanel bloc = new JPanel();
 	
-	private JTable tableauDomaine;
-	private JTable tableauCompetence;
-	private JTable tableauItem;
-	private JTable tableauEC;
-	private JTable tableauSousItem;
-	private JTable tableauEvaluation;
+	private JTableNotEditable tableauDomaine;
+	private JTableNotEditable tableauCompetence;
+	private JTableNotEditable tableauItem;
+	private JTableNotEditable tableauEC;
+	private JTableNotEditable tableauSousItem;
+	private JTableNotEditable tableauEvaluation;
 	
 	private Object[][] donneesDomaine;
 	Object[][] donneesCompetence;
@@ -77,7 +77,7 @@ public class CompetenceView extends JPanel {
 			cpt++;
 		}
 		String[] titre = {"Domaines de compétences"};
-		tableauDomaine = new JTable(donneesDomaine,titre);
+		tableauDomaine = new JTableNotEditable(donneesDomaine,titre);
 		tableauDomaine.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauDomaine));
 	}
