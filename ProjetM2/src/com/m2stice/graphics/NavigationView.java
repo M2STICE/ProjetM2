@@ -12,7 +12,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+
+import com.m2stice.controller.NavigationViewListener;
+import com.m2stice.model.Diplome;
 /**
  * 
  * @author Emmanuel
@@ -33,12 +35,18 @@ public class NavigationView extends JPanel {
 	private JPanel blocSyllabus = new JPanel();			//Bloc qui contient l'arborescence syllabus
 	private JPanel blocCompetences = new JPanel();		//Bloc qui contient l'arborescence des compétences
 	private SyllabusView syllabusView;
+	private CompetenceView competenceView;
 	private JButton clickButton = new JButton();
 	private JButton zoomPlusButton = new JButton();
 	private JButton zoomMoinsButton = new JButton();
 	private BanniereComponent banniere;					//Bannière de la fenêtre
+	private NavigationViewListener navigationViewListener;
+	
+	public Diplome diplome_courant;
 	
 	public void init(){
+		
+		navigationViewListener = new NavigationViewListener(interfaceUtilisateur, this);
 		
 		//Paramètrage des composants
 		//
@@ -100,6 +108,9 @@ public class NavigationView extends JPanel {
 		blocSyllabus.add(titreSyllabus,BorderLayout.NORTH);
 		blocSyllabus.add(syllabusView,BorderLayout.CENTER);
 		//
+		competenceView = new CompetenceView(interfaceUtilisateur);
+		navigationViewListener.setCompetenceView(competenceView);
+		//
 		blocCompetences.setBackground(Color.WHITE);
 		blocCompetences.setLayout(new BorderLayout());
 		JLabel titreCompetences = new JLabel("   Compétences");
@@ -108,7 +119,7 @@ public class NavigationView extends JPanel {
 		titreCompetences.setOpaque(true);
 		titreCompetences.setBackground(Color.decode("#3752c3"));
 		blocCompetences.add(titreCompetences,BorderLayout.NORTH);
-		blocCompetences.add(new JScrollPane(),BorderLayout.CENTER);
+		blocCompetences.add(competenceView,BorderLayout.CENTER);
 		//
 		bloc.setLayout(new BorderLayout());
 		bloc.add(blocEntete,BorderLayout.NORTH);
