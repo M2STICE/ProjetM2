@@ -1,9 +1,12 @@
 package com.m2stice.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Properties;
 
 import com.m2stice.adapter.AnneeAdapter;
 import com.m2stice.adapter.CompetenceAdapter;
@@ -19,6 +22,7 @@ import com.m2stice.adapter.PromotionAdapter;
 import com.m2stice.adapter.SemestreAdapter;
 import com.m2stice.adapter.SousItemAdapter;
 import com.m2stice.adapter.UeAdapter;
+import com.m2stice.graphics.Interface;
 import com.m2stice.model.Annee;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Diplome;
@@ -82,21 +86,43 @@ public class Controller {
 	private UeAdapter ue ;
 	private PromotionAdapter promotion ;
 	
+	private Properties propriete = new Properties();
+	InputStream input = null;
 	/**
 	 * Classe qui permet d'interfacer la base de donnees
 	 */
+	private Interface mainInterface;
+	
 	public Controller() {
-		databaseName = "u960093295_stice";
-		username = "u960093295_m2";
-		pass = "pm2_2015";
-		server = "sql37.hostinger.fr";
+//		databaseName = "u960093295_stice";
+//		username = "u960093295_m2";
+//		pass = "pm2_2015";
+//		server = "sql37.hostinger.fr";
 //		databaseName = "m2stice";
 //		username = "root";
 //		pass = "";
 //		server = "localhost";
-		setConnection(new DatabaseAccess(username, pass, server, databaseName));
 	}
 	
+	
+	public void getProperties() {
+		try {
+			input = mainInterface.loadFile("config.db").openStream();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			propriete.load(input);
+			databaseName = propriete.getProperty("databaseName");
+			username = propriete.getProperty("username");
+			pass = propriete.getProperty("password");
+			server = propriete.getProperty("server");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		setConnection(new DatabaseAccess(username, pass, server, databaseName));
+	}
+
 	/**
 	 * Cette fonction va recuperer les objets de type Annee dans la base de donnee
 	 * @param getRequete
@@ -360,5 +386,44 @@ public class Controller {
 		System.out.println("[Log-DATABASE_ACCESS]: Accèss à la base de donnée fermé.");
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+	public String getServer() {
+		return server;
+	}
+
+	public void setServer(String server) {
+		this.server = server;
+	}
+
+	public String getDatabaseName() {
+		return databaseName;
+	}
+
+	public void setDatabaseName(String databaseName) {
+		this.databaseName = databaseName;
+	}
+
+	public Interface getMainInterface() {
+		return mainInterface;
+	}
+
+	public void setMainInterface(Interface mainInterface) {
+		this.mainInterface = mainInterface;
+	}
 
 }

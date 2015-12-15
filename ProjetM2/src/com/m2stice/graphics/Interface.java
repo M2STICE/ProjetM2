@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -32,7 +34,8 @@ import com.m2stice.controller.Controller;
  * @copyright (C) Master 2 2015
  * @date 03/12/2015
  * @notes Elle va créer l'interface utilisateur.
- *
+ * @revision 15/12/2015
+ * ASDRUBAL & NERES
  */
 public class Interface extends Applet {
 	
@@ -49,6 +52,8 @@ public class Interface extends Applet {
 	 */
 	public void init(){
 		this.controller = new Controller();
+		controller.setMainInterface(this);
+		controller.getProperties();
 		super.init();
 		
 		//Paramétrage de l'applet
@@ -105,6 +110,20 @@ public class Interface extends Applet {
 		return getImage(getCodeBase(), "../res/"+nomImage);
 	}
 
+	/**
+	 * 
+	 * @param nomFile
+	 * @return
+	 */
+	public URL loadFile(String nomFile){
+		try {
+			return new URL(getCodeBase(), "../" + nomFile);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	/**
 	 * @return the controller
 	 */
