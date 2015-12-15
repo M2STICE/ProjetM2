@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -32,7 +34,8 @@ import com.m2stice.controller.Controller;
  * @copyright (C) Master 2 2015
  * @date 03/12/2015
  * @notes Elle va créer l'interface utilisateur.
- *
+ * @revision 15/12/2015
+ * ASDRUBAL & NERES
  */
 public class Interface extends Applet {
 	
@@ -51,14 +54,6 @@ public class Interface extends Applet {
 		this.controller = new Controller();
 		super.init();
 		
-		//Paramétrage de l'applet
-		this.blocPrincipal = new RechercheView(this);
-		this.setLayout(new BorderLayout());
-		this.setSize(1024,768);
-		this.setBackground(Color.GRAY);
-		this.add(blocPrincipal,BorderLayout.CENTER);
-		this.setMinimumSize(new Dimension(1024,768));
-		this.setVisible(false);
 	}
 	
 	/**
@@ -72,10 +67,29 @@ public class Interface extends Applet {
 	 * Lance l'applet dans le navigateur
 	 */
 	public void start(){
+		controller.setMainInterface(this);
+		controller.getProperties();
+		
+		//Paramétrage de l'applet
+		this.blocPrincipal = new RechercheView(this);
+		this.setLayout(new BorderLayout());
+		this.setSize(1024,768);
+		this.setBackground(Color.GRAY);
+		this.add(blocPrincipal,BorderLayout.CENTER);
+		this.setMinimumSize(new Dimension(1024,768));
+		this.setVisible(false);
+		
 		this.setMinimumSize(new Dimension(1024, 768));
 		this.setVisible(true);
 	}
 	
+//	public void stop(){
+//		System.out.println("stop");
+//	}
+	
+	public void destroy(){
+		controller.closeConnection();
+	}
 
 	/**
 	 * getBlocPrincipale
@@ -105,6 +119,20 @@ public class Interface extends Applet {
 		return getImage(getCodeBase(), "../res/"+nomImage);
 	}
 
+	/**
+	 * 
+	 * @param nomFile
+	 * @return
+	 */
+	public URL loadFile(String nomFile){
+		try {
+			return new URL(getCodeBase(), "../res/" + nomFile);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	/**
 	 * @return the controller
 	 */

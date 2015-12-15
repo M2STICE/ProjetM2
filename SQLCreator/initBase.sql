@@ -233,3 +233,12 @@ create table sous_item_evaluation(
 	foreign key(code_evaluation) references evaluation(code_evaluation)
 )
 ENGINE=INNODB;
+
+/*Création table administrateur*/
+create table administrateur(
+	code_administrateur int not null auto_increment,
+	nom_administrateur varchar(255),
+	mot_de_passe_administrateur varchar(100),
+	primary key (code_administrateur)
+)
+ENGINE=INNODB;
