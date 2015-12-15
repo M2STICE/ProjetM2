@@ -1,5 +1,8 @@
 package com.m2stice.controller;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import com.m2stice.graphics.CompetenceView;
 import com.m2stice.graphics.Interface;
 import com.m2stice.graphics.NavigationView;
@@ -70,5 +73,5 @@ public class NavigationViewListener {
 				+ "where evaluation.code_sous_item = " + codeSousItem + ";";
 		competenceView.setEvaluationJTable(interfaceUtilisateur.getController().getEvaluation(requete));
 	}
-
+	
 }
