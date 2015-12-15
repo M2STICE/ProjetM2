@@ -158,7 +158,7 @@ public class DatabaseInfoView extends JPanel{
 				System.out.println(server.getText());
 				System.out.println(databaseName.getText());
 				try {
-					output = new FileOutputStream("config.db");
+					output = new FileOutputStream("../res/config.db");
 					propriete.setProperty("username", username.getText());
 					propriete.setProperty("password", password.getText());
 					propriete.setProperty("server", server.getText());

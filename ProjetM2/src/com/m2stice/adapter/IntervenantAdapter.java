@@ -47,7 +47,7 @@ public class IntervenantAdapter {
 		if (resultat != null) {
 			try {
 				while(resultat.next()){
-					list.add(new Intervenant(resultat.getInt("code_intervenant"), resultat.getString("nom_intervenant"), resultat.getString("mot_de_passe")));
+					list.add(new Intervenant(resultat.getInt("code_intervenant"), resultat.getString("nom_intervenant"), resultat.getString("prenom_intervenant"), resultat.getString("mot_de_passe")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

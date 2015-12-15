@@ -33,8 +33,8 @@ public class AuthentificationView extends JPanel{
 	private JButton btnValider;
 	private JComboBox<String> jcUtilisateur;
 	private Interface interfaceUtilisateur;	
-	private JPasswordField JP = new JPasswordField();
-	private Border border_defaut = JP.getBorder();
+	private JPasswordField jpDefaut = new JPasswordField();
+	private Border border_defaut = jpDefaut.getBorder();
 	private JPanel bloc = new JPanel();
 	
 	public void init(){
@@ -181,6 +181,30 @@ public class AuthentificationView extends JPanel{
 			jcUtilisateur.setFont(new Font("TimesRoman",Font.ITALIC, 15));
 		}
 		return jcUtilisateur;
+	}
+	
+	/**
+	 * Permet d'avoir le nom d'utilisateur
+	 * @return le nom qu'a saisi l'utilisateur
+	 */
+	public String getNomUtilisateur(){
+		return jtIdentifiant.getText();
+	}
+	
+	/**
+	 * Permet d'avoir le mot de passe
+	 * @return le mot de passe qu'a saisi l'utilisateur
+	 */
+	public String getMotDePasse(){
+		return new String(jpMotdepasse.getPassword());
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getUtilisateur(){
+		return jcUtilisateur.getSelectedItem().toString();
 	}
 	
 	/**

@@ -54,14 +54,6 @@ public class Interface extends Applet {
 		this.controller = new Controller();
 		super.init();
 		
-		//Paramétrage de l'applet
-		this.blocPrincipal = new RechercheView(this);
-		this.setLayout(new BorderLayout());
-		this.setSize(1024,768);
-		this.setBackground(Color.GRAY);
-		this.add(blocPrincipal,BorderLayout.CENTER);
-		this.setMinimumSize(new Dimension(1024,768));
-		this.setVisible(false);
 	}
 	
 	/**
@@ -77,6 +69,16 @@ public class Interface extends Applet {
 	public void start(){
 		controller.setMainInterface(this);
 		controller.getProperties();
+		
+		//Paramétrage de l'applet
+		this.blocPrincipal = new RechercheView(this);
+		this.setLayout(new BorderLayout());
+		this.setSize(1024,768);
+		this.setBackground(Color.GRAY);
+		this.add(blocPrincipal,BorderLayout.CENTER);
+		this.setMinimumSize(new Dimension(1024,768));
+		this.setVisible(false);
+		
 		this.setMinimumSize(new Dimension(1024, 768));
 		this.setVisible(true);
 	}
@@ -124,7 +126,7 @@ public class Interface extends Applet {
 	 */
 	public URL loadFile(String nomFile){
 		try {
-			return new URL(getCodeBase(), "../" + nomFile);
+			return new URL(getCodeBase(), "../res/" + nomFile);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
