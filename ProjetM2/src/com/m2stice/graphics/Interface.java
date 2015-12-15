@@ -68,10 +68,13 @@ public class Interface extends Applet {
 	 */
 	public void start(){
 		controller.setMainInterface(this);
-		controller.getProperties();
+		if(!controller.getProperties())
+			this.blocPrincipal = new DatabaseInfoView(this);
+		else
+			this.blocPrincipal = new RechercheView(this);
 		
 		//Paramétrage de l'applet
-		this.blocPrincipal = new RechercheView(this);
+		
 		this.setLayout(new BorderLayout());
 		this.setSize(1024,768);
 		this.setBackground(Color.GRAY);
