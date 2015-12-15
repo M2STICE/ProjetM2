@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import com.m2stice.adapter.AnneeAdapter;
 import com.m2stice.adapter.CompetenceAdapter;
 import com.m2stice.adapter.DiplomeAdapter;
@@ -109,7 +111,7 @@ public class Controller {
 		try {
 			input = mainInterface.loadFile("config.db").openStream();
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Impossible de se connecter à la base \nVeuillez vérifier vos informations de connexion.", "database access error", JOptionPane.ERROR_MESSAGE);
 		}
 		try {
 			propriete.load(input);

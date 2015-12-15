@@ -52,8 +52,6 @@ public class Interface extends Applet {
 	 */
 	public void init(){
 		this.controller = new Controller();
-		controller.setMainInterface(this);
-		controller.getProperties();
 		super.init();
 		
 		//Paramétrage de l'applet
@@ -77,10 +75,19 @@ public class Interface extends Applet {
 	 * Lance l'applet dans le navigateur
 	 */
 	public void start(){
+		controller.setMainInterface(this);
+		controller.getProperties();
 		this.setMinimumSize(new Dimension(1024, 768));
 		this.setVisible(true);
 	}
 	
+//	public void stop(){
+//		System.out.println("stop");
+//	}
+	
+	public void destroy(){
+		controller.closeConnection();
+	}
 
 	/**
 	 * getBlocPrincipale

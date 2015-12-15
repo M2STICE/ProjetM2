@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 *
 * @author ASDRUBAL & NERES
 * @copyright (C) Master 2 2015
-* @date 03/12/2015
+* @date 15/12/2015
 */
 public class DatabaseInfoView extends JPanel{
 
