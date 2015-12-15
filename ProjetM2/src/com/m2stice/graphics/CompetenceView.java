@@ -8,7 +8,9 @@ import java.util.LinkedList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
+import com.m2stice.controller.NavigationViewListener;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
@@ -34,12 +36,12 @@ public class CompetenceView extends JPanel {
 	private JScrollPane blocInferrieure;
 	public JPanel bloc = new JPanel();
 	
-	private JTableNotEditable tableauDomaine;
-	private JTableNotEditable tableauCompetence;
-	private JTableNotEditable tableauItem;
-	private JTableNotEditable tableauEC;
-	private JTableNotEditable tableauSousItem;
-	private JTableNotEditable tableauEvaluation;
+	public JTableNotEditable tableauDomaine = new JTableNotEditable();
+	public JTableNotEditable tableauCompetence =  new JTableNotEditable();
+	public JTableNotEditable tableauItem = new JTableNotEditable();
+	public JTableNotEditable tableauEC = new JTableNotEditable();
+	public JTableNotEditable tableauSousItem = new JTableNotEditable();
+	public JTableNotEditable tableauEvaluation = new JTableNotEditable();
 	
 	private Object[][] donneesDomaine;
 	Object[][] donneesCompetence;
@@ -48,6 +50,12 @@ public class CompetenceView extends JPanel {
 	Object[][] donneesSousItem;
 	Object[][] donneesEvaluation;
 	
+	ListSelectionModel cellSelectionDomaine = tableauDomaine.getSelectionModel();
+	ListSelectionModel cellSelectionCompetence  = tableauCompetence.getSelectionModel();
+	ListSelectionModel cellSelectionItem = tableauItem.getSelectionModel();
+	ListSelectionModel cellSelectionEC   = tableauEC.getSelectionModel();
+	ListSelectionModel cellSelectionSousItem = tableauSousItem.getSelectionModel();
+	ListSelectionModel cellSelectionEvaluation = tableauEvaluation.getSelectionModel();
 	
 	private Interface interfaceUtilisateur;						//Liaison avec l'interface
 	
@@ -61,6 +69,7 @@ public class CompetenceView extends JPanel {
 		blocInferrieure = new JScrollPane(bloc);
 		blocInferrieure.setBackground(Color.WHITE);
 		this.add(blocInferrieure,BorderLayout.CENTER);
+		
 	}
 	
 	/**
@@ -73,6 +82,9 @@ public class CompetenceView extends JPanel {
 	}
 	
 	public void setDomaineJTable(LinkedList<Domaine> ld){
+		
+		
+		
 		donneesDomaine = new Object[ld.size()][1];
 		int cpt = 0;
 		for(Domaine d:ld){
@@ -82,11 +94,16 @@ public class CompetenceView extends JPanel {
 		}
 		String[] titre = {"Domaines de compétences"};
 		tableauDomaine = new JTableNotEditable(donneesDomaine,titre);
+		
+		cellSelectionDomaine = tableauDomaine.getSelectionModel();
+		cellSelectionDomaine.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		tableauDomaine.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauDomaine));
+		interfaceUtilisateur.repaint();
 	}
 	
-	public void setCompetenceJTable(LinkedList<Competence> lc){
+	public void setCompetenceJTable(LinkedList<Competence> lc,NavigationViewListener nvl){
 		donneesCompetence = new Object[lc.size()][1];
 		int cpt = 0;
 		for(Competence c:lc){
@@ -94,11 +111,18 @@ public class CompetenceView extends JPanel {
 			cpt++;
 		}
 		String[] titre = {"Compétences"};
-		tableauCompetence = new JTableNotEditable(donneesDomaine,titre);
+		tableauCompetence = new JTableNotEditable(donneesCompetence,titre);
+		
+		cellSelectionCompetence = tableauCompetence.getSelectionModel();
+		cellSelectionCompetence.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		cellSelectionCompetence.addListSelectionListener(nvl.getCompetenceTableListener(tableauCompetence));
+		
 		tableauCompetence.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauCompetence));
+		
+		interfaceUtilisateur.repaint();
 	}
-	public void setItemJTable(LinkedList<Item> li){
+	public void setItemJTable(LinkedList<Item> li,NavigationViewListener nvl){
 		donneesItem = new Object[li.size()][1];
 		int cpt = 0;
 		for(Item i:li){
@@ -107,10 +131,16 @@ public class CompetenceView extends JPanel {
 		}
 		String[] titre = {"Items"};
 		tableauItem = new JTableNotEditable(donneesItem,titre);
+		
+		cellSelectionItem = tableauItem.getSelectionModel();
+		cellSelectionItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		cellSelectionItem.addListSelectionListener(nvl.getItemTableListener(tableauItem));
+		
 		tableauItem.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauItem));
+		interfaceUtilisateur.repaint();
 	}
-	public void setEcJTable(LinkedList<Ec> lec){
+	public void setEcJTable(LinkedList<Ec> lec,NavigationViewListener nvl){
 		donneesEC = new Object[lec.size()][1];
 		int cpt = 0;
 		for(Ec ec:lec){
@@ -119,10 +149,16 @@ public class CompetenceView extends JPanel {
 		}
 		String[] titre = {"EC"};
 		tableauEC = new JTableNotEditable(donneesEC,titre);
+		
+		cellSelectionEC = tableauEC.getSelectionModel();
+		cellSelectionEC.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		cellSelectionEC.addListSelectionListener(nvl.getECTableListener(tableauEC));
+		
 		tableauEC.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauEC));
+		interfaceUtilisateur.repaint();
 	}
-	public void setSousItemJTable(LinkedList<SousItem> lsi){
+	public void setSousItemJTable(LinkedList<SousItem> lsi,NavigationViewListener nvl){
 		donneesSousItem = new Object[lsi.size()][1];
 		int cpt = 0;
 		for(SousItem si:lsi){
@@ -132,10 +168,16 @@ public class CompetenceView extends JPanel {
 		}
 		String[] titre = {"SousItem"};
 		tableauSousItem = new JTableNotEditable(donneesSousItem,titre);
+		
+		cellSelectionSousItem = tableauSousItem.getSelectionModel();
+		cellSelectionSousItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		cellSelectionSousItem.addListSelectionListener(nvl.getSousItemTableListener(tableauSousItem));
+		
 		tableauSousItem.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauSousItem));
+		interfaceUtilisateur.repaint();
 	}
-	public void setEvaluationJTable(LinkedList<Evaluation> le){
+	public void setEvaluationJTable(LinkedList<Evaluation> le,NavigationViewListener nvl){
 		donneesEvaluation = new Object[le.size()][1];
 		int cpt = 0;
 		for(Evaluation e:le){
@@ -145,7 +187,13 @@ public class CompetenceView extends JPanel {
 		}
 		String[] titre = {"Evaluations"};
 		tableauEvaluation = new JTableNotEditable(donneesEvaluation,titre);
+		
+		cellSelectionEvaluation = tableauEvaluation.getSelectionModel();
+		cellSelectionEvaluation.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		cellSelectionEvaluation.addListSelectionListener(nvl.getEvaluationTableListener(tableauEvaluation));
+		
 		tableauEvaluation.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauEvaluation));
+		interfaceUtilisateur.repaint();
 	}
 }
