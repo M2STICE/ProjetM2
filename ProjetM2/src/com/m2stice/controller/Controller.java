@@ -64,6 +64,7 @@ import com.m2stice.model.Ue;
 * @date 02/12/2015
 * @see DatabaseAccess
 * @revision 04/12
+* Emmanuel
 * 
 */
 public class Controller {

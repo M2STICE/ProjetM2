@@ -7,8 +7,6 @@ import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -20,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+
+import com.m2stice.controller.AuthentificationViewListener;
 
 public class AuthentificationView extends JPanel{
 
@@ -36,9 +36,11 @@ public class AuthentificationView extends JPanel{
 	private JPasswordField jpDefaut = new JPasswordField();
 	private Border border_defaut = jpDefaut.getBorder();
 	private JPanel bloc = new JPanel();
+	private AuthentificationViewListener authentificationViewListener;
 	
 	public void init(){
 		//Paramètrage de la vue
+		this.authentificationViewListener = new AuthentificationViewListener(interfaceUtilisateur, this);
 		this.setOpaque(false);
 		this.setVisible(true);
 		
@@ -159,11 +161,7 @@ public class AuthentificationView extends JPanel{
 			btnValider.setSize(new Dimension(120, 40));
 			btnValider.setText("Valider");
 		}
-		btnValider.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
+		btnValider.addActionListener(authentificationViewListener.getValiderListener());
 		
 		return btnValider;
 	}
