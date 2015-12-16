@@ -332,7 +332,6 @@ public class NavigationViewListener {
 						
 						lesCompetences = interfaceUtilisateur.getController().getCompetence(requete);
 						
-						
 						for (int comp = 0; comp < lesCompetences.size(); comp++)
 						{
 							if (listCodesComp.indexOf(lesCompetences.get(comp).getCode()) == -1)
@@ -346,6 +345,7 @@ public class NavigationViewListener {
 					}
 
 					LinkedList<Domaine> lesDomainesGlobales = new LinkedList<Domaine>();
+					LinkedList<Integer> listCodeDomaines = new LinkedList<>();
 					
 					i = 0;
 					while (i < listCodesComp.size()) 
@@ -360,12 +360,15 @@ public class NavigationViewListener {
 						
 						for (int j = 0; j < lesDomaines.size(); j++) 
 						{
-							lesDomainesGlobales.add(lesDomaines.get(j));
-							System.out.println(lesDomainesGlobales.getLast().getCode());
+							if (listCodeDomaines.indexOf(lesDomaines.get(j).getCode()) == -1){
+								lesDomainesGlobales.add(lesDomaines.get(j));
+								listCodeDomaines.add(lesDomaines.get(j).getCode());
+							}
 						}
-						
 						i++;
 					}
+					competenceView.bloc.removeAll();
+					competenceView.setDomaineJTable(lesDomainesGlobales);
 					
 				}
 				else if (tailleCheminSyllabus == 3)

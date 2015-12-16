@@ -14,11 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.m2stice.controller.NavigationViewListener;
+import com.m2stice.model.Annee;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Diplome;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
 import com.m2stice.model.Item;
+import com.m2stice.model.Semestre;
 import com.m2stice.model.SousItem;
 import com.m2stice.model.Ue;
 /**
@@ -56,6 +58,9 @@ public class NavigationView extends JPanel {
 	public SousItem sousItemCourant;
 	public Item itemCourant;
 	
+	public Annee anneeCourant;
+	public Semestre semestreCourant;
+	public Ue ueCourant;
 	
 	public void init(){
 		

@@ -71,7 +71,7 @@ public class Interface extends Applet {
 		if(!controller.getProperties())
 			this.blocPrincipal = new DatabaseInfoView(this);
 		else
-			this.blocPrincipal = new RechercheView(this);
+			this.blocPrincipal = new AuthentificationView(this);
 		
 		//Paramétrage de l'applet
 		
@@ -84,6 +84,13 @@ public class Interface extends Applet {
 		
 		this.setMinimumSize(new Dimension(1024, 768));
 		this.setVisible(true);
+		
+		Thread th = new Thread(){
+			public void run(){
+				resolveTimeOutProblem();
+			}
+		};
+		th.start();
 	}
 	
 //	public void stop(){
@@ -165,4 +172,16 @@ public class Interface extends Applet {
 	    dialog.setVisible(true);
 	    
 	}
+	
+	public void resolveTimeOutProblem(){
+		try {
+			Thread.sleep(2000);
+			this.controller.resolvingSet();
+			//System.out.println("!");
+			resolveTimeOutProblem();
+		} catch (Exception e) {
+			System.err.println("[Log-INTERFACE]: Le contact avec la base de donnée a été perdu.");
+		}
+	}
+	
 }

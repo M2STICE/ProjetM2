@@ -27,8 +27,7 @@ public class AdministrateurAdapter {
 	public LinkedList<Administrateur> getSelect(String getRequete) {
 		String requete = null;
 		ResultSet resultat;
-		LinkedList<Administrateur> list = new LinkedList<Administrateur>(); 
-				
+		LinkedList<Administrateur> list = new LinkedList<Administrateur>(); 		
 		requete = getRequete;
 		resultat = connection.getRequest(requete);
 		if (resultat != null) {

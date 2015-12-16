@@ -48,6 +48,7 @@ public class AuthentificationViewListener {
 			else{
 				administrateurs = interfaceUtilisateur.getController().getAdministrateur("SELECT * FROM ADMINISTRATEUR;");
 				for(Administrateur a:administrateurs){
+					System.out.println("nom:"+a.getNom()+" mdp:"+a.getMotDePasse());
 					if(nomUtilisateur.compareTo(a.getNom())==0&&motDePasse.compareTo(a.getMotDePasse())==0){
 						exist = true;
 						rechercheView = new RechercheView(interfaceUtilisateur);

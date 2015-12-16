@@ -381,22 +381,8 @@ public class Controller {
 	
 
 	
-	public static void main(String[] args) {
-		Controller control = new Controller();
-		
-		String Requete = "select *, count(nom_diplome) as onNom from diplome ";
-//		control.updateEtudiant(Requete);
-		LinkedList<Double> l = control.getSqlFunctions(Requete, "onNom");
-		
-		
-		Iterator<Double> it= l.iterator(); 
-		
-		while(it.hasNext()){
-			System.out.println(it.next());
-		}
-		
-		System.out.println("Nou fini");
-		
+	public void resolvingSet() {
+		connection.getRequest("select * from annee;");		
 	}
 	
 	/**
