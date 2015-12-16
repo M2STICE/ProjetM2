@@ -1,7 +1,7 @@
 package com.m2stice.model;
 
 /**
-*  Ec - Classe représentant un élement constitutif d'une unité d'enseignement
+*  Ec - Classe reprï¿½sentant un ï¿½lement constitutif d'une unitï¿½ d'enseignement
 *
 * @version 1.1
 *
@@ -17,11 +17,11 @@ public class Ec {
 	private String nom;
 	private float coefficient;
 	private int nombreEcts;
-	private int volumeHeureCours;
-	private int volumeHeureTP;
-	private int volumeHeureTD;
-	private int volumeHeureBE;
-	private int volumeHeureTPerso;
+	private float volumeHeureCours;
+	private float volumeHeureTP;
+	private float volumeHeureTD;
+	private float volumeHeureBE;
+	private float volumeHeureTPerso;
 	private String resume;
 	private int codeUe;
 	private int responsableEc;
@@ -45,7 +45,7 @@ public class Ec {
 	 * @param responsableEc
 	 * @param codeSemestre
 	 */
-	public Ec(int code, String nom, float coefficient, int nombreEcts, int volumeHeureCours, int volumeHeureTP, int volumeHeureTD, int volumeHeureBE,int volumeHeureTPerso, String resume, int codeUe, int responsableEc, int codeSemestre) {
+	public Ec(int code, String nom, float coefficient, int nombreEcts, float volumeHeureCours, float volumeHeureTP, float volumeHeureTD, float volumeHeureBE, float volumeHeureTPerso, String resume, int codeUe, int responsableEc, int codeSemestre) {
 		// TODO Auto-generated constructor stub
 		this.code = code;
 		this.nom = nom;
@@ -98,40 +98,44 @@ public class Ec {
 		this.coefficient = coefficient;
 	}
 
-	public int getVolumeHeureCours() {
+	public float getVolumeHeureCours() {
 		return volumeHeureCours;
 	}
 
-	public void setVolumeHeureCours(int volumeHeureCours) {
+	public void setVolumeHeureCours(float volumeHeureCours) {
 		this.volumeHeureCours = volumeHeureCours;
 	}
 
-	public int getVolumeHeureTP() {
+	public float getVolumeHeureTP() {
 		return volumeHeureTP;
 	}
 
-	public void setVolumeHeureTP(int volumeHeureTP) {
+	public void setVolumeHeureTP(float volumeHeureTP) {
 		this.volumeHeureTP = volumeHeureTP;
 	}
 
-	public int getVolumeHeureTD() {
+	public float getVolumeHeureTD() {
 		return volumeHeureTD;
 	}
 
-	public void setVolumeHeureTD(int volumeHeureTD) {
+	public void setVolumeHeureTD(float volumeHeureTD) {
 		this.volumeHeureTD = volumeHeureTD;
 	}
 
-	public int getVolumeHeureBE() {
+	public float getVolumeHeureBE() {
 		return volumeHeureBE;
 	}
 
-	public void setVolumeHeureBE(int volumeHeureBE) {
+	public void setVolumeHeureBE(float volumeHeureBE) {
 		this.volumeHeureBE = volumeHeureBE;
 	}
 
-	public int getVolumeHeureTPerso() {
+	public float getVolumeHeureTPerso() {
 		return volumeHeureTPerso;
+	}
+
+	public void setVolumeHeureTPerso(float volumeHeureTPerso) {
+		this.volumeHeureTPerso = volumeHeureTPerso;
 	}
 
 	public void setVolumeHeureTPerso(int volumeHeureTPerso) {

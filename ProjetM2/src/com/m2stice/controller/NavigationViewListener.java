@@ -1,5 +1,7 @@
 package com.m2stice.controller;
 
+import java.util.LinkedList;
+
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -12,6 +14,10 @@ import com.m2stice.graphics.Interface;
 import com.m2stice.graphics.NavigationView;
 import com.m2stice.graphics.ResultatView;
 import com.m2stice.graphics.SyllabusView;
+import com.m2stice.model.Competence;
+import com.m2stice.model.Domaine;
+import com.m2stice.model.Ec;
+import com.m2stice.model.Item;
 
 public class NavigationViewListener {
 	
@@ -251,8 +257,129 @@ public class NavigationViewListener {
 		return new TreeSelectionListener() {
 			
 			@Override
-			public void valueChanged(TreeSelectionEvent e) {
+			public void valueChanged(TreeSelectionEvent e) 
+			{
 				System.out.println("[Log-NAVIGATION_VIEW_LISTENER]: "+e.getPath().toString());
+				
+				String cheminSyllabus[] = e.getPath().toString().split(",");
+				
+				/*
+				 * 0 - Syllabus
+				 * 1 - Diplome
+				 * 2 - Année
+				 * 3 - Semestre
+				 * 4 - UE
+				 * 5 - EC
+				 * 
+				 * Enlever ] du derniere
+				 * */
+				
+				int tailleCheminSyllabus = cheminSyllabus.length - 1;
+				String requete = null;
+				
+				if (tailleCheminSyllabus == 2)
+				{
+					cheminSyllabus[2] = cheminSyllabus[2].substring(1, cheminSyllabus[2].length()-1);
+					
+					LinkedList<Ec> lesEc = new LinkedList<Ec>();
+					requete = "select * from ec "
+							+ "inner join ue on "
+							+ "ue.code_ue = ec.code_ue "
+							+ "inner join diplome on "
+							+ "diplome.code_diplome = ue.code_diplome "
+							+ "inner join diplome_annee on "
+							+ "diplome_annee.code_diplome = diplome.code_diplome "
+							+ "inner join annee on "
+							+ "diplome_annee.code_annee = annee.code_annee "
+							+ "where nom_annee = '" + cheminSyllabus[2] + "' "
+							+ "and diplome.code_diplome = " + navigationView.diplomeCourant.getCode();
+
+					lesEc = interfaceUtilisateur.getController().getEc(requete);
+					
+					LinkedList<Item> lesItemsGlobal = new LinkedList<Item>();
+					
+					int i = 0;
+					while (i < lesEc.size())
+					{
+						LinkedList<Item> lesItems = new LinkedList<Item>();
+						requete = "select * from item "
+								+ "inner join ec_item on "
+								+ "ec_item.code_item = item.code_item "
+								+ "inner join ec on "
+								+ "ec.code_ec = ec_item.code_ec "
+								+ "where ec.code_ec = " + lesEc.get(i).getCode();
+						lesItems = interfaceUtilisateur.getController().getItem(requete);
+						
+						for (int item = 0; item < lesItems.size(); item++)
+						{
+							lesItemsGlobal.add(lesItems.get(item));
+						}
+	
+						i++;
+					}
+					
+					LinkedList<Competence> lesCompetencesGlobales = new LinkedList<Competence>();
+					LinkedList<Integer> listCodesComp = new LinkedList<Integer>();
+					
+					i = 0;
+					while (i < lesItemsGlobal.size())
+					{
+						LinkedList<Competence> lesCompetences = new LinkedList<Competence>();
+						requete = "select * from competence "
+								+ "inner join item on "
+								+ "item.code_competence = competence.code_competence "
+								+ "where code_item = " + lesItemsGlobal.get(i).getCode();
+						
+						lesCompetences = interfaceUtilisateur.getController().getCompetence(requete);
+						
+						
+						for (int comp = 0; comp < lesCompetences.size(); comp++)
+						{
+							if (listCodesComp.indexOf(lesCompetences.get(comp).getCode()) == -1)
+							{
+								lesCompetencesGlobales.add(lesCompetences.get(comp));
+								listCodesComp.add(lesCompetences.get(comp).getCode());
+							}
+						}
+					
+						i++;
+					}
+
+					LinkedList<Domaine> lesDomainesGlobales = new LinkedList<Domaine>();
+					
+					i = 0;
+					while (i < listCodesComp.size()) 
+					{
+						LinkedList<Domaine> lesDomaines = new LinkedList<Domaine>();
+						requete = "select * from domaine "
+								+ "inner join competence on "
+								+ "competence.code_domaine = domaine.code_domaine "
+								+ "where competence.code_competence = " + listCodesComp.get(i);
+						
+						lesDomaines = interfaceUtilisateur.getController().getDomaine(requete);
+						
+						for (int j = 0; j < lesDomaines.size(); j++) 
+						{
+							lesDomainesGlobales.add(lesDomaines.get(j));
+							System.out.println(lesDomainesGlobales.getLast().getCode());
+						}
+						
+						i++;
+					}
+					
+				}
+				else if (tailleCheminSyllabus == 3)
+				{
+					
+				}
+				else if (tailleCheminSyllabus == 4)
+				{
+					
+				}
+				else if (tailleCheminSyllabus == 1)
+				{
+					
+				}
 			}
 		};
 	}

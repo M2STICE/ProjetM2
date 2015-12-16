@@ -48,7 +48,7 @@ public class EcAdapter {
 		if (resultat != null) {
 			try {
 				while(resultat.next()){						                                                                                                                                                                                                                                  
-					list.add(new Ec( resultat.getInt("code_ec"),resultat.getString("nom_ec"), resultat.getFloat("coefficient_ec"), resultat.getInt("nom_ects"), resultat.getInt("volume_heure_cours"), resultat.getInt("volume_heure_TP"), resultat.getInt("volume_heure_TD"), resultat.getInt("volume_heure_BE"), resultat.getInt("volume_heure_TPERSO"), resultat.getString("resume_ec"), resultat.getInt("code_ue"), resultat.getInt("responsable_ec"), resultat.getInt("code_semestre")));
+					list.add(new Ec( resultat.getInt("code_ec"),resultat.getString("nom_ec"), resultat.getFloat("coefficient_ec"), resultat.getInt("nom_ects"), resultat.getFloat("volume_heure_cours"), resultat.getFloat("volume_heure_TP"), resultat.getFloat("volume_heure_TD"), resultat.getFloat("volume_heure_BE"), resultat.getFloat("volume_heure_TPERSO"), resultat.getString("resume_ec"), resultat.getInt("code_ue"), resultat.getInt("responsable_ec"), resultat.getInt("code_semestre")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
