@@ -3,6 +3,9 @@ package com.m2stice.controller;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.m2stice.graphics.CompetenceView;
 import com.m2stice.graphics.Interface;
@@ -240,6 +243,17 @@ public class NavigationViewListener {
 				
 			}
 			
+		};
+	}
+	
+	
+	public TreeSelectionListener getSyllabusListener(){
+		return new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				System.out.println("[Log-NAVIGATION_VIEW_LISTENER]: "+e.getPath().toString());
+			}
 		};
 	}
 	

@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 import com.m2stice.graphics.AuthentificationView;
 import com.m2stice.graphics.Interface;
-import com.m2stice.graphics.NavigationView;
 import com.m2stice.graphics.RechercheView;
 import com.m2stice.model.Administrateur;
 import com.m2stice.model.Etudiant;
@@ -17,7 +16,7 @@ public class AuthentificationViewListener {
 	private Interface interfaceUtilisateur;
 	private AuthentificationView authentificationView;
 	private RechercheView rechercheView;
-	private NavigationView navigationView;
+	//private NavigationView navigationView;
 	private LinkedList<Etudiant> etudiants;
 	private LinkedList<Intervenant> intervenants;
 	private LinkedList<Administrateur> administrateurs;
@@ -61,11 +60,9 @@ public class AuthentificationViewListener {
 	}
 	public ActionListener getValiderListener(){
 		return new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				connect(authentificationView.getNomUtilisateur(), authentificationView.getMotDePasse(), authentificationView.getUtilisateur());
-				
+				System.out.println("Sign In -> "+connect(authentificationView.getNomUtilisateur(), authentificationView.getMotDePasse(), authentificationView.getUtilisateur()));
 			}
 		};
 	}

@@ -108,7 +108,8 @@ public class NavigationView extends JPanel {
 		blocEntete.setPreferredSize(new Dimension(1024,115));
 		blocEntete.setOpaque(false);
 		//
-		syllabusView = new SyllabusView(interfaceUtilisateur);
+		syllabusView = new SyllabusView(interfaceUtilisateur,this.diplomeCourant);
+		syllabusView.setSyllabusListener(navigationViewListener.getSyllabusListener());
 		//
 		blocSyllabus.setPreferredSize(new Dimension(250,0));
 		blocSyllabus.setLayout(new BorderLayout());

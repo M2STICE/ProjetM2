@@ -114,7 +114,7 @@ public class Interface extends Applet {
 	}
 
 	/**
-	 * loadImage
+	 * Charge un image
 	 * @param Le nom de l'image
 	 * @return l'image
 	 */
@@ -123,9 +123,9 @@ public class Interface extends Applet {
 	}
 
 	/**
-	 * 
+	 * Charge le fichier
 	 * @param nomFile
-	 * @return
+	 * @return l'url du fichier
 	 */
 	public URL loadFile(String nomFile){
 		try {
@@ -158,8 +158,8 @@ public class Interface extends Applet {
 	 */
 	public void showMessageAlert(String text){
 	    Toolkit.getDefaultToolkit().beep();
-	    JOptionPane optionPane = new JOptionPane(text,JOptionPane.WARNING_MESSAGE);
-	    JDialog dialog = optionPane.createDialog("Attention!");
+	    JOptionPane optionPane = new JOptionPane(text,JOptionPane.ERROR_MESSAGE);
+	    JDialog dialog = optionPane.createDialog("Attention");
 	    dialog.setAlwaysOnTop(true);
 	    //this.add(dialog);
 	    dialog.setVisible(true);

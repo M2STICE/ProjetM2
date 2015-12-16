@@ -13,7 +13,7 @@ package com.m2stice.utils;
 
 public enum Requetes {
 	
-	FORMATION("SELECT * from diplome"),
+	FORMATION("SELECT * from diplome where nom_diplome LIKE '%s'"),
 	   ANNEE("select * "
 				+ "from annee,diplome,diplome_annee "
 				+ "where annee.code_annee = diplome_annee.code_annee "
@@ -43,12 +43,17 @@ public enum Requetes {
 		   
 		   return this.req;
 	   }
-	   
+	   	   
 	   public String toString(int code){
 		   
 		   return String.format(this.req, code);
 	   }
 	   
+	   public String toString(String nomDiplome){
+		   
+		   return String.format(this.req, nomDiplome);
+	   }
+
 	   public String toString(int codeAnnee, int codeSemestre, int codeDiplome){
 		   
 		   return String.format(this.req, codeAnnee, codeSemestre, codeDiplome);
