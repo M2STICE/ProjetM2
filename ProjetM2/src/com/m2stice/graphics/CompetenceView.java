@@ -59,10 +59,21 @@ public class CompetenceView extends JPanel {
 	
 	private Interface interfaceUtilisateur;						//Liaison avec l'interface
 	
+	public boolean click_competence;
+	public boolean click_item;
+	public boolean click_ec;
+	public boolean click_sous_item;
+	public boolean click_evaluation;
+	
 	/**
 	 * Création de la vue
 	 */
 	public void init(){
+		click_competence=false;
+		click_item=false;
+		click_ec=false;
+		click_sous_item=false;
+		click_evaluation=false;
 		
 		this.setLayout(new BorderLayout());
 		bloc.setLayout(new FlowLayout(FlowLayout.LEADING));
@@ -83,8 +94,6 @@ public class CompetenceView extends JPanel {
 	
 	public void setDomaineJTable(LinkedList<Domaine> ld){
 		
-		
-		
 		donneesDomaine = new Object[ld.size()][1];
 		int cpt = 0;
 		for(Domaine d:ld){
@@ -104,6 +113,34 @@ public class CompetenceView extends JPanel {
 	}
 	
 	public void setCompetenceJTable(LinkedList<Competence> lc,NavigationViewListener nvl){
+		
+		if(click_evaluation == true)
+		{
+			this.bloc.remove(5);
+			click_evaluation = false;
+		}
+		if(click_sous_item == true)
+		{
+			this.bloc.remove(4);
+			click_sous_item = false;
+		}
+		if(click_ec == true)
+		{
+			this.bloc.remove(3);
+			click_ec = false;
+		}
+		if(click_item == true)
+		{
+			this.bloc.remove(2);
+			click_item = false;
+		}
+		if(click_competence == true)
+			this.bloc.remove(1);
+		
+		
+		
+		
+		
 		donneesCompetence = new Object[lc.size()][1];
 		int cpt = 0;
 		for(Competence c:lc){
@@ -118,11 +155,31 @@ public class CompetenceView extends JPanel {
 		cellSelectionCompetence.addListSelectionListener(nvl.getCompetenceTableListener(tableauCompetence));
 		
 		tableauCompetence.setPreferredSize(new Dimension(50,1000));
+		click_competence = true;
 		this.bloc.add(new JScrollPane(tableauCompetence));
 		
 		interfaceUtilisateur.repaint();
 	}
 	public void setItemJTable(LinkedList<Item> li,NavigationViewListener nvl){
+		if(click_evaluation == true)
+		{
+			this.bloc.remove(5);
+			click_evaluation = false;
+		}
+		if(click_sous_item == true)
+		{
+			this.bloc.remove(4);
+			click_sous_item = false;
+		}
+		if(click_ec == true)
+		{
+			this.bloc.remove(3);
+			click_ec = false;
+		}
+		if(click_item == true)
+		this.bloc.remove(2);
+		
+		
 		donneesItem = new Object[li.size()][1];
 		int cpt = 0;
 		for(Item i:li){
@@ -138,9 +195,23 @@ public class CompetenceView extends JPanel {
 		
 		tableauItem.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauItem));
+		click_item = true;
 		interfaceUtilisateur.repaint();
 	}
 	public void setEcJTable(LinkedList<Ec> lec,NavigationViewListener nvl){
+		if(click_evaluation == true)
+		{
+			this.bloc.remove(5);
+			click_evaluation = false;
+		}
+		if(click_sous_item == true)
+		{
+			this.bloc.remove(4);
+			click_sous_item = false;
+		}
+		if(click_ec == true)
+		this.bloc.remove(3);
+
 		donneesEC = new Object[lec.size()][1];
 		int cpt = 0;
 		for(Ec ec:lec){
@@ -156,9 +227,19 @@ public class CompetenceView extends JPanel {
 		
 		tableauEC.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauEC));
+		click_ec = true;
 		interfaceUtilisateur.repaint();
 	}
 	public void setSousItemJTable(LinkedList<SousItem> lsi,NavigationViewListener nvl){
+		
+		if(click_evaluation == true)
+		{
+			this.bloc.remove(5);
+			click_evaluation = false;
+		}
+		if(click_sous_item == true)
+		this.bloc.remove(4);
+			
 		donneesSousItem = new Object[lsi.size()][1];
 		int cpt = 0;
 		for(SousItem si:lsi){
@@ -175,9 +256,13 @@ public class CompetenceView extends JPanel {
 		
 		tableauSousItem.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauSousItem));
+		click_sous_item=true;
 		interfaceUtilisateur.repaint();
 	}
 	public void setEvaluationJTable(LinkedList<Evaluation> le,NavigationViewListener nvl){
+		if(click_evaluation == true)
+		this.bloc.remove(5);
+			
 		donneesEvaluation = new Object[le.size()][1];
 		int cpt = 0;
 		for(Evaluation e:le){
@@ -194,6 +279,7 @@ public class CompetenceView extends JPanel {
 		
 		tableauEvaluation.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauEvaluation));
+		click_evaluation = true;
 		interfaceUtilisateur.repaint();
 	}
 }
