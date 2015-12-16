@@ -110,11 +110,13 @@ public class Controller {
 	}
 	
 	
-	public void getProperties() {
+	public boolean getProperties() {
+		boolean status = true;
 		try {
 			input = mainInterface.loadFile("../res/config.db").openStream();
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(null,"Impossible de se connecter à la base \nVeuillez vérifier vos informations de connexion.", "database access error", JOptionPane.ERROR_MESSAGE);
+			status = false;
 		}
 		try {
 			propriete.load(input);
@@ -124,8 +126,10 @@ public class Controller {
 			server = propriete.getProperty("server");
 		} catch (IOException e) {
 			e.printStackTrace();
+			status = false;
 		}
 		setConnection(new DatabaseAccess(username, pass, server, databaseName));
+		return status;
 	}
 	
 	/**

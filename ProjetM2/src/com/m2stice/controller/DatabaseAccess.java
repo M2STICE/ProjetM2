@@ -73,8 +73,8 @@ public class DatabaseAccess {
 		Properties connectionProps = new Properties();
 		connectionProps.put("user", this.userName);
 		connectionProps.put("password", this.password);
-
-		conn = DriverManager.getConnection("jdbc:mysql://"+ this.serverName + ":" + this.portNumber + "/" + this.dbName,connectionProps);
+		DriverManager.setLoginTimeout(27200);
+		conn = DriverManager.getConnection("jdbc:mysql://"+ this.serverName + ":" + this.portNumber + "/" + this.dbName+"?autoreconnect=true",connectionProps);
 		return conn;
 	}
 	

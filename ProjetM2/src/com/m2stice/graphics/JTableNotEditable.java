@@ -8,8 +8,14 @@ public class JTableNotEditable extends JTable {
 		// TODO Auto-generated constructor stub
 		super(data,title);
 	}
+	
+	public JTableNotEditable()
+	{
+		super();
+	}
 
 	public boolean isCellEditable(int row, int col){
 		return false;
 	}
 }
+

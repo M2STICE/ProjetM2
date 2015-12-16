@@ -18,6 +18,7 @@ import com.m2stice.model.Competence;
 import com.m2stice.model.Diplome;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
+import com.m2stice.model.Item;
 import com.m2stice.model.SousItem;
 import com.m2stice.model.Ue;
 /**
@@ -53,6 +54,7 @@ public class NavigationView extends JPanel {
 	public Ue ueCourante;
 	public Ec ecCourant;
 	public SousItem sousItemCourant;
+	public Item itemCourant;
 	
 	
 	public void init(){
@@ -122,6 +124,7 @@ public class NavigationView extends JPanel {
 		competenceView = new CompetenceView(interfaceUtilisateur);
 		navigationViewListener.setCompetenceView(competenceView);
 		navigationViewListener.setDomaine();
+		competenceView.cellSelectionDomaine.addListSelectionListener(navigationViewListener.getDomaineTableListener(competenceView.tableauDomaine));
 		//
 		blocCompetences.setBackground(Color.WHITE);
 		blocCompetences.setLayout(new BorderLayout());

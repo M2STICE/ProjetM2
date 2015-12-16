@@ -153,14 +153,14 @@ public class DatabaseInfoView extends JPanel{
 		}
 		valide.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(username.getText());
+				/*System.out.println(username.getText());
 				System.out.println(password.getText());
 				System.out.println(server.getText());
-				System.out.println(databaseName.getText());
+				System.out.println(databaseName.getText());*/
 				try {
 					output = new FileOutputStream("../res/config.db");
 					propriete.setProperty("username", username.getText());
-					propriete.setProperty("password", password.getText());
+					propriete.setProperty("password", new String(password.getPassword()));
 					propriete.setProperty("server", server.getText());
 					propriete.setProperty("databaseName",databaseName.getText());
 					try {
@@ -176,6 +176,9 @@ public class DatabaseInfoView extends JPanel{
 							}
 						}
 					}
+					System.out.println("[Log-DATABASE_INFO]: Le fichier \"res/config.db\" a été généré.");
+					interfaceUtilisateur.stop();
+					interfaceUtilisateur.start();
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
