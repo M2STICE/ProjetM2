@@ -104,15 +104,20 @@ public class NavigationViewListener {
 		            nomDomaineSelection = (String) table.getValueAt(selectedRow[i], selectedColumns[j]);
 		          }
 		        }
-		       
-		       if(comparaisonDomaineSelection.compareTo(nomDomaineSelection)!=0)
+		       if(navigationView.listCompetenceCourant == null)
 		       {
-		    	   String requete = "select * from domaine "
-		       		+ "where nom_domaine = '"+nomDomaineSelection+"'";
-		       
-		    	   navigationView.domaineCourant = interfaceUtilisateur.getController().getDomaine(requete).get(0);
-		    	   setCompetence();
-		    	   comparaisonDomaineSelection = nomDomaineSelection;
+			       if(comparaisonDomaineSelection.compareTo(nomDomaineSelection)!=0)
+			       {
+			    	   String requete = "select * from domaine "
+			       		+ "where nom_domaine = '"+nomDomaineSelection+"'";
+			       
+			    	   navigationView.domaineCourant = interfaceUtilisateur.getController().getDomaine(requete).get(0);
+			    	   setCompetence();
+			    	   comparaisonDomaineSelection = nomDomaineSelection;
+			       }
+		       }
+		       else{
+		    	   competenceView.setCompetenceJTable(navigationView.listCompetenceCourant,navigationView.getNavigationViewListener());
 		       }
 			}
 			
@@ -296,7 +301,10 @@ public class NavigationViewListener {
 
 					lesEc = interfaceUtilisateur.getController().getEc(requete);
 					
+					navigationView.listEcCourant = lesEc;
+					
 					LinkedList<Item> lesItemsGlobal = new LinkedList<Item>();
+					LinkedList<Integer> listCodesItems = new LinkedList<Integer>();
 					
 					int i = 0;
 					while (i < lesEc.size())
@@ -312,12 +320,28 @@ public class NavigationViewListener {
 						
 						for (int item = 0; item < lesItems.size(); item++)
 						{
-							lesItemsGlobal.add(lesItems.get(item));
+							
+							if (listCodesItems.indexOf(lesItems.get(item).getCode()) == -1)
+							{
+								lesItemsGlobal.add(lesItems.get(item));
+								listCodesItems.add(lesItems.get(item).getCode());
+							}
 						}
 	
 						i++;
 					}
 					
+					navigationView.listItemCourant = lesItemsGlobal;
+					
+					/*
+					System.out.println("--------------------------------");
+					System.out.println("Items");
+					for(int i1=0; i1<listCodesItems.size();i1++)
+					{
+						System.out.println(lesItemsGlobal.get(i1).getCode());
+					}
+					System.out.println("--------------------------------");*/
+				
 					LinkedList<Competence> lesCompetencesGlobales = new LinkedList<Competence>();
 					LinkedList<Integer> listCodesComp = new LinkedList<Integer>();
 					
@@ -343,6 +367,14 @@ public class NavigationViewListener {
 					
 						i++;
 					}
+					navigationView.listCompetenceCourant = lesCompetencesGlobales;
+					/*System.out.println("--------------------------------");
+					System.out.println("Compétences");
+					for(int i1=0; i1<listCodesComp.size();i1++)
+					{
+						System.out.println(lesCompetencesGlobales.get(i1).getCode());
+					}
+					System.out.println("--------------------------------");*/
 
 					LinkedList<Domaine> lesDomainesGlobales = new LinkedList<Domaine>();
 					LinkedList<Integer> listCodeDomaines = new LinkedList<>();
@@ -367,9 +399,18 @@ public class NavigationViewListener {
 						}
 						i++;
 					}
-					competenceView.bloc.removeAll();
-					competenceView.setDomaineJTable(lesDomainesGlobales);
 					
+					/*System.out.println("--------------------------------");
+					System.out.println("Domaines");
+					for(int i1=0; i1<listCodeDomaines.size();i1++)
+					{
+						System.out.println(lesDomainesGlobales.get(i1).getCode());
+					}
+					System.out.println("--------------------------------");*/
+					
+					/*competenceView.bloc.removeAll();
+					competenceView.setDomaineJTable(lesDomainesGlobales);
+					*/
 				}
 				else if (tailleCheminSyllabus == 3)
 				{

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -57,10 +58,15 @@ public class NavigationView extends JPanel {
 	public Ec ecCourant;
 	public SousItem sousItemCourant;
 	public Item itemCourant;
-	
 	public Annee anneeCourant;
 	public Semestre semestreCourant;
 	public Ue ueCourant;
+	
+	public LinkedList<Ec> listEcCourant;
+	public LinkedList<Item> listItemCourant;
+	public LinkedList<Competence> listCompetenceCourant;
+	
+	
 	
 	public void init(){
 		
@@ -165,6 +171,16 @@ public class NavigationView extends JPanel {
 	
 	public void setActionListener(ActionListener apl){
 		this.clickButton.addActionListener(apl);
+	}
+	
+	public void setNavigationViewListener(NavigationViewListener nvl)
+	{
+		navigationViewListener = nvl;
+	}
+	
+	public NavigationViewListener getNavigationViewListener()
+	{
+		return navigationViewListener;
 	}
 
 }
