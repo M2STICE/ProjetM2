@@ -53,7 +53,7 @@ public class NavigationViewListener {
 				+ "inner join diplome on "
 				+ "domaine.code_diplome = diplome.code_diplome "
 				+ "where diplome.code_diplome = " + codeDiplome + ";";
-		competenceView.setDomaineJTable(interfaceUtilisateur.getController().getDomaine(requete));
+		competenceView.setDomaineJTable(interfaceUtilisateur.getController().getDomaine(requete), this);
 	}
 	
 	public void setCompetence(){
@@ -119,6 +119,7 @@ public class NavigationViewListener {
 		       }
 		       else
 		       {
+		    	   
 		    	   LinkedList<Competence> listCompeteceDuDomaineChoisi = new LinkedList<Competence>();
 		    	   
 		    	   String requete = "select * from competence "
@@ -350,6 +351,8 @@ public class NavigationViewListener {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) 
 			{
+				LinkedList<Ec> lesEc = new LinkedList<Ec>();
+				
 				System.out.println("[Log-NAVIGATION_VIEW_LISTENER]: "+e.getPath().toString());
 				
 				String cheminSyllabus[] = e.getPath().toString().split(",");
@@ -372,7 +375,6 @@ public class NavigationViewListener {
 				{
 					cheminSyllabus[2] = cheminSyllabus[2].substring(1, cheminSyllabus[2].length()-1);
 					
-					LinkedList<Ec> lesEc = new LinkedList<Ec>();
 					requete = "select * from ec "
 							+ "inner join ue on "
 							+ "ue.code_ue = ec.code_ue "
@@ -386,130 +388,151 @@ public class NavigationViewListener {
 							+ "and diplome.code_diplome = " + navigationView.diplomeCourant.getCode();
 
 					lesEc = interfaceUtilisateur.getController().getEc(requete);
-					
-					navigationView.listEcCourant = lesEc;
-					
-					LinkedList<Item> lesItemsGlobal = new LinkedList<Item>();
-					LinkedList<Integer> listCodesItems = new LinkedList<Integer>();
-					
-					int i = 0;
-					while (i < lesEc.size())
-					{
-						LinkedList<Item> lesItems = new LinkedList<Item>();
-						requete = "select * from item "
-								+ "inner join ec_item on "
-								+ "ec_item.code_item = item.code_item "
-								+ "inner join ec on "
-								+ "ec.code_ec = ec_item.code_ec "
-								+ "where ec.code_ec = " + lesEc.get(i).getCode();
-						lesItems = interfaceUtilisateur.getController().getItem(requete);
-						
-						for (int item = 0; item < lesItems.size(); item++)
-						{
-							
-							if (listCodesItems.indexOf(lesItems.get(item).getCode()) == -1)
-							{
-								lesItemsGlobal.add(lesItems.get(item));
-								listCodesItems.add(lesItems.get(item).getCode());
-							}
-						}
-	
-						i++;
-					}
-					
-					navigationView.listItemCourant = lesItemsGlobal;
-					
-					/*
-					System.out.println("--------------------------------");
-					System.out.println("Items");
-					for(int i1=0; i1<listCodesItems.size();i1++)
-					{
-						System.out.println(lesItemsGlobal.get(i1).getCode());
-					}
-					System.out.println("--------------------------------");*/
-				
-					LinkedList<Competence> lesCompetencesGlobales = new LinkedList<Competence>();
-					LinkedList<Integer> listCodesComp = new LinkedList<Integer>();
-					
-					i = 0;
-					while (i < lesItemsGlobal.size())
-					{
-						LinkedList<Competence> lesCompetences = new LinkedList<Competence>();
-						requete = "select * from competence "
-								+ "inner join item on "
-								+ "item.code_competence = competence.code_competence "
-								+ "where code_item = " + lesItemsGlobal.get(i).getCode();
-						
-						lesCompetences = interfaceUtilisateur.getController().getCompetence(requete);
-						
-						for (int comp = 0; comp < lesCompetences.size(); comp++)
-						{
-							if (listCodesComp.indexOf(lesCompetences.get(comp).getCode()) == -1)
-							{
-								lesCompetencesGlobales.add(lesCompetences.get(comp));
-								listCodesComp.add(lesCompetences.get(comp).getCode());
-							}
-						}
-					
-						i++;
-					}
-					navigationView.listCompetenceCourant = lesCompetencesGlobales;
-					/*System.out.println("--------------------------------");
-					System.out.println("Compétences");
-					for(int i1=0; i1<listCodesComp.size();i1++)
-					{
-						System.out.println(lesCompetencesGlobales.get(i1).getCode());
-					}
-					System.out.println("--------------------------------");*/
-
-					LinkedList<Domaine> lesDomainesGlobales = new LinkedList<Domaine>();
-					LinkedList<Integer> listCodeDomaines = new LinkedList<>();
-					
-					i = 0;
-					while (i < listCodesComp.size()) 
-					{
-						LinkedList<Domaine> lesDomaines = new LinkedList<Domaine>();
-						requete = "select * from domaine "
-								+ "inner join competence on "
-								+ "competence.code_domaine = domaine.code_domaine "
-								+ "where competence.code_competence = " + listCodesComp.get(i);
-						
-						lesDomaines = interfaceUtilisateur.getController().getDomaine(requete);
-						
-						for (int j = 0; j < lesDomaines.size(); j++) 
-						{
-							if (listCodeDomaines.indexOf(lesDomaines.get(j).getCode()) == -1){
-								lesDomainesGlobales.add(lesDomaines.get(j));
-								listCodeDomaines.add(lesDomaines.get(j).getCode());
-							}
-						}
-						i++;
-					}
-					
-					/*System.out.println("--------------------------------");
-					System.out.println("Domaines");
-					for(int i1=0; i1<listCodeDomaines.size();i1++)
-					{
-						System.out.println(lesDomainesGlobales.get(i1).getCode());
-					}
-					System.out.println("--------------------------------");*/
-					
-					/*competenceView.bloc.removeAll();
-					competenceView.setDomaineJTable(lesDomainesGlobales);
-					*/
 				}
 				else if (tailleCheminSyllabus == 3)
 				{
+					cheminSyllabus[3] = cheminSyllabus[3].substring(1, cheminSyllabus[3].length()-1);
+					cheminSyllabus[2] = cheminSyllabus[2].substring(1, cheminSyllabus[2].length());
 					
+					requete = "select * from ec "
+							+ "inner join semestre on "
+							+ "semestre.code_semestre = ec.code_semestre "
+							+ "inner join annee on "
+							+ "annee.code_annee = semestre.code_annee "
+							+ "inner join ue on "
+							+ "ue.code_ue = ec.code_ue "
+							+ "inner join diplome on "
+							+ "diplome.code_diplome = ue.code_diplome "
+							+ "where semestre.nom_semestre = '" + cheminSyllabus[3] + "' "
+							+ "and diplome.code_diplome = " + navigationView.diplomeCourant.getCode();
+					
+					lesEc = interfaceUtilisateur.getController().getEc(requete);
 				}
 				else if (tailleCheminSyllabus == 4)
 				{
 					
 				}
-				else if (tailleCheminSyllabus == 1)
+				
+				
+				navigationView.listEcCourant = lesEc;
+				
+				LinkedList<Item> lesItemsGlobal = new LinkedList<Item>();
+				LinkedList<Integer> listCodesItems = new LinkedList<Integer>();
+				
+				int i = 0;
+				while (i < lesEc.size())
 				{
+					LinkedList<Item> lesItems = new LinkedList<Item>();
+					requete = "select * from item "
+							+ "inner join ec_item on "
+							+ "ec_item.code_item = item.code_item "
+							+ "inner join ec on "
+							+ "ec.code_ec = ec_item.code_ec "
+							+ "where ec.code_ec = " + lesEc.get(i).getCode();
+					lesItems = interfaceUtilisateur.getController().getItem(requete);
 					
+					for (int item = 0; item < lesItems.size(); item++)
+					{
+						if (listCodesItems.indexOf(lesItems.get(item).getCode()) == -1)
+						{
+							lesItemsGlobal.add(lesItems.get(item));
+							listCodesItems.add(lesItems.get(item).getCode());
+						}
+					}
+
+					i++;
 				}
+				
+				for (int j = 0; j < lesItemsGlobal.size(); j++) 
+				{
+					System.out.println(lesItemsGlobal.get(j).getCode());
+				}
+				
+				navigationView.listItemCourant = lesItemsGlobal;
+				
+				/*
+				System.out.println("--------------------------------");
+				System.out.println("Items");
+				for(int i1=0; i1<listCodesItems.size();i1++)
+				{
+					System.out.println(lesItemsGlobal.get(i1).getCode());
+				}
+				System.out.println("--------------------------------");*/
+			
+				LinkedList<Competence> lesCompetencesGlobales = new LinkedList<Competence>();
+				LinkedList<Integer> listCodesComp = new LinkedList<Integer>();
+				
+				i = 0;
+				while (i < lesItemsGlobal.size())
+				{
+					LinkedList<Competence> lesCompetences = new LinkedList<Competence>();
+					requete = "select * from competence "
+							+ "inner join item on "
+							+ "item.code_competence = competence.code_competence "
+							+ "where code_item = " + lesItemsGlobal.get(i).getCode();
+					
+					lesCompetences = interfaceUtilisateur.getController().getCompetence(requete);
+					
+					for (int comp = 0; comp < lesCompetences.size(); comp++)
+					{
+						if (listCodesComp.indexOf(lesCompetences.get(comp).getCode()) == -1)
+						{
+							lesCompetencesGlobales.add(lesCompetences.get(comp));
+							listCodesComp.add(lesCompetences.get(comp).getCode());
+						}
+					}
+				
+					i++;
+				}
+				navigationView.listCompetenceCourant = lesCompetencesGlobales;
+				/*System.out.println("--------------------------------");
+				System.out.println("Compétences");
+				for(int i1=0; i1<listCodesComp.size();i1++)
+				{
+					System.out.println(lesCompetencesGlobales.get(i1).getCode());
+				}
+				System.out.println("--------------------------------");*/
+
+				LinkedList<Domaine> lesDomainesGlobales = new LinkedList<Domaine>();
+				LinkedList<Integer> listCodeDomaines = new LinkedList<>();
+				
+				i = 0;
+				while (i < listCodesComp.size()) 
+				{
+					LinkedList<Domaine> lesDomaines = new LinkedList<Domaine>();
+					requete = "select * from domaine "
+							+ "inner join competence on "
+							+ "competence.code_domaine = domaine.code_domaine "
+							+ "where competence.code_competence = " + listCodesComp.get(i);
+					
+					lesDomaines = interfaceUtilisateur.getController().getDomaine(requete);
+					
+					for (int j = 0; j < lesDomaines.size(); j++) 
+					{
+						if (listCodeDomaines.indexOf(lesDomaines.get(j).getCode()) == -1){
+							lesDomainesGlobales.add(lesDomaines.get(j));
+							listCodeDomaines.add(lesDomaines.get(j).getCode());
+						}
+					}
+					i++;
+				}
+				
+				if (tailleCheminSyllabus != 1)
+				{
+					competenceView.bloc.removeAll();
+					competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
+				}
+				/*System.out.println("--------------------------------");
+				System.out.println("Domaines");
+				for(int i1=0; i1<listCodeDomaines.size();i1++)
+				{
+					System.out.println(lesDomainesGlobales.get(i1).getCode());
+				}
+				System.out.println("--------------------------------");*/
+				
+				/*competenceView.bloc.removeAll();
+				competenceView.setDomaineJTable(lesDomainesGlobales);
+				*/
 			}
 		};
 	}

@@ -92,7 +92,7 @@ public class CompetenceView extends JPanel {
 		init();
 	}
 	
-	public void setDomaineJTable(LinkedList<Domaine> ld){
+	public void setDomaineJTable(LinkedList<Domaine> ld, NavigationViewListener nvl){
 		
 		donneesDomaine = new Object[ld.size()][1];
 		int cpt = 0;
@@ -106,13 +106,14 @@ public class CompetenceView extends JPanel {
 		
 		cellSelectionDomaine = tableauDomaine.getSelectionModel();
 		cellSelectionDomaine.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		cellSelectionDomaine.addListSelectionListener(nvl.getDomaineTableListener(tableauDomaine));
 		
 		tableauDomaine.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauDomaine));
 		interfaceUtilisateur.repaint();
 	}
 	
-	public void setCompetenceJTable(LinkedList<Competence> lc,NavigationViewListener nvl){
+	public void setCompetenceJTable(LinkedList<Competence> lc, NavigationViewListener nvl){
 		
 		if(click_evaluation == true)
 		{
