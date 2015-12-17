@@ -48,7 +48,6 @@ public class AuthentificationViewListener {
 			else{
 				administrateurs = interfaceUtilisateur.getController().getAdministrateur("SELECT * FROM ADMINISTRATEUR;");
 				for(Administrateur a:administrateurs){
-					System.out.println("nom:"+a.getNom()+" mdp:"+a.getMotDePasse());
 					if(nomUtilisateur.compareTo(a.getNom())==0&&motDePasse.compareTo(a.getMotDePasse())==0){
 						exist = true;
 						rechercheView = new RechercheView(interfaceUtilisateur);
@@ -63,7 +62,7 @@ public class AuthentificationViewListener {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Sign In -> "+connect(authentificationView.getNomUtilisateur(), authentificationView.getMotDePasse(), authentificationView.getUtilisateur()));
+				connect(authentificationView.getNomUtilisateur(), authentificationView.getMotDePasse(), authentificationView.getUtilisateur());
 			}
 		};
 	}
