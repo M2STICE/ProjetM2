@@ -104,6 +104,7 @@ public class NavigationViewListener {
 		            nomDomaineSelection = (String) table.getValueAt(selectedRow[i], selectedColumns[j]);
 		          }
 		        }
+		        
 		       if(navigationView.listCompetenceCourant == null)
 		       {
 			       if(comparaisonDomaineSelection.compareTo(nomDomaineSelection)!=0)
@@ -116,8 +117,32 @@ public class NavigationViewListener {
 			    	   comparaisonDomaineSelection = nomDomaineSelection;
 			       }
 		       }
-		       else{
-		    	   competenceView.setCompetenceJTable(navigationView.listCompetenceCourant,navigationView.getNavigationViewListener());
+		       else
+		       {
+		    	   LinkedList<Competence> listCompeteceDuDomaineChoisi = new LinkedList<Competence>();
+		    	   
+		    	   String requete = "select * from competence "
+		    		   		+ "inner join domaine on "
+		    		   		+ "domaine.code_domaine = competence.code_domaine "
+		    		   		+ "where domaine.nom_domaine = '" + nomDomaineSelection + "'";
+		    	   
+		    	   for (int i = 0; i < navigationView.listCompetenceCourant.size(); i++) 
+		    	   {
+		    		   if (i == 0) 
+		    			   requete += " and (";
+		    		   else
+		    		   {
+		    			   requete += " competence.code_competence = " + navigationView.listCompetenceCourant.get(i).getCode();
+		    			   
+		    			   if ((i + 1) == navigationView.listCompetenceCourant.size())
+		    				   requete += ")";
+		    			   else
+		    				   requete += " or";
+		    		   }
+		    	   }
+		    	   //System.out.println(requete);
+		    	   listCompeteceDuDomaineChoisi = interfaceUtilisateur.getController().getCompetence(requete);
+		    	   competenceView.setCompetenceJTable(listCompeteceDuDomaineChoisi, navigationView.getNavigationViewListener());
 		       }
 			}
 			
@@ -140,16 +165,45 @@ public class NavigationViewListener {
 		          }
 		        }
 		        
-		        if(comparaisonCompetenceSelection.compareTo(nomCompetenceSelection)!=0)
+		        if (navigationView.listItemCourant == null)
+		        {
+			       if(comparaisonCompetenceSelection.compareTo(nomCompetenceSelection)!=0)
 			       {
 			    	   String requete = "select * from competence "
 			       		+ "where nom_competence = '"+nomCompetenceSelection+"'";
 			    	   navigationView.competenceCourante = interfaceUtilisateur.getController().getCompetence(requete).get(0);
-
+	
 			    	   setItem();
 			    	   comparaisonCompetenceSelection = nomCompetenceSelection;
 			       }
-		        
+		        }
+		        else
+		        {
+		           LinkedList<Item> listItemDelaCompetenceChoisie = new LinkedList<Item>();
+			    	   
+		    	   String requete = "select * from item "
+		    		   		+ "inner join competence on "
+		    		   		+ "competence.code_competence = item.code_competence "
+		    		   		+ "where competence.nom_competence = '" + nomCompetenceSelection + "'";
+		    	   
+		    	   for (int i = 0; i < navigationView.listItemCourant.size(); i++) 
+		    	   {
+		    		   if (i == 0) 
+		    			   requete += " and (";
+		    		   else
+		    		   {
+		    			   requete += " item.code_item = " + navigationView.listItemCourant.get(i).getCode();
+		    			   
+		    			   if ((i + 1) == navigationView.listItemCourant.size())
+		    				   requete += ")";
+		    			   else
+		    				   requete += " or";
+		    		   }
+		    	   }
+		    	   //System.out.println(requete);
+		    	   listItemDelaCompetenceChoisie = interfaceUtilisateur.getController().getItem(requete);
+		    	   competenceView.setItemJTable(listItemDelaCompetenceChoisie, navigationView.getNavigationViewListener());
+		        }
 			}
 			
 		};
@@ -162,25 +216,57 @@ public class NavigationViewListener {
 			public void valueChanged(ListSelectionEvent arg0) {
 				
 				String nomItemSelection = null;
-		        int[] selectedRow = table.getSelectedRows();
-		        int[] selectedColumns = table.getSelectedColumns();
-
-		        for (int i = 0; i < selectedRow.length; i++) {
-		          for (int j = 0; j < selectedColumns.length; j++) {
-		            nomItemSelection = (String) table.getValueAt(selectedRow[i], selectedColumns[j]);
-		          }
-		        }
-		        if(comparaisonItemSelection.compareTo(nomItemSelection)!=0)
-			       {
-			    	   String requete = "select * from item "
-			       		+ "where nom_item = '"+nomItemSelection+"'";
-			       
-			    	   navigationView.itemCourant = interfaceUtilisateur.getController().getItem(requete).get(0);
-			    	   setEc();
-			    	   comparaisonItemSelection = nomItemSelection;
-			       }
+				int[] selectedRow = table.getSelectedRows();
+				int[] selectedColumns = table.getSelectedColumns();
+				
+				for (int i = 0; i < selectedRow.length; i++) {
+				  for (int j = 0; j < selectedColumns.length; j++) {
+				    nomItemSelection = (String) table.getValueAt(selectedRow[i], selectedColumns[j]);
+				  }
+				}
+			   
+				if (navigationView.listEcCourant == null)
+				{
+					if(comparaisonItemSelection.compareTo(nomItemSelection)!=0)
+				   {
+					   String requete = "select * from item "
+							   + "where nom_item = '"+nomItemSelection+"'";
+				   
+					   navigationView.itemCourant = interfaceUtilisateur.getController().getItem(requete).get(0);
+					   setEc();
+					   comparaisonItemSelection = nomItemSelection;
+				   }
+				}
+				else
+				{
+				   LinkedList<Ec> listEcDuItemChoisi = new LinkedList<Ec>();
+			    	   
+		    	   String requete = "select * from ec "
+		    	   		+ "inner join ec_item on "
+		    	   		+ "ec_item.code_ec = ec.code_ec "
+		    	   		+ "inner join item on "
+		    	   		+ "item.code_item = ec_item.code_item "
+		    	   		+ "where item.nom_item = '" + nomItemSelection + "'";
+		    		   		
+		    	   for (int i = 0; i < navigationView.listEcCourant.size(); i++) 
+		    	   {
+		    		   if (i == 0) 
+		    			   requete += " and (";
+		    		   else
+		    		   {
+		    			   requete += " ec_item.code_ec = " + navigationView.listEcCourant.get(i).getCode();
+		    			   
+		    			   if ((i + 1) == navigationView.listEcCourant.size())
+		    				   requete += ")";
+		    			   else
+		    				   requete += " or";
+		    		   }
+		    	   }
+		    	   //System.out.println(requete);
+		    	   listEcDuItemChoisi = interfaceUtilisateur.getController().getEc(requete);
+		    	   competenceView.setEcJTable(listEcDuItemChoisi, navigationView.getNavigationViewListener());
+				}
 			}
-			
 		};
 	}
 	
