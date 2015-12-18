@@ -111,6 +111,12 @@ public class CompetenceView extends JPanel {
 		tableauDomaine.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauDomaine));
 		interfaceUtilisateur.repaint();
+		
+		click_competence = false;
+		click_item = false;
+		click_ec = false;
+		click_sous_item = false;
+		click_evaluation = false;
 	}
 	
 	public void setCompetenceJTable(LinkedList<Competence> lc, NavigationViewListener nvl){
@@ -136,10 +142,9 @@ public class CompetenceView extends JPanel {
 			click_item = false;
 		}
 		if(click_competence == true)
+		{
 			this.bloc.remove(1);
-		
-		
-		
+		}
 		
 		
 		donneesCompetence = new Object[lc.size()][1];
@@ -178,7 +183,9 @@ public class CompetenceView extends JPanel {
 			click_ec = false;
 		}
 		if(click_item == true)
-		this.bloc.remove(2);
+		{
+			this.bloc.remove(2);
+		}
 		
 		
 		donneesItem = new Object[li.size()][1];
@@ -211,7 +218,10 @@ public class CompetenceView extends JPanel {
 			click_sous_item = false;
 		}
 		if(click_ec == true)
-		this.bloc.remove(3);
+		{
+		 this.bloc.remove(3);
+		 click_ec = false;
+		}
 
 		donneesEC = new Object[lec.size()][1];
 		int cpt = 0;
@@ -239,7 +249,9 @@ public class CompetenceView extends JPanel {
 			click_evaluation = false;
 		}
 		if(click_sous_item == true)
-		this.bloc.remove(4);
+		{	
+			this.bloc.remove(4);
+		}
 			
 		donneesSousItem = new Object[lsi.size()][1];
 		int cpt = 0;
@@ -262,8 +274,10 @@ public class CompetenceView extends JPanel {
 	}
 	public void setEvaluationJTable(LinkedList<Evaluation> le,NavigationViewListener nvl){
 		if(click_evaluation == true)
-		this.bloc.remove(5);
-			
+		{
+			this.bloc.remove(5);
+		}
+		
 		donneesEvaluation = new Object[le.size()][1];
 		int cpt = 0;
 		for(Evaluation e:le){
