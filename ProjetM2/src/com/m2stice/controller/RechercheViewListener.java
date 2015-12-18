@@ -52,10 +52,6 @@ public class RechercheViewListener {
 					 	resultatView.setResultat(diplomes);
 				        interfaceUtilisateur.setBlocPrincipal(resultatView);
 				 }
-				 if (e.getKeyCode()==KeyEvent.VK_SPACE){
-					 interfaceUtilisateur.showMessageAlert("Alert!!!");
-				 }
-				
 			}
 		};
 	}

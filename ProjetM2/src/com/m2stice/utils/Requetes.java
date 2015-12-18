@@ -14,7 +14,7 @@ package com.m2stice.utils;
 public enum Requetes {
 	
 	FORMATION("SELECT * from diplome where nom_diplome LIKE '%s'"),
-	   ANNEE("select * "
+	   ANNEE("select annee.code_annee,annee.nom_annee "
 				+ "from annee,diplome,diplome_annee "
 				+ "where annee.code_annee = diplome_annee.code_annee "
 				+ "and diplome.code_diplome = diplome_annee.code_diplome "
@@ -24,7 +24,8 @@ public enum Requetes {
 				+ "from semestre "
 				+ "where semestre.code_annee = %d"),
 	   
-	   UE("SELECT * FROM diplome, annee, semestre, ue "
+	   UE("SELECT ue.code_ue, ue.nom_ue, ue.nombre_ects, ue.resume_ue, ue.code_semestre, ue.code_intervenant, ue.coefficient_ue, ue.code_diplome "
+	   		+ "FROM diplome, annee, semestre, ue "
 	   		+ "WHERE diplome.code_diplome = ue.code_diplome "
 	   		+ "AND semestre.code_semestre = ue.code_semestre "
 	   		+ "AND annee.code_annee = %d "

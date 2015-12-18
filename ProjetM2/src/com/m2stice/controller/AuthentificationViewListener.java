@@ -42,7 +42,7 @@ public class AuthentificationViewListener {
 				}
 			}
 			if(exist){
-				diplomes = interfaceUtilisateur.getController().getDiplome("SELECT * FROM diplome JOIN etudiant_diplome ON diplome.code_diplome = etudiant_diplome.code_diplome WHERE etudiant_diplome.code_etudiant = "+codeEtudiant+";");
+				diplomes = interfaceUtilisateur.getController().getDiplome("SELECT diplome.code_diplome, diplome.nom_diplome, diplome.description_diplome FROM diplome JOIN etudiant_diplome ON diplome.code_diplome = etudiant_diplome.code_diplome WHERE etudiant_diplome.code_etudiant = "+codeEtudiant+";");
 				resultatView = new ResultatView(interfaceUtilisateur);
 				resultatView.setEntete(nomUtilisateur,diplomes.size());
 			 	resultatView.setResultat(diplomes);

@@ -89,6 +89,7 @@ public class SyllabusView extends JPanel {
 				while(it3.hasNext()){
 					Semestre sem = (Semestre)it3.next();
 					semestre = new DefaultMutableTreeNode(sem.getNom());
+					//System.out.println("======\n\n"+Requetes.UE.toString(ann.getCode(), sem.getCode(), diplome.getCode())+"\n\n========");
 					listUe = dip.getUe(Requetes.UE.toString(ann.getCode(), sem.getCode(), diplome.getCode()));
 					it4 = listUe.iterator();
 						
