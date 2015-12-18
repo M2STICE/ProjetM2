@@ -263,7 +263,7 @@ public class NavigationViewListener {
 		    				   requete += " or";
 		    		   }
 		    	   }
-		    	   //System.out.println(requete);
+		    	   System.out.println(requete);
 		    	   listEcDuItemChoisi = interfaceUtilisateur.getController().getEc(requete);
 		    	   competenceView.setEcJTable(listEcDuItemChoisi, navigationView.getNavigationViewListener());
 				}
@@ -353,7 +353,7 @@ public class NavigationViewListener {
 			{
 				LinkedList<Ec> lesEc = new LinkedList<Ec>();
 				
-				System.out.println("[Log-NAVIGATION_VIEW_LISTENER]: "+e.getPath().toString());
+				//System.out.println("[Log-NAVIGATION_VIEW_LISTENER]: "+e.getPath().toString());
 				
 				String cheminSyllabus[] = e.getPath().toString().split(",");
 				
@@ -373,9 +373,16 @@ public class NavigationViewListener {
 				
 				if (tailleCheminSyllabus == 2)
 				{
+					// ANNEE
 					cheminSyllabus[2] = cheminSyllabus[2].substring(1, cheminSyllabus[2].length()-1);
 					
-					requete = "select * from ec "
+					requete = "select ec.code_ec, "
+							+ "ec.nom_ec, ec.coefficient_ec, "
+							+ "ec.nombre_ects, ec.volume_heure_cours, "
+							+ "ec.volume_heure_TD, ec.volume_heure_TP, "
+							+ "ec.volume_heure_BE, ec.volume_heure_TPERSO, "
+							+ "ec.resume_ec, ec.code_ue, "
+							+ "ec.responsable_ec, ec.code_semestre from ec "
 							+ "inner join ue on "
 							+ "ue.code_ue = ec.code_ue "
 							+ "inner join diplome on "
@@ -386,15 +393,21 @@ public class NavigationViewListener {
 							+ "diplome_annee.code_annee = annee.code_annee "
 							+ "where nom_annee = '" + cheminSyllabus[2] + "' "
 							+ "and diplome.code_diplome = " + navigationView.diplomeCourant.getCode();
-
+					
 					lesEc = interfaceUtilisateur.getController().getEc(requete);
 				}
 				else if (tailleCheminSyllabus == 3)
 				{
+					// SEMESTRE
 					cheminSyllabus[3] = cheminSyllabus[3].substring(1, cheminSyllabus[3].length()-1);
-					cheminSyllabus[2] = cheminSyllabus[2].substring(1, cheminSyllabus[2].length());
 					
-					requete = "select * from ec "
+					requete = "select ec.code_ec, "
+							+ "ec.nom_ec, ec.coefficient_ec, "
+							+ "ec.nombre_ects, ec.volume_heure_cours, "
+							+ "ec.volume_heure_TD, ec.volume_heure_TP, "
+							+ "ec.volume_heure_BE, ec.volume_heure_TPERSO, "
+							+ "ec.resume_ec, ec.code_ue, "
+							+ "ec.responsable_ec, ec.code_semestre from ec "
 							+ "inner join semestre on "
 							+ "semestre.code_semestre = ec.code_semestre "
 							+ "inner join annee on "
@@ -410,7 +423,59 @@ public class NavigationViewListener {
 				}
 				else if (tailleCheminSyllabus == 4)
 				{
+					// UE
+					cheminSyllabus[3] = cheminSyllabus[3].substring(1, cheminSyllabus[3].length());
+					cheminSyllabus[4] = cheminSyllabus[4].substring(1, cheminSyllabus[4].length()-1);
 					
+					requete = "select ec.code_ec, "
+							+ "ec.nom_ec, ec.coefficient_ec, "
+							+ "ec.nombre_ects, ec.volume_heure_cours, "
+							+ "ec.volume_heure_TD, ec.volume_heure_TP, "
+							+ "ec.volume_heure_BE, ec.volume_heure_TPERSO, "
+							+ "ec.resume_ec, ec.code_ue, "
+							+ "ec.responsable_ec, ec.code_semestre from ec "
+							+ "inner join semestre on "
+							+ "semestre.code_semestre = ec.code_semestre "
+							+ "inner join annee on "
+							+ "annee.code_annee = semestre.code_annee "
+							+ "inner join ue on "
+							+ "ue.code_ue = ec.code_ue "
+							+ "inner join diplome on "
+							+ "diplome.code_diplome = ue.code_diplome "
+							+ "where ue.nom_ue = '" + cheminSyllabus[4] + "' "
+							+ "and semestre.nom_semestre = '" + cheminSyllabus[3] + "' "
+							+ "and diplome.code_diplome = " + navigationView.diplomeCourant.getCode();
+					
+					lesEc = interfaceUtilisateur.getController().getEc(requete);
+				}
+				else if (tailleCheminSyllabus == 5)
+				{
+					// EC
+					cheminSyllabus[3] = cheminSyllabus[3].substring(1, cheminSyllabus[3].length());
+					cheminSyllabus[4] = cheminSyllabus[4].substring(1, cheminSyllabus[4].length());
+					cheminSyllabus[5] = cheminSyllabus[5].substring(1, cheminSyllabus[5].length()-1);
+					
+					requete = "select ec.code_ec, "
+							+ "ec.nom_ec, ec.coefficient_ec, "
+							+ "ec.nombre_ects, ec.volume_heure_cours, "
+							+ "ec.volume_heure_TD, ec.volume_heure_TP, "
+							+ "ec.volume_heure_BE, ec.volume_heure_TPERSO, "
+							+ "ec.resume_ec, ec.code_ue, "
+							+ "ec.responsable_ec, ec.code_semestre from ec "
+							+ "inner join semestre on "
+							+ "semestre.code_semestre = ec.code_semestre "
+							+ "inner join annee on "
+							+ "annee.code_annee = semestre.code_annee "
+							+ "inner join ue on "
+							+ "ue.code_ue = ec.code_ue "
+							+ "inner join diplome on "
+							+ "diplome.code_diplome = ue.code_diplome "
+							+ "where ue.nom_ue = '" + cheminSyllabus[4] + "' "
+							+ "and semestre.nom_semestre = '" + cheminSyllabus[3] + "' "
+							+ "and ec.nom_ec = '" + cheminSyllabus[5] + "' "
+							+ "and diplome.code_diplome = " + navigationView.diplomeCourant.getCode();
+					System.out.println(requete);
+					lesEc = interfaceUtilisateur.getController().getEc(requete);
 				}
 				
 				
@@ -441,11 +506,6 @@ public class NavigationViewListener {
 					}
 
 					i++;
-				}
-				
-				for (int j = 0; j < lesItemsGlobal.size(); j++) 
-				{
-					System.out.println(lesItemsGlobal.get(j).getCode());
 				}
 				
 				navigationView.listItemCourant = lesItemsGlobal;
