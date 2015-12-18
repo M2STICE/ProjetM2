@@ -81,7 +81,7 @@ create table ec(
 	code_ec int not null auto_increment,
 	nom_ec varchar(255),
 	coefficient_ec float,
-	nom_ects int,
+	nombre_ects int,
 	volume_heure_cours float,
 	volume_heure_TD float,
 	volume_heure_TP float,
