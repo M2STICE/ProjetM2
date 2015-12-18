@@ -130,17 +130,16 @@ public class NavigationViewListener {
 		    	   for (int i = 0; i < navigationView.listCompetenceCourant.size(); i++) 
 		    	   {
 		    		   if (i == 0) 
-		    			   requete += " and (";
+		    		   {
+		    			   requete += " and (competence.code_competence = " + navigationView.listCompetenceCourant.get(i).getCode();
+		    		   }
 		    		   else
 		    		   {
-		    			   requete += " competence.code_competence = " + navigationView.listCompetenceCourant.get(i).getCode();
-		    			   
-		    			   if ((i + 1) == navigationView.listCompetenceCourant.size())
-		    				   requete += ")";
-		    			   else
-		    				   requete += " or";
+		    			   requete += " or competence.code_competence = " + navigationView.listCompetenceCourant.get(i).getCode(); 			 
 		    		   }
 		    	   }
+		    	   
+		    	   requete += ")";
 		    	   //System.out.println(requete);
 		    	   listCompeteceDuDomaineChoisi = interfaceUtilisateur.getController().getCompetence(requete);
 		    	   competenceView.setCompetenceJTable(listCompeteceDuDomaineChoisi, navigationView.getNavigationViewListener());
@@ -190,18 +189,16 @@ public class NavigationViewListener {
 		    	   for (int i = 0; i < navigationView.listItemCourant.size(); i++) 
 		    	   {
 		    		   if (i == 0) 
-		    			   requete += " and (";
+		    		   {
+		    			   requete += " and (item.code_item = " + navigationView.listItemCourant.get(i).getCode();
+		    		   }
 		    		   else
 		    		   {
-		    			   requete += " item.code_item = " + navigationView.listItemCourant.get(i).getCode();
-		    			   
-		    			   if ((i + 1) == navigationView.listItemCourant.size())
-		    				   requete += ")";
-		    			   else
-		    				   requete += " or";
+		    			   requete += " or item.code_item = " + navigationView.listItemCourant.get(i).getCode();
 		    		   }
 		    	   }
 		    	   //System.out.println(requete);
+		           requete += ")";
 		    	   listItemDelaCompetenceChoisie = interfaceUtilisateur.getController().getItem(requete);
 		    	   competenceView.setItemJTable(listItemDelaCompetenceChoisie, navigationView.getNavigationViewListener());
 		        }
@@ -252,18 +249,16 @@ public class NavigationViewListener {
 		    	   for (int i = 0; i < navigationView.listEcCourant.size(); i++) 
 		    	   {
 		    		   if (i == 0) 
-		    			   requete += " and (";
+		    		   {
+		    			   requete += " and (ec_item.code_ec = " + navigationView.listEcCourant.get(i).getCode();
+		    		   } 
 		    		   else
 		    		   {
-		    			   requete += " ec_item.code_ec = " + navigationView.listEcCourant.get(i).getCode();
-		    			   
-		    			   if ((i + 1) == navigationView.listEcCourant.size())
-		    				   requete += ")";
-		    			   else
-		    				   requete += " or";
+		    			   requete += " or ec_item.code_ec = " + navigationView.listEcCourant.get(i).getCode();
 		    		   }
 		    	   }
-		    	   System.out.println(requete);
+		    	   //System.out.println(requete);
+		    	   requete += ")";
 		    	   listEcDuItemChoisi = interfaceUtilisateur.getController().getEc(requete);
 		    	   competenceView.setEcJTable(listEcDuItemChoisi, navigationView.getNavigationViewListener());
 				}
@@ -474,7 +469,7 @@ public class NavigationViewListener {
 							+ "and semestre.nom_semestre = '" + cheminSyllabus[3] + "' "
 							+ "and ec.nom_ec = '" + cheminSyllabus[5] + "' "
 							+ "and diplome.code_diplome = " + navigationView.diplomeCourant.getCode();
-					System.out.println(requete);
+					//System.out.println(requete);
 					lesEc = interfaceUtilisateur.getController().getEc(requete);
 				}
 				
