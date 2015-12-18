@@ -13,7 +13,7 @@ public class Ec_intervenant {
 		String requete; 
 		Controller monController = new Controller();
 		
-		for (int i = 760; i < 862; i++)
+		for (int i = 1474; i < 1575; i++)
 		{
 			Random r = new Random();
 			

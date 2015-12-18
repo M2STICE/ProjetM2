@@ -42,7 +42,7 @@ public class Etudiant_evaluation {
 				+ "where ec.code_ec in "
 				+ "(SELECT code_ec FROM ec "
 				+ "WHERE code_ue IN "
-				+ "(SELECT code_ue FROM ue where code_semestre = 3 or code_semestre = 4))";
+				+ "(SELECT code_ue FROM ue where code_semestre = 1 or code_semestre = 2))";
 		
 		Eval = monController.getEvaluation(requete);
 		
@@ -52,7 +52,7 @@ public class Etudiant_evaluation {
 		{
 			Random r = new Random();
 			
-			for (int j = 5; j < 8; j++)
+			for (int j = 1; j < 5; j++)
 			{
 				int note = r.nextInt(20) + 1;
 				

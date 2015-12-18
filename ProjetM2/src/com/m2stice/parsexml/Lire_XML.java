@@ -119,7 +119,8 @@ public class Lire_XML {
             			Element semestres = (Element) listeSemestres.get(a);
             			
             			LinkedList<Semestre> codeSemestre = new LinkedList<Semestre>();
-            			requete = "select * from semestre where nom_semestre = '" + semestres.getAttributeValue("TEXT") + "';";
+            			String nomSemestre = semestres.getAttributeValue("TEXT");
+            			requete = "select * from semestre where nom_semestre = '" + nomSemestre + "';";
             			codeSemestre = monController.getSemestre(requete);
             			
             			List<Element> listeUE = semestres.getChildren("node");
@@ -146,7 +147,7 @@ public class Lire_XML {
             					//System.out.println("EC: " + ec.getAttributeValue("TEXT"));
             					String nomEc = ec.getAttributeValue("TEXT").replace("'", "`");
             					
-            					requete = "insert into ec (nom_ec, code_ue, code_semestre) values ('" + nomEc + "', " + codeUe.get(0).getCode() + ", " + codeSemestre.get(0).getCode() + ")";
+            					requete = "insert into ec (nom_ec, code_ue, code_semestre) values ('" + nomSemestre + " - " + nomEc + "', " + codeUe.get(0).getCode() + ", " + codeSemestre.get(0).getCode() + ")";
             					monController.modification(requete);
             				}
             			}
@@ -231,11 +232,12 @@ public class Lire_XML {
         						// NIVEAU A IGNORER POUR LA BD
         						Element niveau12AIgnorerPourBD = (Element) liste12NiveauAIgnorerPourBD.get(t);
         						String nomEcC = niveau12AIgnorerPourBD.getAttributeValue("TEXT").replace("'", "`");
-        						nomEcC = nomEcC.substring(5);
-        						//System.out.println("(" + (t+1) + ") NIVEAU A IGNORER: "+ nomEcC);
+        						//nomEcC = nomEcC.replace("´", "`");
+        						//nomEcC = nomEcC.substring(5);
+        						System.out.println("(" + (t+1) + ") NIVEAU A IGNORER: "+ nomEcC);
         						
         						LinkedList<Ec> codeEcC = new LinkedList<Ec>();
-        						requete = "select * from Ec where nom_ec = '" + nomEcC + "'";
+        						requete = "select * from Ec where nom_ec = '" + nomEcC.toLowerCase() + "'";
         						codeEcC = monController.getEc(requete);
         						
         						if (codeEcC.size() != 0)
@@ -249,7 +251,7 @@ public class Lire_XML {
 		            					// SOUS-ITEMS
 		            					Element sousItems = (Element) listeSousItems.get(h);
 		            					String nomSousItem = sousItems.getAttributeValue("TEXT").replace("'", "`");
-		            					//System.out.println("Sous-items: " + sousItems.getAttributeValue("TEXT"));
+		            					System.out.println("Sous-items: " + sousItems.getAttributeValue("TEXT"));
 		            					
 		            					requete = "insert into sous_item (nom_sous_item) values ('" + nomSousItem + "');";
 		            					monController.modification(requete);
@@ -266,18 +268,23 @@ public class Lire_XML {
 	            						{
 	            							// EVALUATIONS
 	            							Element evaluations = (Element) listeEvaluations.get(x);
-	            							String nomEvaluation = evaluations.getAttributeValue("TEXT").replace("'", "`");
-	            							//System.out.println("Evaluations: " + evaluations.getAttributeValue("TEXT"));
 	            							
-	            							requete = "insert into evaluation (nom_evaluation) values ('" + nomEvaluation + "');";
-		            						monController.modification(requete);
-		            						
-		            						LinkedList<Evaluation> codeEvaluation = new LinkedList<Evaluation>();
-		            						requete = "select * FROM evaluation ORDER BY code_evaluation DESC LIMIT 1;";
-				            				codeEvaluation = monController.getEvaluation(requete);
-	            							
-	            							requete = "insert into sous_item_evaluation (code_sous_item, code_evaluation) values (" + codeSousItem.get(0).getCode() + ", " + codeEvaluation.get(0).getCode() + ");";
-	            							monController.modification(requete);
+	            							if (evaluations.getAttributeValue("TEXT") != null)
+	            							{
+		            							System.out.println(evaluations.getAttributeValue("TEXT"));
+		            							String nomEvaluation = evaluations.getAttributeValue("TEXT").replace("'", "`");
+		            							//System.out.println("Evaluations: " + evaluations.getAttributeValue("TEXT"));
+		            							
+		            							requete = "insert into evaluation (nom_evaluation) values ('" + nomEvaluation + "');";
+			            						monController.modification(requete);
+			            						
+			            						LinkedList<Evaluation> codeEvaluation = new LinkedList<Evaluation>();
+			            						requete = "select * FROM evaluation ORDER BY code_evaluation DESC LIMIT 1;";
+					            				codeEvaluation = monController.getEvaluation(requete);
+		            							
+		            							requete = "insert into sous_item_evaluation (code_sous_item, code_evaluation) values (" + codeSousItem.get(0).getCode() + ", " + codeEvaluation.get(0).getCode() + ");";
+		            							monController.modification(requete);
+	            							}
 	            						}
 	            					}
             					}

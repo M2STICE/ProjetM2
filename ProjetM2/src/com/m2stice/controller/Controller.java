@@ -108,6 +108,7 @@ public class Controller {
 //		username = "root";
 //		pass = "";
 //		server = "localhost";
+//		setConnection(new DatabaseAccess(username, pass, server, databaseName));
 	}
 	
 	
