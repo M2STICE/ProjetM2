@@ -49,7 +49,10 @@ public class NavigationViewListener {
 	
 	public void setDomaine(){
 		int codeDiplome = navigationView.diplomeCourant.getCode();
-		String requete = "select * from domaine "
+		String requete = "select domaine.code_domaine, "
+				+ "domaine.nom_domaine,"
+				+ "domaine.code_diplome "
+				+ "from domaine "
 				+ "inner join diplome on "
 				+ "domaine.code_diplome = diplome.code_diplome "
 				+ "where diplome.code_diplome = " + codeDiplome + ";";
@@ -58,7 +61,10 @@ public class NavigationViewListener {
 	
 	public void setCompetence(){
 		int codeDomaine = navigationView.domaineCourant.getCode();
-		String requete = "select * from competence "
+		String requete = "select competence.code_competence,"
+				+ "competence.nom_competence,"
+				+ "competence.code_domaine "
+				+ "from competence "
 				+ "where competence.code_domaine = " + codeDomaine + ";";
 		competenceView.setCompetenceJTable(interfaceUtilisateur.getController().getCompetence(requete),this);
 	}
@@ -72,22 +78,43 @@ public class NavigationViewListener {
 	
 	public void setEc(){
 		int codeItem = navigationView.itemCourant.getCode();
-		String requete = "select * from ec,ec_item "
+		String requete = "select ec.code_ec, "
+				+ "ec.nom_ec,"
+				+ "ec.coefficient_ec, "
+				+ "ec.nombre_ects, "
+				+ "ec.volume_heure_cours, "
+				+ "ec.volume_heure_TD, "
+				+ "ec.volume_heure_TP, "
+				+ "ec.volume_heure_BE, "
+				+ "ec.volume_heure_TPERSO, "
+				+ "ec.resume_ec, "
+				+ "ec.code_ue, "
+				+ "ec.responsable_ec, "
+				+ "ec.code_semestre "
+				+ "from ec,ec_item "
 				+ "where ec.code_ec = ec_item.code_ec and ec_item.code_item = " + codeItem + ";";
 		competenceView.setEcJTable(interfaceUtilisateur.getController().getEc(requete),this);
 	}
 	
 	public void setSousItem(){
 		int codeEc = navigationView.ecCourant.getCode();
-		String requete = "select * from sous_item,ec_sous_item"
-				+ " where sous_item.code_sous_item = ec_sous_item.code_sous_item and ec_sous_item.code_ec = " + codeEc + ";";
+		String requete = "select sous_item.code_sous_item, "
+				+ "sous_item.nom_sous_item "
+				+ "from sous_item, ec_sous_item "
+				+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and ec_sous_item.code_ec = " + codeEc + ";";
 		competenceView.setSousItemJTable(interfaceUtilisateur.getController().getSousItem(requete),this);
 	}
 	
 	public void setEvaluation(){
 		int codeSousItem = navigationView.sousItemCourant.getCode();
-		String requete = "select * from evaluation, sous_item_evaluation"
-				+ " where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and sous_item_evaluation.code_sous_item =" + codeSousItem + ";";
+		String requete = "select evaluation.code_evaluation,"
+				+ "evaluation.nom_evaluation, "
+				+ "evaluation.note_maximale, "
+				+ "evaluation.coefficient_evaluation, "
+				+ "evaluation.type_epreuve "
+				+ "from evaluation, sous_item_evaluation "
+				+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation "
+				+ "and sous_item_evaluation.code_sous_item =" + codeSousItem + ";";
 		competenceView.setEvaluationJTable(interfaceUtilisateur.getController().getEvaluation(requete),this);
 	}
 	
@@ -110,7 +137,7 @@ public class NavigationViewListener {
 			       if(comparaisonDomaineSelection.compareTo(nomDomaineSelection)!=0)
 			       {
 			    	   String requete = "select * from domaine "
-			       		+ "where nom_domaine = '"+nomDomaineSelection+"'";
+			       		+ "where nom_domaine = '"+ nomDomaineSelection+ "'";
 			       
 			    	   navigationView.domaineCourant = interfaceUtilisateur.getController().getDomaine(requete).get(0);
 			    	   setCompetence();
@@ -122,7 +149,10 @@ public class NavigationViewListener {
 		    	   
 		    	   LinkedList<Competence> listCompeteceDuDomaineChoisi = new LinkedList<Competence>();
 		    	   
-		    	   String requete = "select * from competence "
+		    	   String requete = "select competence.code_competence, "
+		    	   			+ "competence.nom_competence,"
+		    	   			+ "competence.code_domaine "
+		    	   			+ "from competence "
 		    		   		+ "inner join domaine on "
 		    		   		+ "domaine.code_domaine = competence.code_domaine "
 		    		   		+ "where domaine.nom_domaine = '" + nomDomaineSelection + "'";
@@ -169,8 +199,11 @@ public class NavigationViewListener {
 		        {
 			       if(comparaisonCompetenceSelection.compareTo(nomCompetenceSelection)!=0)
 			       {
-			    	   String requete = "select * from competence "
-			       		+ "where nom_competence = '"+nomCompetenceSelection+"'";
+			    	   String requete = "select competence.code_competence, "
+		    	   			+ "competence.nom_competence,"
+		    	   			+ "competence.code_domaine "
+			    	   		+ "from competence "
+			    	   		+ "where nom_competence = '"+ nomCompetenceSelection + "'";
 			    	   navigationView.competenceCourante = interfaceUtilisateur.getController().getCompetence(requete).get(0);
 	
 			    	   setItem();
@@ -181,7 +214,11 @@ public class NavigationViewListener {
 		        {
 		           LinkedList<Item> listItemDelaCompetenceChoisie = new LinkedList<Item>();
 			    	   
-		    	   String requete = "select * from item "
+		    	   String requete = "select item.code_item, "
+		    	   			+ "item.nom_item, "
+		    	   			+ "item.code_competence, "
+		    	   			+ "item.code_evaluation "
+		    	   			+ "from item "
 		    		   		+ "inner join competence on "
 		    		   		+ "competence.code_competence = item.code_competence "
 		    		   		+ "where competence.nom_competence = '" + nomCompetenceSelection + "'";
@@ -228,7 +265,7 @@ public class NavigationViewListener {
 					if(comparaisonItemSelection.compareTo(nomItemSelection)!=0)
 				   {
 					   String requete = "select * from item "
-							   + "where nom_item = '"+nomItemSelection+"'";
+							   + "where nom_item = '" + nomItemSelection + "'";
 				   
 					   navigationView.itemCourant = interfaceUtilisateur.getController().getItem(requete).get(0);
 					   setEc();
@@ -239,7 +276,20 @@ public class NavigationViewListener {
 				{
 				   LinkedList<Ec> listEcDuItemChoisi = new LinkedList<Ec>();
 			    	   
-		    	   String requete = "select * from ec "
+		    	   String requete = "select ec.code_ec, "
+		   				+ "ec.nom_ec,"
+						+ "ec.coefficient_ec, "
+						+ "ec.nombre_ects, "
+						+ "ec.volume_heure_cours, "
+						+ "ec.volume_heure_TD, "
+						+ "ec.volume_heure_TP, "
+						+ "ec.volume_heure_BE, "
+						+ "ec.volume_heure_TPERSO, "
+						+ "ec.resume_ec, "
+						+ "ec.code_ue, "
+						+ "ec.responsable_ec, "
+						+ "ec.code_semestre "
+		    	   		+ "from ec "
 		    	   		+ "inner join ec_item on "
 		    	   		+ "ec_item.code_ec = ec.code_ec "
 		    	   		+ "inner join item on "
@@ -284,7 +334,7 @@ public class NavigationViewListener {
 		        if(comparaisonEcSelection.compareTo(nomEcSelection)!=0)
 			       {
 			    	   String requete = "select * from ec "
-			       		+ "where nom_ec = '"+nomEcSelection+"'";
+			       		+ "where nom_ec = '" + nomEcSelection + "'";
 			       
 			    	   navigationView.ecCourant = interfaceUtilisateur.getController().getEc(requete).get(0);
 			    	   setSousItem();
@@ -314,7 +364,7 @@ public class NavigationViewListener {
 		        if(comparaisonSousItemSelection.compareTo(nomSousItemSelection)!=0)
 			       {
 			    	   String requete = "select * from sous_item "
-			       		+ "where nom_sous_item = '"+nomSousItemSelection+"'";
+			       		+ "where nom_sous_item = '"+ nomSousItemSelection + "'";
 			       
 			    	   navigationView.sousItemCourant = interfaceUtilisateur.getController().getSousItem(requete).get(0);
 			    	   setEvaluation();
@@ -456,7 +506,8 @@ public class NavigationViewListener {
 							+ "ec.volume_heure_TD, ec.volume_heure_TP, "
 							+ "ec.volume_heure_BE, ec.volume_heure_TPERSO, "
 							+ "ec.resume_ec, ec.code_ue, "
-							+ "ec.responsable_ec, ec.code_semestre from ec "
+							+ "ec.responsable_ec, ec.code_semestre "
+							+ "from ec "
 							+ "inner join semestre on "
 							+ "semestre.code_semestre = ec.code_semestre "
 							+ "inner join annee on "
@@ -483,7 +534,11 @@ public class NavigationViewListener {
 				while (i < lesEc.size())
 				{
 					LinkedList<Item> lesItems = new LinkedList<Item>();
-					requete = "select * from item "
+					requete = "select item.code_item, "
+		    	   			+ "item.nom_item, "
+		    	   			+ "item.code_competence, "
+		    	   			+ "item.code_evaluation "
+							+ "from item "
 							+ "inner join ec_item on "
 							+ "ec_item.code_item = item.code_item "
 							+ "inner join ec on "
@@ -521,7 +576,10 @@ public class NavigationViewListener {
 				while (i < lesItemsGlobal.size())
 				{
 					LinkedList<Competence> lesCompetences = new LinkedList<Competence>();
-					requete = "select * from competence "
+					requete = "select competence.code_competence, "
+		    	   			+ "competence.nom_competence,"
+		    	   			+ "competence.code_domaine "
+							+ "from competence "
 							+ "inner join item on "
 							+ "item.code_competence = competence.code_competence "
 							+ "where code_item = " + lesItemsGlobal.get(i).getCode();
@@ -555,7 +613,10 @@ public class NavigationViewListener {
 				while (i < listCodesComp.size()) 
 				{
 					LinkedList<Domaine> lesDomaines = new LinkedList<Domaine>();
-					requete = "select * from domaine "
+					requete = "select domaine.code_domaine, "
+							+ "domaine.nom_domaine,"
+							+ "domaine.code_diplome "
+							+ "from domaine "
 							+ "inner join competence on "
 							+ "competence.code_domaine = domaine.code_domaine "
 							+ "where competence.code_competence = " + listCodesComp.get(i);
