@@ -58,7 +58,7 @@ public class DatabaseAccess {
 			System.out.println("[Log-DATABASE_ACCESS]: La connecxion avec la base de données est établi.");
 		} catch (SQLException e) {
 			System.err.println("[Log-DATABASE_ACCESS]: La connecxion avec la base de données a échoué.");
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	
