@@ -17,7 +17,9 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import com.m2stice.controller.ResultatViewListener;
+import com.m2stice.model.Annee;
 import com.m2stice.model.Diplome;
+import com.m2stice.model.Promotion;
 /*
  * Classe ResultatView
  */
@@ -128,43 +130,49 @@ public class ResultatView extends JPanel {
 	
 	public void setResultat(LinkedList<Diplome> diplomes){
 		for(Diplome d:diplomes){
-			JLabel jl = new JLabel("  "+d.getNom().substring(0,1).toUpperCase()+d.getNom().substring(1));
-			jl.setPreferredSize(new Dimension(1024,40));
-			jl.setOpaque(true);
-			jl.setFont(new Font("Gill Sans MT",Font.BOLD,20));
-			jl.setBackground(Color.decode("#66a8da"));
-			jl.addMouseListener(new MouseListener() {
+			LinkedList<Promotion> promotions = resultatViewListener.getPromotions(d);
+			for(Promotion p:promotions){
 				
-				@Override
-				public void mouseReleased(MouseEvent e) {
+				JLabel jl = new JLabel("  "+d.getNom().substring(0,1).toUpperCase()+d.getNom().substring(1)+" "+p.getAnneeDebutPromotion()+"-"+p.getAnneeFinPromotion());
+				jl.setPreferredSize(new Dimension(interfaceUtilisateur.getWidth(),40));
+				jl.setOpaque(true);
+				jl.setFont(new Font("Gill Sans MT",Font.BOLD,20));
+				jl.setBackground(Color.decode("#66a8da"));
+				jl.addMouseListener(new MouseListener() {
 					
-				}
-				
-				@Override
-				public void mousePressed(MouseEvent e) {
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						
+					}
 					
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent e) {
-					jl.setBackground(Color.decode("#66a8da"));
+					@Override
+					public void mousePressed(MouseEvent e) {
+						
+					}
 					
-				}
-				
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					jl.setBackground(Color.decode("#ffb401"));
+					@Override
+					public void mouseExited(MouseEvent e) {
+						jl.setBackground(Color.decode("#66a8da"));
+						
+					}
 					
-				}
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						jl.setBackground(Color.decode("#ffb401"));
+						
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						resultatViewListener.getNavigationView(d,p);
+					}
+				});
+				this.blocResultat.add(jl);
 				
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					resultatViewListener.getNavigationView(d);
-				}
-			});
-			this.blocResultat.add(jl);
+			}
 		}
 	}
+	
 	
 	public void setRetourListener(ActionListener actionListener){
 		retourBouton.addActionListener(actionListener);

@@ -21,6 +21,7 @@ import com.m2stice.model.Diplome;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
 import com.m2stice.model.Item;
+import com.m2stice.model.Promotion;
 import com.m2stice.model.Semestre;
 import com.m2stice.model.SousItem;
 import com.m2stice.model.Ue;
@@ -61,6 +62,9 @@ public class NavigationView extends JPanel {
 	public Annee anneeCourant;
 	public Semestre semestreCourant;
 	public Ue ueCourant;
+	
+	public Promotion promotionCourante;
+	public Object utilisateurCourant;
 	
 	public LinkedList<Ec> listEcCourant;
 	public LinkedList<Item> listItemCourant;
@@ -166,6 +170,13 @@ public class NavigationView extends JPanel {
 	public NavigationView(Interface interfaceUtilisateur,Diplome diplome){
 		this.interfaceUtilisateur = interfaceUtilisateur;
 		this.diplomeCourant = diplome;
+		this.init();
+	}
+	
+	public NavigationView(Interface interfaceUtilisateur,Diplome diplome,Promotion promotion){
+		this.interfaceUtilisateur = interfaceUtilisateur;
+		this.diplomeCourant = diplome;
+		this.promotionCourante = promotion;
 		this.init();
 	}
 	
