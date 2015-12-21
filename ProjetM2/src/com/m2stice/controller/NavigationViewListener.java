@@ -430,14 +430,12 @@ public class NavigationViewListener {
 							+ "ec.responsable_ec, ec.code_semestre from ec "
 							+ "inner join ue on "
 							+ "ue.code_ue = ec.code_ue "
-							+ "inner join diplome on "
-							+ "diplome.code_diplome = ue.code_diplome "
-							+ "inner join diplome_annee on "
-							+ "diplome_annee.code_diplome = diplome.code_diplome "
+							+ "inner join semestre on "
+							+ "ue.code_semestre = semestre.code_semestre "
 							+ "inner join annee on "
-							+ "diplome_annee.code_annee = annee.code_annee "
+							+ "semestre.code_annee = annee.code_annee "
 							+ "where nom_annee = '" + cheminSyllabus[2] + "' "
-							+ "and diplome.code_diplome = " + navigationView.diplomeCourant.getCode();
+							+ "and ue.code_diplome = " + navigationView.diplomeCourant.getCode();
 					
 					lesEc = interfaceUtilisateur.getController().getEc(requete);
 				}
