@@ -5,15 +5,21 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+/**
+ * BannièreComponent - Classe qui permet de générer une bannière
+ * @author BIABIANY
+ * @date 25/11/2015
+ * @copyright (C) Master 2 2015
+ */
 public class BanniereComponent extends JPanel{
 	
 	/**
-	 * Num�ro de s�rie
+	 * Numéro de série
 	 */
 	private static final long serialVersionUID = 971L;
 	
 	private Interface iu;					//Le lien avec l'interface utilisateur
-	private String nomImageFond;			//Le nom de l'image en fond de banni�re
+	private String nomImageFond;			//Le nom de l'image en fond de bannière
 	
 	/**
 	 * Constructeur par defaut
@@ -34,7 +40,7 @@ public class BanniereComponent extends JPanel{
 	}
 	
 	/**
-	 * Gen�re le composant graphique
+	 * Genère le composant graphique
 	 * @param Le context graphique
 	 */
 	public void paint(Graphics g){

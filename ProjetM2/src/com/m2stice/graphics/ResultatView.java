@@ -17,7 +17,6 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import com.m2stice.controller.ResultatViewListener;
-import com.m2stice.model.Annee;
 import com.m2stice.model.Diplome;
 import com.m2stice.model.Promotion;
 /*
@@ -25,8 +24,7 @@ import com.m2stice.model.Promotion;
  */
 /**
  * ResultatView - Génère la vue des résultats de la recherche
- * @author Emmanuel
- * @version 1.0
+ * @author BIABIANY
  * @version 1.0
  * @copyright (C) Master 2 2015
  * @date 03/12/2015

@@ -26,9 +26,11 @@ import com.m2stice.model.Semestre;
 import com.m2stice.model.SousItem;
 import com.m2stice.model.Ue;
 /**
- * 
- * @author Emmanuel
- *
+ * NavigationView - Classe qui va générer la vue de navigation.
+ * @version 1.6
+ * @author BIABIANY
+ * @revision 21/12
+ * BIABIANY, HENRY & CISNEROS
  */
 public class NavigationView extends JPanel {
 	/**

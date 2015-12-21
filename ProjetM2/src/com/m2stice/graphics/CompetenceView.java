@@ -21,7 +21,7 @@ import com.m2stice.model.SousItem;
 /**
  * 
  * CompetenceView - La classe qui va générer la vue des compétences.
- * @author Emmanuel
+ * @author BIABIANY
  * @version 1.0
  * @copyright (C) Master 2 2015
  * @date 14/12/2015

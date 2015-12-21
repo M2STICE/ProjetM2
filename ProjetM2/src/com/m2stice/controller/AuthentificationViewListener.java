@@ -12,7 +12,13 @@ import com.m2stice.model.Administrateur;
 import com.m2stice.model.Diplome;
 import com.m2stice.model.Etudiant;
 import com.m2stice.model.Intervenant;
-
+/**
+ * AuthentificationViewListener - Classe qui gère les interactions avec la vue d'authentification.
+ * @author BIABIANY
+ * @version 1.0
+ * @date 03/12/2015
+ * @copyright (C) Master 2 2015
+ */
 public class AuthentificationViewListener {
 	
 	private Interface interfaceUtilisateur;

@@ -2,8 +2,6 @@ package com.m2stice.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
 import com.m2stice.graphics.Interface;
@@ -16,10 +14,11 @@ import com.m2stice.model.Promotion;
 public class ResultatViewListener {
 	
 	private Interface interfaceUtilisateur;
+	@SuppressWarnings("unused")
 	private ResultatView resultatView;
 	private RechercheView rechercheView;
 	private NavigationView navigationView;
-	private LinkedList<Diplome> diplomes; 
+	//private LinkedList<Diplome> diplomes; 
 	
 	public ResultatViewListener(Interface interfaceUtilisateur,ResultatView resultatView){
 		this.interfaceUtilisateur = interfaceUtilisateur;

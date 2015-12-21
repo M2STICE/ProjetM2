@@ -12,8 +12,7 @@ import com.m2stice.model.Diplome;
 
 /**
  *Classe RechercheViewListener qui gère les actions 
- *@author Emmanuel
- *@version 1.0
+ *@author BIABIANY
  *@version 1.0
  *@copyright (C) Master 2 2015
  *@date 03/12/2015

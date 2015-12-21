@@ -25,14 +25,12 @@ import com.m2stice.controller.RechercheViewListener;
 */
 
 /**
- * 
  * RechercheView - La classe qui va générer la vue de recherche.
- * @author Emmanuel
+ * @author BIABIANY
  * @version 1.0
  * @copyright (C) Master 2 2015
  * @date 03/12/2015
  * @notes Elle va être utiliser dans le main.
- *
  */
 public class RechercheView extends JPanel {
 

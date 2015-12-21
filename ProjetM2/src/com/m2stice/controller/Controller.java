@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Properties;
 
@@ -56,15 +55,13 @@ import com.m2stice.model.Ue;
 
 /**
 *  Controller - Classe de controle pour realiser les actions sur la base de donnee
-*
 * @version 1.1
-*
 * @author ASDRUBAL & NERES
 * @copyright (C) Master 2 2015
 * @date 02/12/2015
 * @see DatabaseAccess
 * @revision 04/12
-* Emmanuel
+* BIABIANY
 * 
 */
 public class Controller {

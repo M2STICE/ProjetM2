@@ -7,8 +7,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-
 import com.m2stice.graphics.CompetenceView;
 import com.m2stice.graphics.Interface;
 import com.m2stice.graphics.NavigationView;
@@ -18,6 +16,14 @@ import com.m2stice.model.Competence;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
 import com.m2stice.model.Item;
+
+/**
+ * NavigationViewListener - Classe qui gère la vue de navigation.
+ * @author BIABIANY
+ * @version 2.0 
+ * @revision 21/12
+ * BIABIANY, HENRY & CISNEROS
+ */
 
 public class NavigationViewListener {
 	
@@ -146,7 +152,6 @@ public class NavigationViewListener {
 		       }
 		       else
 		       {
-		    	   
 		    	   LinkedList<Competence> listCompeteceDuDomaineChoisi = new LinkedList<Competence>();
 		    	   
 		    	   String requete = "select competence.code_competence, "
@@ -175,7 +180,6 @@ public class NavigationViewListener {
 		    	   competenceView.setCompetenceJTable(listCompeteceDuDomaineChoisi, navigationView.getNavigationViewListener());
 		       }
 			}
-			
 		};
 	}
 	
