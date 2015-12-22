@@ -170,7 +170,7 @@ public class NavigationViewListener {
 		    	   }
 		    	   
 		    	   requete += ")";
-		    	   //System.out.println(requete);
+		    	  // System.out.println(requete);
 		    	   listCompeteceDuDomaineChoisi = interfaceUtilisateur.getController().getCompetence(requete);
 		    	   competenceView.setCompetenceJTable(listCompeteceDuDomaineChoisi, navigationView.getNavigationViewListener());
 		       }
@@ -523,7 +523,7 @@ public class NavigationViewListener {
 				}
 				
 				
-				navigationView.listEcCourant = lesEc;
+				
 				
 				LinkedList<Item> lesItemsGlobal = new LinkedList<Item>();
 				LinkedList<Integer> listCodesItems = new LinkedList<Integer>();
@@ -556,7 +556,7 @@ public class NavigationViewListener {
 					i++;
 				}
 				
-				navigationView.listItemCourant = lesItemsGlobal;
+				
 				
 				/*
 				System.out.println("--------------------------------");
@@ -595,7 +595,14 @@ public class NavigationViewListener {
 				
 					i++;
 				}
-				navigationView.listCompetenceCourant = lesCompetencesGlobales;
+				
+				if(tailleCheminSyllabus == 2 || tailleCheminSyllabus == 3 || tailleCheminSyllabus == 4 || tailleCheminSyllabus == 5)
+				{
+				 navigationView.listEcCourant = lesEc;
+				 navigationView.listItemCourant = lesItemsGlobal;
+				 navigationView.listCompetenceCourant = lesCompetencesGlobales;
+				}
+				
 				/*System.out.println("--------------------------------");
 				System.out.println("Compétences");
 				for(int i1=0; i1<listCodesComp.size();i1++)
@@ -635,6 +642,15 @@ public class NavigationViewListener {
 				{
 					competenceView.bloc.removeAll();
 					competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
+				}
+				
+				if(tailleCheminSyllabus == 1)
+				{
+					competenceView.bloc.removeAll();
+					navigationView.listEcCourant = null;
+					navigationView.listItemCourant = null;
+					navigationView.listCompetenceCourant = null;
+					setDomaine();
 				}
 				/*System.out.println("--------------------------------");
 				System.out.println("Domaines");
