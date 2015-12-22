@@ -2,7 +2,6 @@ package com.m2stice.graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.LinkedList;
 
@@ -103,12 +102,13 @@ public class CompetenceView extends JPanel {
 		}
 		String[] titre = {"Domaines de compétences"};
 		tableauDomaine = new JTableNotEditable(donneesDomaine,titre);
+		tableauDomaine.setToolTipText("Tableau des domaines");
 		
 		cellSelectionDomaine = tableauDomaine.getSelectionModel();
 		cellSelectionDomaine.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		cellSelectionDomaine.addListSelectionListener(nvl.getDomaineTableListener(tableauDomaine));
 		
-		tableauDomaine.setPreferredSize(new Dimension(50,1000));
+		//tableauDomaine.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauDomaine));
 		interfaceUtilisateur.repaint();
 		
@@ -160,7 +160,7 @@ public class CompetenceView extends JPanel {
 		cellSelectionCompetence.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		cellSelectionCompetence.addListSelectionListener(nvl.getCompetenceTableListener(tableauCompetence));
 		
-		tableauCompetence.setPreferredSize(new Dimension(50,1000));
+		//tableauCompetence.setPreferredSize(new Dimension(50,1000));
 		click_competence = true;
 		this.bloc.add(new JScrollPane(tableauCompetence));
 		
@@ -201,7 +201,7 @@ public class CompetenceView extends JPanel {
 		cellSelectionItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		cellSelectionItem.addListSelectionListener(nvl.getItemTableListener(tableauItem));
 		
-		tableauItem.setPreferredSize(new Dimension(50,1000));
+		//tableauItem.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauItem));
 		click_item = true;
 		interfaceUtilisateur.repaint();
@@ -236,7 +236,7 @@ public class CompetenceView extends JPanel {
 		cellSelectionEC.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		cellSelectionEC.addListSelectionListener(nvl.getECTableListener(tableauEC));
 		
-		tableauEC.setPreferredSize(new Dimension(50,1000));
+		//tableauEC.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauEC));
 		click_ec = true;
 		interfaceUtilisateur.repaint();
@@ -267,7 +267,7 @@ public class CompetenceView extends JPanel {
 		cellSelectionSousItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		cellSelectionSousItem.addListSelectionListener(nvl.getSousItemTableListener(tableauSousItem));
 		
-		tableauSousItem.setPreferredSize(new Dimension(50,1000));
+		//tableauSousItem.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauSousItem));
 		click_sous_item=true;
 		interfaceUtilisateur.repaint();
@@ -292,7 +292,7 @@ public class CompetenceView extends JPanel {
 		cellSelectionEvaluation.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		cellSelectionEvaluation.addListSelectionListener(nvl.getEvaluationTableListener(tableauEvaluation));
 		
-		tableauEvaluation.setPreferredSize(new Dimension(50,1000));
+		//tableauEvaluation.setPreferredSize(new Dimension(50,1000));
 		this.bloc.add(new JScrollPane(tableauEvaluation));
 		click_evaluation = true;
 		interfaceUtilisateur.repaint();

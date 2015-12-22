@@ -1,5 +1,7 @@
 package com.m2stice.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 import javax.swing.JTable;
@@ -667,6 +669,37 @@ public class NavigationViewListener {
 				/*competenceView.bloc.removeAll();
 				competenceView.setDomaineJTable(lesDomainesGlobales);
 				*/
+			}
+		};
+	}
+	
+	
+	//Bouton Zoom Listener
+	//Plus
+	public ActionListener getZoomPlusListener(){
+		return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int taille = competenceView.bloc.getComponents().length;
+				for(int i=0;i<taille;i++){
+					competenceView.bloc.getComponent(i).setSize(competenceView.bloc.getComponent(i).getWidth()+10,competenceView.bloc.getComponent(i).getHeight());
+				}
+				competenceView.bloc.repaint();
+			}
+		};
+	}
+	
+	public ActionListener getZoomMoinsListener(){
+		return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int taille = competenceView.bloc.getComponents().length;
+				for(int i=0;i<taille;i++){
+					competenceView.bloc.getComponent(i).setSize(competenceView.bloc.getComponent(i).getWidth()-10,competenceView.bloc.getComponent(i).getHeight());
+				}
+				competenceView.bloc.repaint();
 			}
 		};
 	}

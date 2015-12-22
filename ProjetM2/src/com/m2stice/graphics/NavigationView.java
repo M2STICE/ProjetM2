@@ -143,6 +143,8 @@ public class NavigationView extends JPanel {
 		navigationViewListener.setCompetenceView(competenceView);
 		navigationViewListener.setDomaine();
 		competenceView.cellSelectionDomaine.addListSelectionListener(navigationViewListener.getDomaineTableListener(competenceView.tableauDomaine));
+		setZoomPlusListener(navigationViewListener.getZoomPlusListener());
+		setZoomMoinsListener(navigationViewListener.getZoomMoinsListener());
 		//
 		blocCompetences.setBackground(Color.WHITE);
 		blocCompetences.setLayout(new BorderLayout());
@@ -194,6 +196,13 @@ public class NavigationView extends JPanel {
 	public NavigationViewListener getNavigationViewListener()
 	{
 		return navigationViewListener;
+	}
+	
+	public void setZoomPlusListener(ActionListener actionListener){
+		zoomPlusButton.addActionListener(actionListener);
+	}
+	public void setZoomMoinsListener(ActionListener actionListener){
+		zoomMoinsButton.addActionListener(actionListener);
 	}
 
 }

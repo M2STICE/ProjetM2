@@ -156,8 +156,8 @@ public class Interface extends Applet {
 	 */
 	public void repaint(){
 		super.repaint();
-		this.resize(1025,768);
-		this.resize(1024,768);
+		this.resize(this.getWidth(),this.getHeight()+1);
+		this.resize(this.getWidth(),this.getHeight());
 	}
 	
 	/**
