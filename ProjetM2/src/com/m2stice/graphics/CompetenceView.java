@@ -114,7 +114,7 @@ public class CompetenceView extends JPanel {
 		//tableauDomaine.setPreferredSize(new Dimension(500,500));
 		JScrollPane blocTableau = new JScrollPane(tableauDomaine);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,10+ld.size()*20));
+		blocTableau.setPreferredSize(new Dimension(300,15+ld.size()*20));
 		this.bloc.add(blocTableau);
 		interfaceUtilisateur.repaint();
 		
@@ -170,7 +170,7 @@ public class CompetenceView extends JPanel {
 		click_competence = true;
 		JScrollPane blocTableau = new JScrollPane(tableauCompetence);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,15+lc.size()*20));
+		blocTableau.setPreferredSize(new Dimension(300,20+lc.size()*18));
 		this.bloc.add(blocTableau);
 		
 		interfaceUtilisateur.repaint();
@@ -213,7 +213,7 @@ public class CompetenceView extends JPanel {
 		//tableauItem.setPreferredSize(new Dimension(50,1000));
 		JScrollPane blocTableau = new JScrollPane(tableauItem);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,15+li.size()*20));
+		blocTableau.setPreferredSize(new Dimension(300,20+li.size()*18));
 		this.bloc.add(blocTableau);
 		click_item = true;
 		interfaceUtilisateur.repaint();
@@ -251,7 +251,7 @@ public class CompetenceView extends JPanel {
 		//tableauEC.setPreferredSize(new Dimension(50,1000));
 		JScrollPane blocTableau = new JScrollPane(tableauEC);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,15+lec.size()*20));
+		blocTableau.setPreferredSize(new Dimension(300,20+lec.size()*18));
 		this.bloc.add(blocTableau);
 		click_ec = true;
 		interfaceUtilisateur.repaint();
@@ -285,7 +285,7 @@ public class CompetenceView extends JPanel {
 		//tableauSousItem.setPreferredSize(new Dimension(50,1000));
 		JScrollPane blocTableau = new JScrollPane(tableauSousItem);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,15+lsi.size()*20));
+		blocTableau.setPreferredSize(new Dimension(300,20+lsi.size()*18));
 		this.bloc.add(blocTableau);
 		click_sous_item=true;
 		interfaceUtilisateur.repaint();
@@ -313,7 +313,7 @@ public class CompetenceView extends JPanel {
 		//tableauEvaluation.setPreferredSize(new Dimension(50,1000));
 		JScrollPane blocTableau = new JScrollPane(tableauEvaluation);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,15+le.size()*20));
+		blocTableau.setPreferredSize(new Dimension(300,20+le.size()*18));
 		this.bloc.add(blocTableau);
 		click_evaluation = true;
 		interfaceUtilisateur.repaint();
