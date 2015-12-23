@@ -52,7 +52,7 @@ public class Etudiant_evaluation {
 		{
 			Random r = new Random();
 			
-			for (int j = 1; j < 5; j++)
+			for (int j = 8; j < 9; j++)
 			{
 				int note = r.nextInt(20) + 1;
 				

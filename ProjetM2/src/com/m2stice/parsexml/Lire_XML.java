@@ -77,6 +77,43 @@ public class Lire_XML {
             Element cote_syllabus = (Element) niveauPosition.get(1);
             //System.out.println( "Coté: " + cote_syllabus.getAttributeValue("TEXT"));
             
+			requete = "delete from sous item_evaluation;";
+			monController.modification(requete);
+			requete = "delete from ec_sous_item;";
+			monController.modification(requete);
+			requete = "delete from sous_item;";
+			monController.modification(requete);
+			requete = "delete from sous_item;";
+			monController.modification(requete);
+			requete = "delete from ec_item;";
+			monController.modification(requete);
+			requete = "delete from item;";
+			monController.modification(requete);
+			requete = "delete from intervenant_ec;";
+			monController.modification(requete);
+			requete = "delete from ec;";
+			monController.modification(requete);
+			requete = "delete from ue;";
+			monController.modification(requete);
+			requete = "delete from etudiant_evaluation;";
+			monController.modification(requete);
+			requete = "delete from evaluation;";
+			monController.modification(requete);
+			requete = "delete from etudiant_promotion;";
+			monController.modification(requete);
+			requete = "delete from etudiant_diplome;";
+			monController.modification(requete);
+			requete = "delete from promotion;";
+			monController.modification(requete);
+			requete = "delete from diplome_annee;";
+			monController.modification(requete);
+			requete = "delete from competence;";
+			monController.modification(requete);
+			requete = "delete from domaine;";
+			monController.modification(requete);
+			requete = "delete from diplome;";
+			monController.modification(requete);
+        
             
             // COTE SYLLABUS
             System.out.println("\nCOTE SYLLABUS");
