@@ -2,6 +2,7 @@ package com.m2stice.graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.LinkedList;
 
@@ -76,8 +77,10 @@ public class CompetenceView extends JPanel {
 		
 		this.setLayout(new BorderLayout());
 		bloc.setLayout(new FlowLayout(FlowLayout.LEADING));
+		bloc.setBackground(Color.GRAY);
 		blocInferrieure = new JScrollPane(bloc);
-		blocInferrieure.setBackground(Color.WHITE);
+		//blocInferrieure.setBackground(Color.WHITE);
+		this.setOpaque(false);
 		this.add(blocInferrieure,BorderLayout.CENTER);
 		
 	}
@@ -108,8 +111,11 @@ public class CompetenceView extends JPanel {
 		cellSelectionDomaine.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		cellSelectionDomaine.addListSelectionListener(nvl.getDomaineTableListener(tableauDomaine));
 		
-		//tableauDomaine.setPreferredSize(new Dimension(50,1000));
-		this.bloc.add(new JScrollPane(tableauDomaine));
+		//tableauDomaine.setPreferredSize(new Dimension(500,500));
+		JScrollPane blocTableau = new JScrollPane(tableauDomaine);
+		blocTableau.setBackground(Color.GRAY);
+		blocTableau.setPreferredSize(new Dimension(300,10+ld.size()*20));
+		this.bloc.add(blocTableau);
 		interfaceUtilisateur.repaint();
 		
 		click_competence = false;
@@ -162,7 +168,10 @@ public class CompetenceView extends JPanel {
 		
 		//tableauCompetence.setPreferredSize(new Dimension(50,1000));
 		click_competence = true;
-		this.bloc.add(new JScrollPane(tableauCompetence));
+		JScrollPane blocTableau = new JScrollPane(tableauCompetence);
+		blocTableau.setBackground(Color.GRAY);
+		blocTableau.setPreferredSize(new Dimension(300,15+lc.size()*20));
+		this.bloc.add(blocTableau);
 		
 		interfaceUtilisateur.repaint();
 	}
@@ -202,7 +211,10 @@ public class CompetenceView extends JPanel {
 		cellSelectionItem.addListSelectionListener(nvl.getItemTableListener(tableauItem));
 		
 		//tableauItem.setPreferredSize(new Dimension(50,1000));
-		this.bloc.add(new JScrollPane(tableauItem));
+		JScrollPane blocTableau = new JScrollPane(tableauItem);
+		blocTableau.setBackground(Color.GRAY);
+		blocTableau.setPreferredSize(new Dimension(300,15+li.size()*20));
+		this.bloc.add(blocTableau);
 		click_item = true;
 		interfaceUtilisateur.repaint();
 	}
@@ -237,7 +249,10 @@ public class CompetenceView extends JPanel {
 		cellSelectionEC.addListSelectionListener(nvl.getECTableListener(tableauEC));
 		
 		//tableauEC.setPreferredSize(new Dimension(50,1000));
-		this.bloc.add(new JScrollPane(tableauEC));
+		JScrollPane blocTableau = new JScrollPane(tableauEC);
+		blocTableau.setBackground(Color.GRAY);
+		blocTableau.setPreferredSize(new Dimension(300,15+lec.size()*20));
+		this.bloc.add(blocTableau);
 		click_ec = true;
 		interfaceUtilisateur.repaint();
 	}
@@ -268,7 +283,10 @@ public class CompetenceView extends JPanel {
 		cellSelectionSousItem.addListSelectionListener(nvl.getSousItemTableListener(tableauSousItem));
 		
 		//tableauSousItem.setPreferredSize(new Dimension(50,1000));
-		this.bloc.add(new JScrollPane(tableauSousItem));
+		JScrollPane blocTableau = new JScrollPane(tableauSousItem);
+		blocTableau.setBackground(Color.GRAY);
+		blocTableau.setPreferredSize(new Dimension(300,15+lsi.size()*20));
+		this.bloc.add(blocTableau);
 		click_sous_item=true;
 		interfaceUtilisateur.repaint();
 	}
@@ -293,7 +311,10 @@ public class CompetenceView extends JPanel {
 		cellSelectionEvaluation.addListSelectionListener(nvl.getEvaluationTableListener(tableauEvaluation));
 		
 		//tableauEvaluation.setPreferredSize(new Dimension(50,1000));
-		this.bloc.add(new JScrollPane(tableauEvaluation));
+		JScrollPane blocTableau = new JScrollPane(tableauEvaluation);
+		blocTableau.setBackground(Color.GRAY);
+		blocTableau.setPreferredSize(new Dimension(300,15+le.size()*20));
+		this.bloc.add(blocTableau);
 		click_evaluation = true;
 		interfaceUtilisateur.repaint();
 	}

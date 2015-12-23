@@ -1,5 +1,6 @@
 package com.m2stice.controller;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -9,6 +10,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+
 import com.m2stice.graphics.CompetenceView;
 import com.m2stice.graphics.Interface;
 import com.m2stice.graphics.NavigationView;
@@ -684,6 +686,11 @@ public class NavigationViewListener {
 				int taille = competenceView.bloc.getComponents().length;
 				for(int i=0;i<taille;i++){
 					competenceView.bloc.getComponent(i).setSize(competenceView.bloc.getComponent(i).getWidth()+10,competenceView.bloc.getComponent(i).getHeight());
+					competenceView.bloc.getComponent(i).setMaximumSize(new Dimension(competenceView.bloc.getComponent(i).getWidth()+10,competenceView.bloc.getComponent(i).getHeight()));
+					if(i>0)
+						competenceView.bloc.getComponent(i).setLocation(competenceView.bloc.getComponent(i).getX()+(10*i),competenceView.bloc.getComponent(i).getY());
+					competenceView.bloc.repaint();
+					competenceView.bloc.getParent().repaint();
 				}
 				competenceView.bloc.repaint();
 			}
@@ -698,6 +705,11 @@ public class NavigationViewListener {
 				int taille = competenceView.bloc.getComponents().length;
 				for(int i=0;i<taille;i++){
 					competenceView.bloc.getComponent(i).setSize(competenceView.bloc.getComponent(i).getWidth()-10,competenceView.bloc.getComponent(i).getHeight());
+					competenceView.bloc.getComponent(i).setMaximumSize(new Dimension(competenceView.bloc.getComponent(i).getWidth()-10,competenceView.bloc.getComponent(i).getHeight()));
+					if(i>0)
+						competenceView.bloc.getComponent(i).setLocation(competenceView.bloc.getComponent(i).getX()-(10*i),competenceView.bloc.getComponent(i).getY());
+					competenceView.bloc.repaint();
+					competenceView.bloc.getParent().repaint();
 				}
 				competenceView.bloc.repaint();
 			}
