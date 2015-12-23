@@ -189,12 +189,7 @@ public class Lire_XML {
             		String nomDomaine = domaine.getAttributeValue("TEXT").replace("'", "`");
             		//System.out.println("Nom domaine: " + nomDomaine);
             		
-            		requete = "insert into domaine (nom_domaine, code_diplome) values ('" + nomDomaine + "', " + codeDiplome.get(0).getCode() + ");";
-            		monController.modification(requete);
             		
-            		requete = "select * FROM domaine ORDER BY code_domaine DESC LIMIT 1;";
-                    LinkedList<Domaine> codeDomaine = new LinkedList<Domaine>();
-                    codeDomaine = monController.getDomaine(requete);
             		
             		List<Element> listeCompetences = domaine.getChildren("node");
             		for (int k = 0; k < listeCompetences.size(); k++)
@@ -204,12 +199,7 @@ public class Lire_XML {
             			String nomCompetence = competences.getAttributeValue("TEXT").replace("'", "`");
             			//System.out.println("Competence: " + competences.getAttributeValue("TEXT"));
             			
-            			requete = "insert into competence (nom_competence, code_domaine) values ('"+ nomCompetence + "', " + codeDomaine.get(0).getCode() + ");";
-            			monController.modification(requete);
             			
-            			LinkedList<Competence> codeCompetence = new LinkedList<Competence>();
-            			requete = "select * FROM competence ORDER BY code_competence DESC LIMIT 1;";
-            			codeCompetence = monController.getCompetence(requete);
             			
             			List<Element> listeItems = competences.getChildren("node");
             			for (int f = 0; f < listeItems.size(); f++)
@@ -219,12 +209,7 @@ public class Lire_XML {
             				String nomItem = items.getAttributeValue("TEXT").replace("'", "`");
             				//System.out.println("Item: " + items.getAttributeValue("TEXT"));
             				
-            				requete = "insert into item (nom_item, code_competence) values ('" + nomItem + "', " + codeCompetence.get(0).getCode() + ");";
-            				monController.modification(requete);
             				
-            				LinkedList<Item> codeItem = new LinkedList<Item>();
-            				requete = "select * FROM item ORDER BY code_item DESC LIMIT 1;";
-            				codeItem = monController.getItem(requete);
             				
             				List<Element> liste12NiveauAIgnorerPourBD = items.getChildren("node");
         					for (int t = 0; t < liste12NiveauAIgnorerPourBD.size(); t++)
@@ -242,6 +227,28 @@ public class Lire_XML {
         						
         						if (codeEcC.size() != 0)
             					{
+        							//On ajoute le domaine, la compétence, l'item seulement si l'ec est présent
+        							requete = "insert into domaine (nom_domaine, code_diplome) values ('" + nomDomaine + "', " + codeDiplome.get(0).getCode() + ");";
+                            		monController.modification(requete);
+                            		
+                            		requete = "select * FROM domaine ORDER BY code_domaine DESC LIMIT 1;";
+                                    LinkedList<Domaine> codeDomaine = new LinkedList<Domaine>();
+                                    codeDomaine = monController.getDomaine(requete);
+                                    
+                        			requete = "insert into competence (nom_competence, code_domaine) values ('"+ nomCompetence + "', " + codeDomaine.get(0).getCode() + ");";
+                        			monController.modification(requete);
+                        			
+                        			LinkedList<Competence> codeCompetence = new LinkedList<Competence>();
+                        			requete = "select * FROM competence ORDER BY code_competence DESC LIMIT 1;";
+                        			codeCompetence = monController.getCompetence(requete);
+                    				
+                    				requete = "insert into item (nom_item, code_competence) values ('" + nomItem + "', " + codeCompetence.get(0).getCode() + ");";
+                    				monController.modification(requete);
+                    				
+                    				LinkedList<Item> codeItem = new LinkedList<Item>();
+                    				requete = "select * FROM item ORDER BY code_item DESC LIMIT 1;";
+                    				codeItem = monController.getItem(requete);
+        							
 	        						requete = "insert into ec_item (code_ec, code_item) values ("+ codeEcC.get(0).getCode() + ", " + codeItem.get(0).getCode() + ");";
 	        						monController.modification(requete);
 	        						
@@ -261,6 +268,9 @@ public class Lire_XML {
 		            					codeSousItem = monController.getSousItem(requete);
 		            					
 		            					requete = "insert into ec_sous_item (code_ec, code_sous_item) values ("+ codeEcC.get(0).getCode() + ", " + codeSousItem.get(0).getCode() +");";
+		            					monController.modification(requete);
+		            					
+		            					requete = "insert into item_sous_item (code_item, code_sous_item) values ("+ codeItem.get(0).getCode()+", "+codeSousItem.get(0).getCode()+");";
 		            					monController.modification(requete);
 		            					
 	            						List<Element> listeEvaluations = sousItems.getChildren("node");
