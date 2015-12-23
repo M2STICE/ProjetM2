@@ -77,7 +77,7 @@ public class Lire_XML {
             Element cote_syllabus = (Element) niveauPosition.get(1);
             //System.out.println( "Coté: " + cote_syllabus.getAttributeValue("TEXT"));
             
-			requete = "delete from sous item_evaluation;";
+			requete = "delete from sous_item_evaluation;";
 			monController.modification(requete);
 			requete = "delete from ec_sous_item;";
 			monController.modification(requete);
