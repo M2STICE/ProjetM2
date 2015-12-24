@@ -108,10 +108,13 @@ public class NavigationViewListener {
 	
 	public void setSousItem(){
 		int codeEc = navigationView.ecCourant.getCode();
+		int codeItem = navigationView.itemCourant.getCode();
 		String requete = "select sous_item.code_sous_item, "
 				+ "sous_item.nom_sous_item "
-				+ "from sous_item, ec_sous_item "
-				+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and ec_sous_item.code_ec = " + codeEc + ";";
+				+ "from sous_item, ec_sous_item, item_sous_item "
+				+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and ec_sous_item.code_ec = " + codeEc + " and "
+				+ "sous_item.code_sous_item = item_sous_item.code_sous_item and "
+				+ "item_sous_item.code_item = "+codeItem+" ;";
 		competenceView.setSousItemJTable(interfaceUtilisateur.getController().getSousItem(requete),this);
 	}
 	

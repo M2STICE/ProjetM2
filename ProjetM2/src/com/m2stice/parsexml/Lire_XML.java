@@ -81,7 +81,7 @@ public class Lire_XML {
 			monController.modification(requete);
 			requete = "delete from ec_sous_item;";
 			monController.modification(requete);
-			requete = "delete from sous_item;";
+			requete = "delete from item_sous_item;";
 			monController.modification(requete);
 			requete = "delete from sous_item;";
 			monController.modification(requete);
@@ -265,29 +265,56 @@ public class Lire_XML {
         						if (codeEcC.size() != 0)
             					{
         							//On ajoute le domaine, la compétence, l'item seulement si l'ec est présent
-        							requete = "insert into domaine (nom_domaine, code_diplome) values ('" + nomDomaine + "', " + codeDiplome.get(0).getCode() + ");";
-                            		monController.modification(requete);
-                            		
-                            		requete = "select * FROM domaine ORDER BY code_domaine DESC LIMIT 1;";
+        							
+        							LinkedList<Domaine> lDomaine = new LinkedList<Domaine>();
+        							requete = "select * FROM domaine where domaine.nom_domaine='"+nomDomaine+"';";
+        							lDomaine = monController.getDomaine(requete);
+        							
+        							if(lDomaine.size() == 0)
+        							{
+        								requete = "insert into domaine (nom_domaine, code_diplome) values ('" + nomDomaine + "', " + codeDiplome.get(0).getCode() + ");";
+        								monController.modification(requete);
+        							}	
+        							
+        							LinkedList<Competence> lCompetence = new LinkedList<Competence>();
+            						requete = "select * FROM competence where competence.nom_competence='"+nomCompetence+"';";
+            						lCompetence = monController.getCompetence(requete);
+        								
+        							requete = "select * FROM domaine ORDER BY code_domaine DESC LIMIT 1;";
                                     LinkedList<Domaine> codeDomaine = new LinkedList<Domaine>();
                                     codeDomaine = monController.getDomaine(requete);
+                                        
+                                    if(lCompetence.size() == 0)
+                                     {
+                                        requete = "insert into competence (nom_competence, code_domaine) values ('"+ nomCompetence + "', " + codeDomaine.get(0).getCode() + ");";
+                                        monController.modification(requete);
+                                        	
+                                     }
                                     
-                        			requete = "insert into competence (nom_competence, code_domaine) values ('"+ nomCompetence + "', " + codeDomaine.get(0).getCode() + ");";
-                        			monController.modification(requete);
-                        			
-                        			LinkedList<Competence> codeCompetence = new LinkedList<Competence>();
-                        			requete = "select * FROM competence ORDER BY code_competence DESC LIMIT 1;";
-                        			codeCompetence = monController.getCompetence(requete);
-                    				
-                    				requete = "insert into item (nom_item, code_competence) values ('" + nomItem + "', " + codeCompetence.get(0).getCode() + ");";
-                    				monController.modification(requete);
-                    				
-                    				LinkedList<Item> codeItem = new LinkedList<Item>();
-                    				requete = "select * FROM item ORDER BY code_item DESC LIMIT 1;";
-                    				codeItem = monController.getItem(requete);
+                                    LinkedList<Item> lItem = new LinkedList<Item>();
+            						requete = "select * FROM item where item.nom_item='"+nomItem+"';";
+            						lItem = monController.getItem(requete);
+                                    
+	                            	LinkedList<Competence> codeCompetence = new LinkedList<Competence>();
+	                            	requete = "select * FROM competence ORDER BY code_competence DESC LIMIT 1;";
+	                            	codeCompetence = monController.getCompetence(requete);
+	                            	
+	                            	if(lItem.size() == 0)
+	                            	{
+	                            		requete = "insert into item (nom_item, code_competence) values ('" + nomItem + "', " + codeCompetence.get(0).getCode() + ");";
+                        				monController.modification(requete);
+	                            	}
+                                      
+                        				
+                        			LinkedList<Item> codeItem = new LinkedList<Item>();
+                        			requete = "select * FROM item ORDER BY code_item DESC LIMIT 1;";
+                        			codeItem = monController.getItem(requete);
+            							
+    	        					requete = "insert into ec_item (code_ec, code_item) values ("+ codeEcC.get(0).getCode() + ", " + codeItem.get(0).getCode() + ");";
+    	        					monController.modification(requete);
         							
-	        						requete = "insert into ec_item (code_ec, code_item) values ("+ codeEcC.get(0).getCode() + ", " + codeItem.get(0).getCode() + ");";
-	        						monController.modification(requete);
+                            		
+                            		
 	        						
 	        						List<Element> listeSousItems = niveau12AIgnorerPourBD.getChildren("node");
 	        						for (int h = 0; h < listeSousItems.size(); h++)
