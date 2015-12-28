@@ -1,6 +1,5 @@
 package com.m2stice.graphics;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -33,15 +32,15 @@ public class DatabaseInfoView extends JPanel{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7287536978951691528L;
+	private static final long serialVersionUID = 971L;
 	
 	private Interface interfaceUtilisateur;
 	private JPanel acces;
    
-    private JTextField username = null;
-    private JTextField server = null;
-    private JTextField databaseName = null;
-    private JPasswordField password = null;
+    private JHintTextField username = null;
+    private JHintTextField server = null;
+    private JHintTextField databaseName = null;
+    private JHintPasswordField password = null;
    
     public JButton valide;
     
@@ -79,73 +78,42 @@ public class DatabaseInfoView extends JPanel{
 	
 	private JTextField getJtextDatabase() {
 		if(databaseName == null){
-			Color placeholder = new Color(160,160,160);
-			String defaut = "Nom base de donnée";
-			
-			databaseName = new JTextField();
-			databaseName.setSize(new Dimension(250, 35));
-			databaseName.setBackground(new Color(255, 255, 255));
+			databaseName = new JHintTextField("Nom base de donnée");
+			databaseName.setSize(new Dimension(300, 35));
 			databaseName.setHorizontalAlignment(JTextField.CENTER);
-			databaseName.setText(defaut);
-			databaseName.setFont(new Font("TimesRoman",Font.ITALIC, 15));
-			databaseName.setForeground(placeholder);
 		}
 		return databaseName;
 	}
 	
 	private JTextField getJtextServer() {
 		if(server == null){
-			Color placeholder = new Color(160,160,160);
-			String defaut = "serverName";
-			
-			server = new JTextField();
-			server.setSize(new Dimension(250, 35));
-			server.setBackground(new Color(255, 255, 255));
+			server = new JHintTextField("serverName");
+			server.setSize(new Dimension(300, 35));
 			server.setHorizontalAlignment(JTextField.CENTER);
-			server.setText(defaut);
-			server.setFont(new Font("TimesRoman",Font.ITALIC, 15));
-			server.setForeground(placeholder);
 		}
 		return server;
 	}
 	
 	private JPasswordField getJtextPassword() {
 		   if(password == null){
-			   	Color placeholder = new Color(160,160,160);
-				String defaut = "Mot de passe";
-				
-				password = new JPasswordField();
-				password.setSize(new Dimension(250, 35));
-				password.setBackground(new Color(255, 255, 255));
+				password = new JHintPasswordField("Mot de passe");
+				password.setSize(new Dimension(300, 35));
 				password.setHorizontalAlignment(JTextField.CENTER);
-				password.setText(defaut);
-				password.setFont(new Font("TimesRoman",Font.ITALIC, 15));
-				password.setForeground(placeholder);
 			}
 		   return password;
 	}
 	
 	private JTextField getJtextUserName() {
-		
 			if(username == null){
-				Color placeholder = new Color(160,160,160);
-				String defaut = "userName";
-				
-				username = new JTextField();
-				username.setSize(new Dimension(250, 35));
-				username.setBackground(new Color(255, 255, 255));
+				username = new JHintTextField("userName");
+				username.setSize(new Dimension(300, 35));
 				username.setHorizontalAlignment(JTextField.CENTER);
-				username.setText(defaut);
-				username.setFont(new Font("TimesRoman",Font.ITALIC, 15));
-				username.setForeground(placeholder);
 			}
 			return username;
-			
 	}
 	   
 	private JButton getButton() {
-		if(valide == null)
-		{
+		if(valide == null){
 			valide = new JButton();
 			valide.setFont(new Font("Dialog", Font.PLAIN, 14));
 			valide.setSize(new Dimension(120, 40));
@@ -153,14 +121,15 @@ public class DatabaseInfoView extends JPanel{
 		}
 		valide.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				/*System.out.println(username.getText());
-				System.out.println(password.getText());
-				System.out.println(server.getText());
-				System.out.println(databaseName.getText());*/
+				System.out.println("[Log-DATABASE_INFO]: Informations saisies");
+				System.out.println("Nom d'utilisateur: "+username.getText());
+				System.out.println("Mot de passe: "+String.valueOf(password.getPassword()));
+				System.out.println("Serveur: "+server.getText());
+				System.out.println("Nom de la base: "+databaseName.getText());
 				try {
 					output = new FileOutputStream("../res/config.db");
 					propriete.setProperty("username", username.getText());
-					propriete.setProperty("password", new String(password.getPassword()));
+					propriete.setProperty("password", String.valueOf(password.getPassword()));
 					propriete.setProperty("server", server.getText());
 					propriete.setProperty("databaseName",databaseName.getText());
 					try {
@@ -180,6 +149,7 @@ public class DatabaseInfoView extends JPanel{
 					interfaceUtilisateur.stop();
 					interfaceUtilisateur.start();
 				} catch (FileNotFoundException e1) {
+					System.err.println("[Log-DATABASE_INFO]: Le fichier \"res/config.db\" n'a pas pu être généré.");
 					e1.printStackTrace();
 				}
 			}

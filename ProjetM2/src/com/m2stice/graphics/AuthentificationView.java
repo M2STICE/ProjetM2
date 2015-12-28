@@ -7,17 +7,13 @@ import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import com.m2stice.controller.AuthentificationViewListener;
 /**
@@ -34,13 +30,11 @@ public class AuthentificationView extends JPanel{
 	 */
 	private static final long serialVersionUID = 971L;
 	
-	private JTextField jtIdentifiant;
-	private JPasswordField jpMotdepasse;
+	private JHintTextField jtIdentifiant;
+	private JHintPasswordField jpMotdepasse;
 	private JButton btnValider;
 	private JComboBox<String> jcUtilisateur;
-	private Interface interfaceUtilisateur;	
-	private JPasswordField jpDefaut = new JPasswordField();
-	private Border border_defaut = jpDefaut.getBorder();
+	private Interface interfaceUtilisateur;
 	private JPanel bloc = new JPanel();
 	private AuthentificationViewListener authentificationViewListener;
 	
@@ -73,88 +67,20 @@ public class AuthentificationView extends JPanel{
 	
 	
 	private JTextField getjtidentifiant(){
-		
-		Border border = BorderFactory.createLineBorder(Color.BLACK,2);
 		if(jtIdentifiant == null){
-		 	
-			Color placeholder = new Color(160,160,160);
-			String defaut = "Identifiant";
-			
-			jtIdentifiant = new JTextField();
-			jtIdentifiant.setSize(new Dimension(250, 35));
-			jtIdentifiant.setBackground(new Color(255, 255, 255));
+			jtIdentifiant = new JHintTextField("Identifiant");
+			jtIdentifiant.setSize(new Dimension(300, 35));
 			jtIdentifiant.setHorizontalAlignment(JTextField.CENTER);
-			jtIdentifiant.setText(defaut);
-			jtIdentifiant.setFont(new Font("TimesRoman",Font.ITALIC, 15));
-			jtIdentifiant.setForeground(placeholder);
-			
-			jtIdentifiant.addFocusListener(new FocusListener(){
-
-				@Override
-				public void focusGained(FocusEvent arg0) {
-					jtIdentifiant.setText("");
-					jtIdentifiant.setFont(new Font("TimesRoman", Font.PLAIN, 15));
-					jtIdentifiant.setForeground(new Color(0,0,0));
-					jtIdentifiant.setBorder(border);
-				}
-
-				@Override
-				public void focusLost(FocusEvent arg0) {
-					if(jtIdentifiant.getText().trim().length()==0){
-						jtIdentifiant.setText(defaut);
-						jtIdentifiant.setFont(new Font("TimesRoman",Font.ITALIC, 15));
-						jtIdentifiant.setForeground(placeholder);
-						
-					}
-					jtIdentifiant.setBorder(border_defaut);
-					
-				}
-				
-			});
 		}
 		return jtIdentifiant;
 	}
 	
 	private JPasswordField getjtmotdepasse(){
-		
-		Color placeholder = new Color(160,160,160);
-		String defaut = "Mot de passe";
-		Border border = BorderFactory.createLineBorder(Color.BLACK,2);
-		
 		if(jpMotdepasse == null){
-		 	
-			jpMotdepasse = new JPasswordField();
-			jpMotdepasse.setSize(new Dimension(250, 35));
-			jpMotdepasse.setBackground(new Color(255, 255, 255));
+			jpMotdepasse = new JHintPasswordField("Mot de passe");
+			jpMotdepasse.setSize(new Dimension(300, 35));
 			jpMotdepasse.setHorizontalAlignment(JTextField.CENTER);
-			jpMotdepasse.setText(defaut);
-			jpMotdepasse.setFont(new Font("TimesRoman",Font.ITALIC, 15));
-			jpMotdepasse.setForeground(placeholder);
 		}
-		char defaut_char = jpMotdepasse.getEchoChar();
-		jpMotdepasse.setEchoChar('\0');
-		jpMotdepasse.addFocusListener(new FocusListener(){
-
-			@Override
-			public void focusGained(FocusEvent arg0) {
-				jpMotdepasse.setEchoChar(defaut_char);
-				jpMotdepasse.setText("");
-				jpMotdepasse.setFont(new Font("TimesRoman", Font.PLAIN, 15));
-				jpMotdepasse.setForeground(new Color(0,0,0));
-				jpMotdepasse.setBorder(border);
-			}
-
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				if(jpMotdepasse.getPassword().toString().trim().length()==0){
-					jpMotdepasse.setEchoChar('\0');
-					jpMotdepasse.setText(defaut);
-					jpMotdepasse.setFont(new Font("TimesRoman",Font.ITALIC, 15));
-					jpMotdepasse.setForeground(placeholder);
-				}
-				jpMotdepasse.setBorder(border_defaut);
-			}
-		});
 		return jpMotdepasse;
 	}
 

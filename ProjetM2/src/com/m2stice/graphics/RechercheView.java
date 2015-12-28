@@ -2,12 +2,10 @@ package com.m2stice.graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import com.m2stice.controller.RechercheViewListener;
 
@@ -30,7 +28,6 @@ import com.m2stice.controller.RechercheViewListener;
  * @version 1.0
  * @copyright (C) Master 2 2015
  * @date 03/12/2015
- * @notes Elle va être utiliser dans le main.
  */
 public class RechercheView extends JPanel {
 
@@ -42,7 +39,7 @@ public class RechercheView extends JPanel {
 	private Interface interfaceUtilisateur; 						//Lien vers l'applet
 	
 	private JPanel bloc = new JPanel();								//Bloc container transparent
-	private JTextField rechercheTextField = new JTextField();		//Zone saisie de la recherche
+	private JHintTextField rechercheTextField = new JHintTextField();		//Zone saisie de la recherche
 	private RechercheViewListener rechercheViewListener;			//Controler de la vue
 	
 	/**
@@ -57,9 +54,9 @@ public class RechercheView extends JPanel {
 		//Paramétrage des composants de la vue
 		//
 		rechercheTextField.addKeyListener(rechercheViewListener.getKeyListener());
-		rechercheTextField.setText("Saisir un diplôme...");
+		rechercheTextField.setTextSize(24);
+		rechercheTextField.setHintText("Saisir un diplôme...");
 		rechercheTextField.setToolTipText("Outils de recherche");
-		rechercheTextField.setFont(new Font("Gill Sans MT",Font.ITALIC,24));
 		rechercheTextField.setPreferredSize(new Dimension(400,32));
 		//
 		bloc.setLayout(new GridBagLayout());
