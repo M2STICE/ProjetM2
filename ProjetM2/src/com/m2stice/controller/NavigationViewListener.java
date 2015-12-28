@@ -14,7 +14,6 @@ import javax.swing.event.TreeSelectionListener;
 import com.m2stice.graphics.CompetenceView;
 import com.m2stice.graphics.Interface;
 import com.m2stice.graphics.NavigationView;
-import com.m2stice.graphics.ResultatView;
 import com.m2stice.graphics.SyllabusView;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Domaine;
@@ -32,9 +31,9 @@ import com.m2stice.model.Item;
 public class NavigationViewListener {
 	
 	private Interface interfaceUtilisateur;
-	private ResultatView resultatView;
+	//private ResultatView resultatView;
 	private NavigationView navigationView;
-	private SyllabusView syllabusView;
+	//private SyllabusView syllabusView;
 	private CompetenceView competenceView;
 	
 	private String comparaisonDomaineSelection=""; 
@@ -42,7 +41,7 @@ public class NavigationViewListener {
 	private String comparaisonItemSelection="";
 	private String comparaisonEcSelection="";
 	private String comparaisonSousItemSelection="";
-	private String comparaisonEvaluationSelection="";
+	//private String comparaisonEvaluationSelection="";
 	
 	public NavigationViewListener(Interface interfaceUtilisateur,NavigationView navigationView){
 		this.interfaceUtilisateur = interfaceUtilisateur;
@@ -54,7 +53,7 @@ public class NavigationViewListener {
 	}
 	
 	public void setSyllabusView(SyllabusView syllabusView){
-		this.syllabusView = syllabusView;
+		//this.syllabusView = syllabusView;
 	}
 	
 	public void setDomaine(){

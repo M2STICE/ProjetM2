@@ -95,11 +95,13 @@ public class CompetenceView extends JPanel {
 	}
 	
 	public void setDomaineJTable(LinkedList<Domaine> ld, NavigationViewListener nvl){
-		
 		donneesDomaine = new Object[ld.size()][1];
 		int cpt = 0;
+		int maxLength = 0;
 		for(Domaine d:ld){
 			//System.out.println(d.getNom());
+			if(d.getNom().length()>maxLength)
+				maxLength = d.getNom().length();
 			donneesDomaine[cpt][0] = d.getNom().toUpperCase();
 			cpt++;
 		}
@@ -114,7 +116,7 @@ public class CompetenceView extends JPanel {
 		//tableauDomaine.setPreferredSize(new Dimension(500,500));
 		JScrollPane blocTableau = new JScrollPane(tableauDomaine);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,15+ld.size()*20));
+		blocTableau.setPreferredSize(new Dimension(maxLength*8,15+ld.size()*20));
 		this.bloc.add(blocTableau);
 		interfaceUtilisateur.repaint();
 		
@@ -155,7 +157,10 @@ public class CompetenceView extends JPanel {
 		
 		donneesCompetence = new Object[lc.size()][1];
 		int cpt = 0;
+		int maxLength = 0;
 		for(Competence c:lc){
+			if(c.getNom().length()>maxLength)
+				maxLength = c.getNom().length();
 			donneesCompetence[cpt][0] = c.getNom().toUpperCase();
 			cpt++;
 		}
@@ -170,7 +175,7 @@ public class CompetenceView extends JPanel {
 		click_competence = true;
 		JScrollPane blocTableau = new JScrollPane(tableauCompetence);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,20+lc.size()*18));
+		blocTableau.setPreferredSize(new Dimension(maxLength*8,20+lc.size()*18));
 		this.bloc.add(blocTableau);
 		
 		interfaceUtilisateur.repaint();
@@ -199,7 +204,10 @@ public class CompetenceView extends JPanel {
 		
 		donneesItem = new Object[li.size()][1];
 		int cpt = 0;
+		int maxLength = 0;
 		for(Item i:li){
+			if(i.getNom().length()>maxLength)
+				maxLength = i.getNom().length();
 			donneesItem[cpt][0] = i.getNom().toUpperCase();
 			cpt++;
 		}
@@ -213,7 +221,7 @@ public class CompetenceView extends JPanel {
 		//tableauItem.setPreferredSize(new Dimension(50,1000));
 		JScrollPane blocTableau = new JScrollPane(tableauItem);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,20+li.size()*18));
+		blocTableau.setPreferredSize(new Dimension(maxLength*8,20+li.size()*18));
 		this.bloc.add(blocTableau);
 		click_item = true;
 		interfaceUtilisateur.repaint();
@@ -237,7 +245,10 @@ public class CompetenceView extends JPanel {
 
 		donneesEC = new Object[lec.size()][1];
 		int cpt = 0;
+		int maxLength = 0;
 		for(Ec ec:lec){
+			if(ec.getNom().length()>maxLength)
+				maxLength = ec.getNom().length();
 			donneesEC[cpt][0] = ec.getNom().toUpperCase();
 			cpt++;
 		}
@@ -251,7 +262,7 @@ public class CompetenceView extends JPanel {
 		//tableauEC.setPreferredSize(new Dimension(50,1000));
 		JScrollPane blocTableau = new JScrollPane(tableauEC);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,20+lec.size()*18));
+		blocTableau.setPreferredSize(new Dimension(maxLength*8,20+lec.size()*18));
 		this.bloc.add(blocTableau);
 		click_ec = true;
 		interfaceUtilisateur.repaint();
@@ -270,8 +281,11 @@ public class CompetenceView extends JPanel {
 			
 		donneesSousItem = new Object[lsi.size()][1];
 		int cpt = 0;
+		int maxLength = 0;
 		for(SousItem si:lsi){
 			//System.out.println(d.getNom());
+			if(si.getNom().length()>maxLength)
+				maxLength = si.getNom().length();
 			donneesSousItem[cpt][0] = si.getNom().toUpperCase();
 			cpt++;
 		}
@@ -285,7 +299,7 @@ public class CompetenceView extends JPanel {
 		//tableauSousItem.setPreferredSize(new Dimension(50,1000));
 		JScrollPane blocTableau = new JScrollPane(tableauSousItem);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,20+lsi.size()*18));
+		blocTableau.setPreferredSize(new Dimension(maxLength*8,20+lsi.size()*18));
 		this.bloc.add(blocTableau);
 		click_sous_item=true;
 		interfaceUtilisateur.repaint();
@@ -298,8 +312,11 @@ public class CompetenceView extends JPanel {
 		
 		donneesEvaluation = new Object[le.size()][1];
 		int cpt = 0;
+		int maxLength = 0;
 		for(Evaluation e:le){
 			//System.out.println(d.getNom());
+			if(e.getNom().length()>maxLength)
+				maxLength = e.getNom().length();
 			donneesEvaluation[cpt][0] = e.getNom().toUpperCase();
 			cpt++;
 		}

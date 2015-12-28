@@ -71,7 +71,7 @@ public class Interface extends Applet {
 		if(!controller.getProperties())
 			this.blocPrincipal = new DatabaseInfoView(this);
 		else
-			this.blocPrincipal = new AuthentificationView(this);
+			this.blocPrincipal = new RechercheView(this);
 		
 		//Paramétrage de l'applet
 		
