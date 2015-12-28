@@ -285,8 +285,16 @@ public class NavigationViewListener {
 				}
 				else
 				{
+					
+					
+					if(comparaisonItemSelection.compareTo(nomItemSelection)!=0)
+					   {
+						   String requete1 = "select * from item "
+								   + "where nom_item = '" + nomItemSelection + "'";
+						   navigationView.itemCourant = interfaceUtilisateur.getController().getItem(requete1).get(0);
+						   
+					   }
 				   LinkedList<Ec> listEcDuItemChoisi = new LinkedList<Ec>();
-			    	   
 		    	   String requete = "select ec.code_ec, "
 		   				+ "ec.nom_ec,"
 						+ "ec.coefficient_ec, "
