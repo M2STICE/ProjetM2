@@ -66,5 +66,9 @@ public class JHintTextField extends JTextField {
 			
 		});
 	}
+	
+	public boolean isEmpty(){
+		return getText().isEmpty()||getText().trim().compareToIgnoreCase(hintText)==0;
+	}
 
 }

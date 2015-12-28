@@ -123,9 +123,9 @@ public class Controller {
 			username = propriete.getProperty("username");
 			pass = propriete.getProperty("password");
 			server = propriete.getProperty("server");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			status = false;
+			return false; 
 		}
 		setConnection(new DatabaseAccess(username, pass, server, databaseName));
 		return status;
