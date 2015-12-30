@@ -761,7 +761,7 @@ public class NavigationViewListener {
 									+ "from etudiant_evaluation "
 									+ "where etudiant_evaluation.code_etudiant = "+lesEtudiant.get(comp1).getCode()+" "
 									+ "and etudiant_evaluation.code_evaluation = "+listCodeEvaluation.get(comp)+" "
-									+ "and etudiant_evaluation.date_evaluation between '"+annee_debut+"/09/01' and '"+annee_fin+"/07/01'";
+									+ "and etudiant_evaluation.date_evaluation between '"+annee_debut+"-09-01' and '"+annee_fin+"-07-01'";
 							
 							lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
 							
@@ -812,14 +812,12 @@ public class NavigationViewListener {
 					
 					
 					
-					
-				}
-				
-				if (tailleCheminSyllabus != 1)
-				{
 					competenceView.bloc.removeAll();
 					competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
 				}
+				
+				
+					
 				
 				if(tailleCheminSyllabus == 1)
 				{
