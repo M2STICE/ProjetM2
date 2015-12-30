@@ -15,6 +15,7 @@ import com.m2stice.graphics.CompetenceView;
 import com.m2stice.graphics.Interface;
 import com.m2stice.graphics.NavigationView;
 import com.m2stice.graphics.SyllabusView;
+import com.m2stice.model.Annee;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
@@ -442,7 +443,6 @@ public class NavigationViewListener {
 				
 				navigationView.listCouleurEvaluation = new LinkedList<String>();
 				navigationView.listCouleurSousItem = new LinkedList<String>();
-				navigationView.listCouleurEc = new LinkedList<String>();
 				navigationView.listCouleurItem = new LinkedList<String>();
 				navigationView.listCouleurCompetence = new LinkedList<String>();
 				navigationView.listCouleurDomaine = new LinkedList<String>();
@@ -450,7 +450,11 @@ public class NavigationViewListener {
 				if(tailleCheminSyllabus >= 2)
 				{
 				 annee = cheminSyllabus[2].substring(1, cheminSyllabus[2].length()-1);
-				 codeAnnee = Integer.parseInt(annee);
+				 requete = "select * from annee where annee.nom_annee ='"+annee+"';";
+				 LinkedList <Annee> listAnnee = new LinkedList<Annee>();
+				 listAnnee = interfaceUtilisateur.getController().getAnnee(requete);
+				 codeAnnee = listAnnee.get(0).getCode();
+				 
 				}
 				if (tailleCheminSyllabus == 2)
 				{
@@ -674,7 +678,7 @@ public class NavigationViewListener {
 					i++;
 				}
 				
-				//Traitement pour le code couleur
+				//Traitements pour le code couleur
 				if(tailleCheminSyllabus != 1 )
 				{
 					LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
@@ -709,7 +713,7 @@ public class NavigationViewListener {
 								+ "evaluation.coefficient_evaluation, "
 								+ "evaluation.type_epreuve "
 								+ "from evaluation, sous_item_evaluation "
-								+ "where evaluation.code_evaluation = sous_item.code_evaluation and "
+								+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
 								+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
 						lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
 						
@@ -726,7 +730,7 @@ public class NavigationViewListener {
 					requete="select etudiant.code_etudiant, "
 							+ "etudiant.nom_etudiant, "
 							+ "etudiant.prenom_etudiant, "
-							+ "etudiant.mot_de_passe_etudiant, "
+							+ "etudiant.mot_de_passe_etudiant "
 							+ "from etudiant, promotion, etudiant_promotion "
 							+ "where etudiant.code_etudiant = etudiant_promotion.code_etudiant "
 							+ "and promotion.code_promotion = etudiant_promotion.code_promotion "
@@ -805,10 +809,267 @@ public class NavigationViewListener {
 						
 					}
 					
-					//Attribution code couleur SousItem, EC, Item, Compétence, Domaine à faire ...
+					//Attribution code couleur SousItem
+					for(int cpt = 0 ; cpt <listCodeSousItem.size() ; cpt ++)
+					{
+						float s = 0;
+						float m = 0;
+						int nb_evaluation=0;
+						requete="select evaluation.code_evaluation, "
+								+ "evaluation.nom_evaluation,"
+								+ "evaluation.note_maximale, "
+								+ "evaluation.coefficient_evaluation, "
+								+ "evaluation.type_epreuve "
+								+ "from evaluation, sous_item_evaluation "
+								+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+								+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(cpt);
+						
+						LinkedList <Evaluation> listEvaluation = new LinkedList<Evaluation>();
+						listEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+						
+						for(int compt = 0 ; compt< listEvaluation.size(); compt ++)
+						{
+							
+							int codeEvaluation = listEvaluation.get(compt).getCode();
+							
+							for(int compteur = 0 ; compteur < navigationView.listCouleurEvaluation.size() ; compteur ++)
+							{
+								String tab[] = navigationView.listCouleurEvaluation.get(compteur).split(";");
+								int codeEval = Integer.parseInt(tab[0]);
+								int codeCoul = Integer.parseInt(tab[1]);
+								if(codeEvaluation == codeEval)
+								{
+									s = s+codeCoul;
+									nb_evaluation ++;
+								}
+							}
+							
+						}
+						
+						m = s/nb_evaluation;
+						
+						if(m >= 1 && m<2)
+						{
+							String moy =""+listCodeSousItem.get(cpt)+";1";
+							navigationView.listCouleurSousItem.add(moy);
+						}
+						if(m >= 2 && m<3)
+						{
+							String moy =""+listCodeSousItem.get(cpt)+";2";
+							navigationView.listCouleurSousItem.add(moy);
+						}
+						if(m>=3 && m<4)
+						{
+							String moy =""+listCodeSousItem.get(cpt)+";3";
+							navigationView.listCouleurSousItem.add(moy);
+						}
+						if(m>=4 && m<5)
+						{
+							String moy =""+listCodeSousItem.get(cpt)+";4";
+							navigationView.listCouleurSousItem.add(moy);
+						}
+						if(m==5)
+						{
+							String moy =""+listCodeSousItem.get(cpt)+";5";
+							navigationView.listCouleurSousItem.add(moy);
+						}
+					}
 					
+					//Attribution code couleur Item
+					for(int cpt = 0 ; cpt < listCodesItems.size(); cpt ++)
+					{
+						float s = 0;
+						float m = 0;
+						int nbSousItem = 0;
+						
+						requete ="select sous_item.code_sous_item, "
+								+ "sous_item.nom_sous_item "
+								+ "from sous_item, item_sous_item "
+								+ "where sous_item.code_sous_item = item_sous_item.code_sous_item and "
+								+ "item_sous_item.code_item ="+listCodesItems.get(cpt);
+						
+						LinkedList<SousItem> listSousItem = new LinkedList<SousItem>();
+						listSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+						
+						for(int comp = 0; comp < listSousItem.size() ; comp++)
+						{
+							int codeSousItem = listSousItem.get(comp).getCode();
+							
+							for(int compt = 0 ; compt < navigationView.listCouleurSousItem.size(); compt++)
+							{
+								String tab[]=navigationView.listCouleurSousItem.get(comp).split(";");
+								int codeSI = Integer.parseInt(tab[0]);
+								int codeCouleur = Integer.parseInt(tab[1]);
+								
+								if(codeSousItem == codeSI)
+								{
+									s = s+codeCouleur;
+									nbSousItem ++;
+								}
+								
+							}
+						}
+						
+						m = s/nbSousItem;
+						
+						if(m >= 1 && m<2)
+						{
+							String moy =""+listCodesItems.get(cpt)+";1";
+							navigationView.listCouleurItem.add(moy);
+						}
+						if(m >= 2 && m<3)
+						{
+							String moy =""+listCodesItems.get(cpt)+";2";
+							navigationView.listCouleurItem.add(moy);
+						}
+						if(m >= 3 && m<4)
+						{
+							String moy =""+listCodesItems.get(cpt)+";3";
+							navigationView.listCouleurItem.add(moy);
+						}
+						if(m >= 4 && m<5)
+						{
+							String moy =""+listCodesItems.get(cpt)+";4";
+							navigationView.listCouleurItem.add(moy);
+						}
+						if(m==5)
+						{
+							String moy =""+listCodesItems.get(cpt)+";5";
+							navigationView.listCouleurItem.add(moy);
+						}
+					}
 					
+					//Attribution code couleur Compétence
+					for(int cpt = 0; cpt<listCodesComp.size() ; cpt++ )
+					{
+						float s = 0;
+						float m = 0;
+						int nbItem = 0;
+						
+						requete="select item.code_item, "
+								+ "item.nom_item, "
+								+ "item.code_competence, "
+								+ "item.code_evaluation "
+								+ "from item "
+								+ "where item.code_competence ="+listCodesComp.get(cpt);
+						
+						LinkedList<Item> listItem = new LinkedList<Item>();
+						listItem = interfaceUtilisateur.getController().getItem(requete);
+						
+						for(int comp = 0 ; comp < listItem.size() ; comp++)
+						{
+							int codeItem = listItem.get(comp).getCode();
+							
+							for(int compt = 0 ; compt < navigationView.listCouleurItem.size(); compt++)
+							{
+								String tab[] = navigationView.listCouleurItem.get(compt).split(";");
+								int codeI = Integer.parseInt(tab[0]);
+								int codeCouleur = Integer.parseInt(tab[1]);
+								
+								if(codeItem == codeI)
+								{
+									s=s+codeCouleur;
+									nbItem++;
+								}
+								
+							}
+						}
+						m=s/nbItem;
+						
+						if(m >= 1 && m<2)
+						{
+							String moy =""+listCodesComp.get(cpt)+";1";
+							navigationView.listCouleurCompetence.add(moy);
+						}
+						if(m >= 2 && m<3)
+						{
+							String moy =""+listCodesComp.get(cpt)+";2";
+							navigationView.listCouleurCompetence.add(moy);
+						}
+						if(m >= 3 && m<4)
+						{
+							String moy =""+listCodesComp.get(cpt)+";3";
+							navigationView.listCouleurCompetence.add(moy);
+						}
+						if(m >= 4 && m<5)
+						{
+							String moy =""+listCodesComp.get(cpt)+";4";
+							navigationView.listCouleurCompetence.add(moy);
+						}
+						if(m == 5)
+						{
+							String moy =""+listCodesComp.get(cpt)+";5";
+							navigationView.listCouleurCompetence.add(moy);
+						}
+						
+					}
 					
+					//Attribution code couleur Domaine
+					for(int cpt = 0; cpt<listCodeDomaines.size() ; cpt++ )
+					{
+						float s = 0;
+						float m = 0;
+						int nbComptence = 0;
+						
+						requete="select competence.code_competence, "
+								+ "competence.nom_competence, "
+								+ "competence.code_domaine "
+								+ "from competence "
+								+ "where competence.code_domaine ="+listCodeDomaines.get(cpt);
+						
+						LinkedList<Competence> listCompetence = new LinkedList<Competence>();
+						listCompetence = interfaceUtilisateur.getController().getCompetence(requete);
+						
+						for(int comp = 0 ; comp <listCompetence.size() ; comp++)
+						{
+							int codeComp = listCompetence.get(comp).getCode();
+							
+							for(int compt = 0 ; compt <navigationView.listCouleurCompetence.size(); compt++)
+							{
+								String tab[] = navigationView.listCouleurCompetence.get(compt).split(";");
+								int codeCpt = Integer.parseInt(tab[0]);
+								int codeCouleur = Integer.parseInt(tab[1]);
+								
+								if(codeComp == codeCpt)
+								{
+									s= s+codeCouleur;
+									nbComptence++;
+								}
+							}
+						}
+						
+						m=s/nbComptence;
+						
+						if(m >= 1 && m<2)
+						{
+							String moy =""+listCodeDomaines.get(cpt)+";1";
+							navigationView.listCouleurDomaine.add(moy);
+						}
+						
+						if(m >= 2 && m<3)
+						{
+							String moy =""+listCodeDomaines.get(cpt)+";2";
+							navigationView.listCouleurDomaine.add(moy);
+						}
+						if(m >= 3 && m<4)
+						{
+							String moy =""+listCodeDomaines.get(cpt)+";3";
+							navigationView.listCouleurDomaine.add(moy);
+						}
+						
+						if(m >= 4 && m<5)
+						{
+							String moy =""+listCodeDomaines.get(cpt)+";4";
+							navigationView.listCouleurDomaine.add(moy);
+						}
+						
+						if(m == 5)
+						{
+							String moy =""+listCodeDomaines.get(cpt)+";5";
+							navigationView.listCouleurDomaine.add(moy);
+						}
+						
+					}
 					
 					
 					
