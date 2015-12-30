@@ -126,11 +126,19 @@ public class ResultatView extends JPanel {
 		this.detailRecherche.setText("     "+nombreTrouvés+" résultats trouvés");
 	}
 	
+	/**
+	 * @param Le titre de la recherche
+	 */
+	public void setEntete(int nombreTrouvés){
+		this.detailRecherche.setText("     "+nombreTrouvés+" résultats trouvés");
+	}
+	
 	public void setResultat(LinkedList<Diplome> diplomes){
+		int somme = 0;
 		for(Diplome d:diplomes){
 			LinkedList<Promotion> promotions = resultatViewListener.getPromotions(d);
 			for(Promotion p:promotions){
-				
+				somme++;
 				JLabel jl = new JLabel("  "+d.getNom().substring(0,1).toUpperCase()+d.getNom().substring(1)+" "+p.getAnneeDebutPromotion()+"-"+p.getAnneeFinPromotion());
 				jl.setPreferredSize(new Dimension(interfaceUtilisateur.getWidth(),40));
 				jl.setOpaque(true);
@@ -169,6 +177,7 @@ public class ResultatView extends JPanel {
 				
 			}
 		}
+		setEntete(somme);
 	}
 	
 	

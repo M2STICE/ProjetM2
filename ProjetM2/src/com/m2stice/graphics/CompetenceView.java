@@ -330,7 +330,7 @@ public class CompetenceView extends JPanel {
 		//tableauEvaluation.setPreferredSize(new Dimension(50,1000));
 		JScrollPane blocTableau = new JScrollPane(tableauEvaluation);
 		blocTableau.setBackground(Color.GRAY);
-		blocTableau.setPreferredSize(new Dimension(300,20+le.size()*18));
+		blocTableau.setPreferredSize(new Dimension(maxLength*8,20+le.size()*18));
 		this.bloc.add(blocTableau);
 		click_evaluation = true;
 		interfaceUtilisateur.repaint();
