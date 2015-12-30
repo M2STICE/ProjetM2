@@ -18,7 +18,9 @@ import com.m2stice.graphics.SyllabusView;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
+import com.m2stice.model.Etudiant;
 import com.m2stice.model.Evaluation;
+import com.m2stice.model.EvaluationEtudiant;
 import com.m2stice.model.Item;
 import com.m2stice.model.SousItem;
 
@@ -435,7 +437,21 @@ public class NavigationViewListener {
 				
 				int tailleCheminSyllabus = cheminSyllabus.length - 1;
 				String requete = null;
+				String annee;
+				int codeAnnee = 0;
 				
+				navigationView.listCouleurEvaluation = new LinkedList<String>();
+				navigationView.listCouleurSousItem = new LinkedList<String>();
+				navigationView.listCouleurEc = new LinkedList<String>();
+				navigationView.listCouleurItem = new LinkedList<String>();
+				navigationView.listCouleurCompetence = new LinkedList<String>();
+				navigationView.listCouleurDomaine = new LinkedList<String>();
+				
+				if(tailleCheminSyllabus >= 2)
+				{
+				 annee = cheminSyllabus[2].substring(1, cheminSyllabus[2].length()-1);
+				 codeAnnee = Integer.parseInt(annee);
+				}
 				if (tailleCheminSyllabus == 2)
 				{
 					// ANNEE
@@ -706,8 +722,95 @@ public class NavigationViewListener {
 						}
 					}
 					
-					//Récupérer les étudiants
-					//Récupérer les notes dans evaluation_etudiant
+					LinkedList<Etudiant> lesEtudiant = new LinkedList<Etudiant>();
+					requete="select etudiant.code_etudiant, "
+							+ "etudiant.nom_etudiant, "
+							+ "etudiant.prenom_etudiant, "
+							+ "etudiant.mot_de_passe_etudiant, "
+							+ "from etudiant, promotion, etudiant_promotion "
+							+ "where etudiant.code_etudiant = etudiant_promotion.code_etudiant "
+							+ "and promotion.code_promotion = etudiant_promotion.code_promotion "
+							+ "and promotion.code_promotion = "+navigationView.promotionCourante.getCode()+" "
+							+ "and promotion.code_diplome = "+navigationView.promotionCourante.getCodeDiplome()+" "
+							+ "and promotion.code_annee = "+codeAnnee;
+					
+					lesEtudiant = interfaceUtilisateur.getController().getEtudiant(requete);
+					
+					int nombre_etudiant = lesEtudiant.size();
+						
+					//Récupérer les tuples concernés dans la table etudiant_evaluation
+					LinkedList<EvaluationEtudiant> listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+					LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+					int annee_debut = navigationView.promotionCourante.getAnneeDebutPromotion();
+					int annee_fin = navigationView.promotionCourante.getAnneeFinPromotion();
+					float somme = 0;
+					float moyenne;
+					
+					for(int comp = 0; comp <listCodeEvaluation.size() ; comp ++)
+					{
+						
+						listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+						somme = 0;
+						for(int comp1 = 0; comp1<lesEtudiant.size() ; comp1 ++)
+						{
+							lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+							requete ="select etudiant_evaluation.code_etudiant, "
+									+ "etudiant_evaluation.code_evaluation, "
+									+ "etudiant_evaluation.note_evaluation, "
+									+ "etudiant_evaluation.date_evaluation, "
+									+ "from etudiant_evaluation "
+									+ "where etudiant_evaluation.code_etudiant = "+lesEtudiant.get(comp1).getCode()+" "
+									+ "and etudiant_evaluation.code_evaluation = "+listCodeEvaluation.get(comp)+" "
+									+ "and etudiant_evaluation.date_evaluation between '"+annee_debut+"/09/01' and '"+annee_fin+"/07/01'";
+							
+							lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
+							
+							for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
+							{
+								listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
+							}
+						}
+						for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
+						{
+							somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
+						}
+						
+						moyenne = somme / nombre_etudiant;
+						
+						if( moyenne >=0 && moyenne< 10)
+						{
+							String moy =""+listCodeEvaluation.get(comp)+";1";
+							navigationView.listCouleurEvaluation.add(moy);
+						}
+						if(moyenne>=10 && moyenne<12)
+						{
+							String moy =""+listCodeEvaluation.get(comp)+";2";
+							navigationView.listCouleurEvaluation.add(moy);
+						}
+						if(moyenne>=12 && moyenne<14)
+						{
+							String moy =""+listCodeEvaluation.get(comp)+";3";
+							navigationView.listCouleurEvaluation.add(moy);
+						}
+						if(moyenne>=14 && moyenne<16)
+						{
+							String moy =""+listCodeEvaluation.get(comp)+";4";
+							navigationView.listCouleurEvaluation.add(moy);
+						}
+						if(moyenne>=16 && moyenne<=20)
+						{
+							String moy =""+listCodeEvaluation.get(comp)+";5";
+							navigationView.listCouleurEvaluation.add(moy);
+						}
+						
+					}
+					
+					//Attribution code couleur SousItem, EC, Item, Compétence, Domaine à faire ...
+					
+					
+					
+					
+					
 					
 					
 				}
