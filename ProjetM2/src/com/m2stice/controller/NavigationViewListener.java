@@ -761,11 +761,11 @@ public class NavigationViewListener {
 							requete ="select etudiant_evaluation.code_etudiant, "
 									+ "etudiant_evaluation.code_evaluation, "
 									+ "etudiant_evaluation.note_evaluation, "
-									+ "etudiant_evaluation.date_evaluation, "
+									+ "etudiant_evaluation.date_evaluation "
 									+ "from etudiant_evaluation "
-									+ "where etudiant_evaluation.code_etudiant = "+lesEtudiant.get(comp1).getCode()+" "
-									+ "and etudiant_evaluation.code_evaluation = "+listCodeEvaluation.get(comp)+" "
-									+ "and etudiant_evaluation.date_evaluation between '"+annee_debut+"-09-01' and '"+annee_fin+"-07-01'";
+									+ "where etudiant_evaluation.code_etudiant ="+lesEtudiant.get(comp1).getCode()
+									+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp)
+									+ " and etudiant_evaluation.date_evaluation between '"+annee_debut+"-09-01' and '"+annee_fin+"-07-01'";
 							
 							lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
 							
@@ -897,7 +897,7 @@ public class NavigationViewListener {
 							
 							for(int compt = 0 ; compt < navigationView.listCouleurSousItem.size(); compt++)
 							{
-								String tab[]=navigationView.listCouleurSousItem.get(comp).split(";");
+								String tab[]=navigationView.listCouleurSousItem.get(compt).split(";");
 								int codeSI = Integer.parseInt(tab[0]);
 								int codeCouleur = Integer.parseInt(tab[1]);
 								
