@@ -72,6 +72,13 @@ public class NavigationView extends JPanel {
 	public LinkedList<Item> listItemCourant;
 	public LinkedList<Competence> listCompetenceCourant;
 	
+	public LinkedList<String> listCouleurEvaluation;
+	public LinkedList<String> listCouleurSousItem;
+	public LinkedList<String> listCouleurEc;
+	public LinkedList<String> listCouleurItem;
+	public LinkedList<String> listCouleurCompetence;
+	public LinkedList<String> listCouleurDomaine;
+	
 	
 	
 	public void init(){

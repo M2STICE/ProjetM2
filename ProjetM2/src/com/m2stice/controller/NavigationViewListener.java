@@ -18,7 +18,9 @@ import com.m2stice.graphics.SyllabusView;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
+import com.m2stice.model.Evaluation;
 import com.m2stice.model.Item;
+import com.m2stice.model.SousItem;
 
 /**
  * NavigationViewListener - Classe qui gère la vue de navigation.
@@ -654,6 +656,60 @@ public class NavigationViewListener {
 						}
 					}
 					i++;
+				}
+				
+				//Traitement pour le code couleur
+				if(tailleCheminSyllabus != 1 )
+				{
+					LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
+					
+					for(int iter = 0; iter<navigationView.listEcCourant.size(); iter++)
+					{
+						LinkedList<SousItem> lesSousItem = new LinkedList<SousItem>();
+						requete ="select sous_item.code_sous_item, "
+								+ "sous_item.nom_sous_item "
+								+ "from sous_item, ec_sous_item "
+								+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and "
+								+ "ec_sous_item.code_ec = "+navigationView.listEcCourant.get(iter).getCode();
+						lesSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+						
+						for(int comp = 0 ; comp < lesSousItem.size(); comp ++)
+						{
+							if(listCodeSousItem.indexOf(lesSousItem.get(comp).getCode()) == -1)
+							{
+								listCodeSousItem.add(lesSousItem.get(comp).getCode());
+							}
+						}
+					}
+					
+					LinkedList <Integer> listCodeEvaluation = new LinkedList<Integer>();
+					
+					for(int iter = 0; iter<listCodeSousItem.size(); iter++)
+					{
+						LinkedList<Evaluation> lesEvaluation = new LinkedList<Evaluation>();
+						requete="select evaluation.code_evaluation, "
+								+ "evaluation.nom_evaluation,"
+								+ "evaluation.note_maximale, "
+								+ "evaluation.coefficient_evaluation, "
+								+ "evaluation.type_epreuve "
+								+ "from evaluation, sous_item_evaluation "
+								+ "where evaluation.code_evaluation = sous_item.code_evaluation and "
+								+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
+						lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+						
+						for(int comp = 0; comp < lesEvaluation.size(); comp++)
+						{
+							if(listCodeEvaluation.indexOf(lesEvaluation.get(comp).getCode()) == -1)
+							{
+								listCodeEvaluation.add(lesEvaluation.get(comp).getCode());
+							}
+						}
+					}
+					
+					//Récupérer les étudiants
+					//Récupérer les notes dans evaluation_etudiant
+					
+					
 				}
 				
 				if (tailleCheminSyllabus != 1)
