@@ -103,11 +103,33 @@ public class CompetenceView extends JPanel {
 			if(d.getNom().length()>maxLength)
 				maxLength = d.getNom().length();
 			donneesDomaine[cpt][0] = d.getNom().toUpperCase();
+			
+			//Pour le code couleur
+			if(nvl.listeCouleurDomaine !=null)
+			{
+				for(int i = 0; i<nvl.listeCouleurDomaine.size(); i++)
+				{
+					String tab[] = nvl.listeCouleurDomaine.get(i).split(";");
+					int codeDomaine = Integer.parseInt(tab[0]);
+					if(codeDomaine == d.getCode())
+					{
+						String nouveauContenu = tab[0]+";"+tab[1]+";"+d.getNom();
+						nvl.listeCouleurDomaine.set(i, nouveauContenu);
+					}
+				}
+			}
+			
 			cpt++;
 		}
 		String[] titre = {"Domaines de compétences"};
 		tableauDomaine = new JTableNotEditable(donneesDomaine,titre);
 		tableauDomaine.setToolTipText("Tableau des domaines");
+		
+		//Pour le code couleur
+		/*if(nvl.listeCouleurDomaine != null)
+		{
+			tableauDomaine.setDefaultRenderer(Object.class, new JTableCodeCouleur(nvl.listeCouleurDomaine));
+		}*/
 		
 		cellSelectionDomaine = tableauDomaine.getSelectionModel();
 		cellSelectionDomaine.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

@@ -46,7 +46,13 @@ public class NavigationViewListener {
 	private String comparaisonItemSelection="";
 	private String comparaisonEcSelection="";
 	private String comparaisonSousItemSelection="";
-	//private String comparaisonEvaluationSelection="";
+	//private String comparaisonEvaluationSelection="";public LinkedList<String> listCouleurEvaluation;
+	
+	public LinkedList<String> listeCouleurSousItem=null;
+	public LinkedList<String> listeCouleurItem=null;
+	public LinkedList<String> listeCouleurCompetence=null;
+	public LinkedList<String> listeCouleurDomaine=null;
+	public LinkedList<String> listeCouleurEvaluation=null;
 	
 	public NavigationViewListener(Interface interfaceUtilisateur,NavigationView navigationView){
 		this.interfaceUtilisateur = interfaceUtilisateur;
@@ -441,11 +447,11 @@ public class NavigationViewListener {
 				String annee;
 				int codeAnnee = 0;
 				
-				navigationView.listCouleurEvaluation = new LinkedList<String>();
-				navigationView.listCouleurSousItem = new LinkedList<String>();
-				navigationView.listCouleurItem = new LinkedList<String>();
-				navigationView.listCouleurCompetence = new LinkedList<String>();
-				navigationView.listCouleurDomaine = new LinkedList<String>();
+				listeCouleurEvaluation = new LinkedList<String>();
+				listeCouleurSousItem = new LinkedList<String>();
+				listeCouleurItem = new LinkedList<String>();
+				listeCouleurCompetence = new LinkedList<String>();
+				listeCouleurDomaine = new LinkedList<String>();
 				
 				if(tailleCheminSyllabus >= 2)
 				{
@@ -784,27 +790,27 @@ public class NavigationViewListener {
 						if( moyenne >=0 && moyenne< 10)
 						{
 							String moy =""+listCodeEvaluation.get(comp)+";1";
-							navigationView.listCouleurEvaluation.add(moy);
+							listeCouleurEvaluation.add(moy);
 						}
 						if(moyenne>=10 && moyenne<12)
 						{
 							String moy =""+listCodeEvaluation.get(comp)+";2";
-							navigationView.listCouleurEvaluation.add(moy);
+							listeCouleurEvaluation.add(moy);
 						}
 						if(moyenne>=12 && moyenne<14)
 						{
 							String moy =""+listCodeEvaluation.get(comp)+";3";
-							navigationView.listCouleurEvaluation.add(moy);
+							listeCouleurEvaluation.add(moy);
 						}
 						if(moyenne>=14 && moyenne<16)
 						{
 							String moy =""+listCodeEvaluation.get(comp)+";4";
-							navigationView.listCouleurEvaluation.add(moy);
+							listeCouleurEvaluation.add(moy);
 						}
 						if(moyenne>=16 && moyenne<=20)
 						{
 							String moy =""+listCodeEvaluation.get(comp)+";5";
-							navigationView.listCouleurEvaluation.add(moy);
+							listeCouleurEvaluation.add(moy);
 						}
 						
 					}
@@ -832,9 +838,9 @@ public class NavigationViewListener {
 							
 							int codeEvaluation = listEvaluation.get(compt).getCode();
 							
-							for(int compteur = 0 ; compteur < navigationView.listCouleurEvaluation.size() ; compteur ++)
+							for(int compteur = 0 ; compteur < listeCouleurEvaluation.size() ; compteur ++)
 							{
-								String tab[] = navigationView.listCouleurEvaluation.get(compteur).split(";");
+								String tab[] = listeCouleurEvaluation.get(compteur).split(";");
 								int codeEval = Integer.parseInt(tab[0]);
 								int codeCoul = Integer.parseInt(tab[1]);
 								if(codeEvaluation == codeEval)
@@ -851,27 +857,27 @@ public class NavigationViewListener {
 						if(m >= 1 && m<2)
 						{
 							String moy =""+listCodeSousItem.get(cpt)+";1";
-							navigationView.listCouleurSousItem.add(moy);
+							listeCouleurSousItem.add(moy);
 						}
 						if(m >= 2 && m<3)
 						{
 							String moy =""+listCodeSousItem.get(cpt)+";2";
-							navigationView.listCouleurSousItem.add(moy);
+							listeCouleurSousItem.add(moy);
 						}
 						if(m>=3 && m<4)
 						{
 							String moy =""+listCodeSousItem.get(cpt)+";3";
-							navigationView.listCouleurSousItem.add(moy);
+							listeCouleurSousItem.add(moy);
 						}
 						if(m>=4 && m<5)
 						{
 							String moy =""+listCodeSousItem.get(cpt)+";4";
-							navigationView.listCouleurSousItem.add(moy);
+							listeCouleurSousItem.add(moy);
 						}
 						if(m==5)
 						{
 							String moy =""+listCodeSousItem.get(cpt)+";5";
-							navigationView.listCouleurSousItem.add(moy);
+							listeCouleurSousItem.add(moy);
 						}
 					}
 					
@@ -895,9 +901,9 @@ public class NavigationViewListener {
 						{
 							int codeSousItem = listSousItem.get(comp).getCode();
 							
-							for(int compt = 0 ; compt < navigationView.listCouleurSousItem.size(); compt++)
+							for(int compt = 0 ; compt <listeCouleurSousItem.size(); compt++)
 							{
-								String tab[]=navigationView.listCouleurSousItem.get(compt).split(";");
+								String tab[]=listeCouleurSousItem.get(compt).split(";");
 								int codeSI = Integer.parseInt(tab[0]);
 								int codeCouleur = Integer.parseInt(tab[1]);
 								
@@ -915,27 +921,27 @@ public class NavigationViewListener {
 						if(m >= 1 && m<2)
 						{
 							String moy =""+listCodesItems.get(cpt)+";1";
-							navigationView.listCouleurItem.add(moy);
+							listeCouleurItem.add(moy);
 						}
 						if(m >= 2 && m<3)
 						{
 							String moy =""+listCodesItems.get(cpt)+";2";
-							navigationView.listCouleurItem.add(moy);
+							listeCouleurItem.add(moy);
 						}
 						if(m >= 3 && m<4)
 						{
 							String moy =""+listCodesItems.get(cpt)+";3";
-							navigationView.listCouleurItem.add(moy);
+							listeCouleurItem.add(moy);
 						}
 						if(m >= 4 && m<5)
 						{
 							String moy =""+listCodesItems.get(cpt)+";4";
-							navigationView.listCouleurItem.add(moy);
+							listeCouleurItem.add(moy);
 						}
 						if(m==5)
 						{
 							String moy =""+listCodesItems.get(cpt)+";5";
-							navigationView.listCouleurItem.add(moy);
+							listeCouleurItem.add(moy);
 						}
 					}
 					
@@ -960,9 +966,9 @@ public class NavigationViewListener {
 						{
 							int codeItem = listItem.get(comp).getCode();
 							
-							for(int compt = 0 ; compt < navigationView.listCouleurItem.size(); compt++)
+							for(int compt = 0 ; compt < listeCouleurItem.size(); compt++)
 							{
-								String tab[] = navigationView.listCouleurItem.get(compt).split(";");
+								String tab[] = listeCouleurItem.get(compt).split(";");
 								int codeI = Integer.parseInt(tab[0]);
 								int codeCouleur = Integer.parseInt(tab[1]);
 								
@@ -979,27 +985,27 @@ public class NavigationViewListener {
 						if(m >= 1 && m<2)
 						{
 							String moy =""+listCodesComp.get(cpt)+";1";
-							navigationView.listCouleurCompetence.add(moy);
+							listeCouleurCompetence.add(moy);
 						}
 						if(m >= 2 && m<3)
 						{
 							String moy =""+listCodesComp.get(cpt)+";2";
-							navigationView.listCouleurCompetence.add(moy);
+							listeCouleurCompetence.add(moy);
 						}
 						if(m >= 3 && m<4)
 						{
 							String moy =""+listCodesComp.get(cpt)+";3";
-							navigationView.listCouleurCompetence.add(moy);
+							listeCouleurCompetence.add(moy);
 						}
 						if(m >= 4 && m<5)
 						{
 							String moy =""+listCodesComp.get(cpt)+";4";
-							navigationView.listCouleurCompetence.add(moy);
+							listeCouleurCompetence.add(moy);
 						}
 						if(m == 5)
 						{
 							String moy =""+listCodesComp.get(cpt)+";5";
-							navigationView.listCouleurCompetence.add(moy);
+							listeCouleurCompetence.add(moy);
 						}
 						
 					}
@@ -1024,9 +1030,9 @@ public class NavigationViewListener {
 						{
 							int codeComp = listCompetence.get(comp).getCode();
 							
-							for(int compt = 0 ; compt <navigationView.listCouleurCompetence.size(); compt++)
+							for(int compt = 0 ; compt < listeCouleurCompetence.size(); compt++)
 							{
-								String tab[] = navigationView.listCouleurCompetence.get(compt).split(";");
+								String tab[] = listeCouleurCompetence.get(compt).split(";");
 								int codeCpt = Integer.parseInt(tab[0]);
 								int codeCouleur = Integer.parseInt(tab[1]);
 								
@@ -1043,30 +1049,30 @@ public class NavigationViewListener {
 						if(m >= 1 && m<2)
 						{
 							String moy =""+listCodeDomaines.get(cpt)+";1";
-							navigationView.listCouleurDomaine.add(moy);
+							listeCouleurDomaine.add(moy);
 						}
 						
 						if(m >= 2 && m<3)
 						{
 							String moy =""+listCodeDomaines.get(cpt)+";2";
-							navigationView.listCouleurDomaine.add(moy);
+							listeCouleurDomaine.add(moy);
 						}
 						if(m >= 3 && m<4)
 						{
 							String moy =""+listCodeDomaines.get(cpt)+";3";
-							navigationView.listCouleurDomaine.add(moy);
+							listeCouleurDomaine.add(moy);
 						}
 						
 						if(m >= 4 && m<5)
 						{
 							String moy =""+listCodeDomaines.get(cpt)+";4";
-							navigationView.listCouleurDomaine.add(moy);
+							listeCouleurDomaine.add(moy);
 						}
 						
 						if(m == 5)
 						{
 							String moy =""+listCodeDomaines.get(cpt)+";5";
-							navigationView.listCouleurDomaine.add(moy);
+							listeCouleurDomaine.add(moy);
 						}
 						
 					}
