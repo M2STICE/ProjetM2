@@ -113,7 +113,7 @@ public class CompetenceView extends JPanel {
 					int codeDomaine = Integer.parseInt(tab[0]);
 					if(codeDomaine == d.getCode())
 					{
-						String nouveauContenu = tab[0]+";"+tab[1]+";"+d.getNom();
+						String nouveauContenu = tab[0]+";"+tab[1]+";"+d.getNom().toUpperCase();
 						nvl.listeCouleurDomaine.set(i, nouveauContenu);
 					}
 				}
@@ -126,10 +126,10 @@ public class CompetenceView extends JPanel {
 		tableauDomaine.setToolTipText("Tableau des domaines");
 		
 		//Pour le code couleur
-		/*if(nvl.listeCouleurDomaine != null)
+		if(nvl.listeCouleurDomaine != null)
 		{
 			tableauDomaine.setDefaultRenderer(Object.class, new JTableCodeCouleur(nvl.listeCouleurDomaine));
-		}*/
+		}
 		
 		cellSelectionDomaine = tableauDomaine.getSelectionModel();
 		cellSelectionDomaine.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -184,10 +184,34 @@ public class CompetenceView extends JPanel {
 			if(c.getNom().length()>maxLength)
 				maxLength = c.getNom().length();
 			donneesCompetence[cpt][0] = c.getNom().toUpperCase();
+			
+			//Pour le code couleur
+			if(nvl.listeCouleurCompetence != null)
+			{
+				for(int i = 0; i<nvl.listeCouleurCompetence.size() ; i++)
+				{
+					String tab[] = nvl.listeCouleurCompetence.get(i).split(";");
+					int codeCompetence = Integer.parseInt(tab[0]);
+					if(codeCompetence == c.getCode())
+					{
+						String nouveauContenu = tab[0]+";"+tab[1]+";"+c.getNom().toUpperCase();
+						
+						nvl.listeCouleurCompetence.set(i, nouveauContenu);
+					}
+					//System.out.println(nvl.listeCouleurCompetence.get(i));
+				}
+			}
+			
 			cpt++;
 		}
 		String[] titre = {"Compétences"};
 		tableauCompetence = new JTableNotEditable(donneesCompetence,titre);
+		
+		//Pour le code couleur
+		if(nvl.listeCouleurCompetence != null)
+		{
+			tableauCompetence.setDefaultRenderer(Object.class, new JTableCodeCouleur(nvl.listeCouleurCompetence));
+		}
 		
 		cellSelectionCompetence = tableauCompetence.getSelectionModel();
 		cellSelectionCompetence.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -231,10 +255,32 @@ public class CompetenceView extends JPanel {
 			if(i.getNom().length()>maxLength)
 				maxLength = i.getNom().length();
 			donneesItem[cpt][0] = i.getNom().toUpperCase();
+			
+			//Pour le code couleur
+			if(nvl.listeCouleurItem != null)
+			{
+				for(int j = 0; j<nvl.listeCouleurItem.size() ; j++)
+				{
+					String tab[] = nvl.listeCouleurItem.get(j).split(";");
+					int codeItem = Integer.parseInt(tab[0]);
+					if(codeItem == i.getCode())
+					{
+						String nouveauContenu = tab[0]+";"+tab[1]+";"+i.getNom().toUpperCase();
+						nvl.listeCouleurItem.set(j, nouveauContenu);
+					}
+				}
+			}
+			
 			cpt++;
 		}
 		String[] titre = {"Items"};
 		tableauItem = new JTableNotEditable(donneesItem,titre);
+		
+		//Pour le code couleur
+		if(nvl.listeCouleurItem != null)
+		 {
+			tableauItem.setDefaultRenderer(Object.class, new JTableCodeCouleur(nvl.listeCouleurItem));
+		 }
 		
 		cellSelectionItem = tableauItem.getSelectionModel();
 		cellSelectionItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -309,10 +355,32 @@ public class CompetenceView extends JPanel {
 			if(si.getNom().length()>maxLength)
 				maxLength = si.getNom().length();
 			donneesSousItem[cpt][0] = si.getNom().toUpperCase();
+			
+			//Pour le code couleur
+			if(nvl.listeCouleurSousItem != null)
+			{
+				for(int i = 0; i<nvl.listeCouleurSousItem.size() ; i++)
+				{
+					String tab[] = nvl.listeCouleurSousItem.get(i).split(";");
+					int codeSousItem = Integer.parseInt(tab[0]);
+					if(codeSousItem == si.getCode())
+					{
+						String nouveauContenu = tab[0]+";"+tab[1]+";"+si.getNom().toUpperCase();
+						nvl.listeCouleurSousItem.set(i, nouveauContenu);
+					}
+				}
+			}
+			
 			cpt++;
 		}
 		String[] titre = {"SousItem"};
 		tableauSousItem = new JTableNotEditable(donneesSousItem,titre);
+		
+		//Pour le code couleur
+		if(nvl.listeCouleurSousItem != null)
+		{
+		  tableauSousItem.setDefaultRenderer(Object.class, new JTableCodeCouleur(nvl.listeCouleurSousItem));
+		}
 		
 		cellSelectionSousItem = tableauSousItem.getSelectionModel();
 		cellSelectionSousItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -340,10 +408,32 @@ public class CompetenceView extends JPanel {
 			if(e.getNom().length()>maxLength)
 				maxLength = e.getNom().length();
 			donneesEvaluation[cpt][0] = e.getNom().toUpperCase();
+			
+			//Pour le code couleur
+			if(nvl.listeCouleurEvaluation != null)
+			{
+				for(int i = 0; i<nvl.listeCouleurEvaluation.size() ; i++)
+				{
+					String tab[] = nvl.listeCouleurEvaluation.get(i).split(";");
+					int codeEvaluation = Integer.parseInt(tab[0]);
+					if(codeEvaluation == e.getCode())
+					{
+						String nouveauContenu = tab[0]+";"+tab[1]+";"+e.getNom().toUpperCase();
+						nvl.listeCouleurEvaluation.set(i, nouveauContenu);
+					}
+				}
+			}
+			
 			cpt++;
 		}
 		String[] titre = {"Evaluations"};
 		tableauEvaluation = new JTableNotEditable(donneesEvaluation,titre);
+		
+		//Pour le code couleur
+		if(nvl.listeCouleurEvaluation != null)
+		{
+		 tableauEvaluation.setDefaultRenderer(Object.class, new JTableCodeCouleur(nvl.listeCouleurEvaluation));
+		}
 		
 		cellSelectionEvaluation = tableauEvaluation.getSelectionModel();
 		cellSelectionEvaluation.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

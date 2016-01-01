@@ -35,33 +35,36 @@ public class JTableCodeCouleur extends DefaultTableCellRenderer {
                 {
                 	String tab[]= liste.get(cpt).split(";");
                 	int codeCouleur = Integer.parseInt(tab[1]);
-                	if(label.getText().contains(tab[2]))
+                	if(tab.length == 3)
                 	{
-                		if(codeCouleur == 1)
-                		{
-                			Color clr = new Color(204, 0, 0);
-                            component.setBackground(clr);
-                		}
-                		if(codeCouleur == 2)
-                		{
-                			Color clr = new Color(204, 51, 0);
-                            component.setBackground(clr);
-                		}
-                		if(codeCouleur == 3)
-                		{
-                			Color clr = new Color(255, 153, 0);
-                            component.setBackground(clr);
-                		}
-                		if(codeCouleur == 4)
-                		{
-                			Color clr = new Color(102, 255, 0);
-                            component.setBackground(clr);
-                		}
-                		if(codeCouleur == 5)
-                		{
-                			Color clr = new Color(0, 102, 0);
-                            component.setBackground(clr);
-                		}
+	                	if(label.getText().contains(tab[2]))
+	                	{
+	                		if(codeCouleur == 1)
+	                		{
+	                			Color clr = new Color(204, 0, 0);
+	                            component.setBackground(clr);
+	                		}
+	                		if(codeCouleur == 2)
+	                		{
+	                			Color clr = new Color(204, 51, 0);
+	                            component.setBackground(clr);
+	                		}
+	                		if(codeCouleur == 3)
+	                		{
+	                			Color clr = new Color(255, 153, 0);
+	                            component.setBackground(clr);
+	                		}
+	                		if(codeCouleur == 4)
+	                		{
+	                			Color clr = new Color(102, 255, 0);
+	                            component.setBackground(clr);
+	                		}
+	                		if(codeCouleur == 5)
+	                		{
+	                			Color clr = new Color(0, 102, 0);
+	                            component.setBackground(clr);
+	                		}
+	                	}
                 	}
                 }
         	}
