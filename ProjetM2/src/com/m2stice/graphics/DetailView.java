@@ -1,9 +1,12 @@
 package com.m2stice.graphics;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 public class DetailView extends JPanel {
 
@@ -13,6 +16,7 @@ public class DetailView extends JPanel {
 	private static final long serialVersionUID = 971L;
 	private Interface interfaceUtilisateur;
 	private JPanel bloc;
+	private JScrollPane blocInferieur;
 	private JLabel entete;
 	private JLabel contenu;
 	
@@ -26,10 +30,22 @@ public class DetailView extends JPanel {
 		this.entete = new JLabel("Information:");
 		this.contenu = new JLabel("\"...\"");
 		
-		bloc.setLayout(new BorderLayout());
+		entete.setPreferredSize(new Dimension(0,20));
+		entete.setBackground(Color.WHITE);
 		
+		contenu.setBackground(Color.WHITE);
+		
+		bloc.setLayout(new BorderLayout());
 		bloc.add(entete,BorderLayout.NORTH);
 		bloc.add(contenu,BorderLayout.CENTER);
+		bloc.setOpaque(false);
+		
+		blocInferieur = new JScrollPane(bloc);
+		blocInferieur.setOpaque(false);
+		
+		this.setLayout(new BorderLayout());
+		this.add(blocInferieur,BorderLayout.CENTER);
+		this.setOpaque(false);
 	}
 	
 	public void setDetail(String entete,String contenu){

@@ -46,8 +46,12 @@ public class NavigationView extends JPanel {
 	private JPanel blocCommande = new JPanel(); 		//Bloc qui contient les boutons
 	private JPanel blocSyllabus = new JPanel();			//Bloc qui contient l'arborescence syllabus
 	private JPanel blocCompetences = new JPanel();		//Bloc qui contient l'arborescence des compétences
+	private JPanel blocDetail = new JPanel();
+	
 	private SyllabusView syllabusView;
 	private CompetenceView competenceView;
+	private DetailView detailView;
+	
 	private JButton clickButton = new JButton();
 	private JButton zoomPlusButton = new JButton();
 	private JButton zoomMoinsButton = new JButton();
@@ -64,16 +68,11 @@ public class NavigationView extends JPanel {
 	public Annee anneeCourant;
 	public Semestre semestreCourant;
 	public Ue ueCourant;
-	
 	public Promotion promotionCourante;
 	public Object utilisateurCourant;
-	
 	public LinkedList<Ec> listEcCourant;
 	public LinkedList<Item> listItemCourant;
 	public LinkedList<Competence> listCompetenceCourant;
-	
-	
-	
 	
 	
 	public void init(){
@@ -158,10 +157,25 @@ public class NavigationView extends JPanel {
 		blocCompetences.add(titreCompetences,BorderLayout.NORTH);
 		blocCompetences.add(competenceView,BorderLayout.CENTER);
 		//
+		detailView = new DetailView(interfaceUtilisateur);
+		navigationViewListener.setDetailView(detailView);
+		//
+		blocDetail.setLayout(new BorderLayout());
+		blocDetail.setPreferredSize(new Dimension(0,150));
+		blocDetail.setOpaque(false);
+		JLabel titreDetail = new JLabel("   Détails");
+		titreDetail.setFont(new Font("Gill Sans MT",Font.ROMAN_BASELINE,20));
+		titreDetail.setForeground(Color.WHITE);
+		titreDetail.setOpaque(true);
+		titreDetail.setBackground(Color.BLACK);
+		blocDetail.add(titreDetail,BorderLayout.NORTH);
+		blocDetail.add(detailView,BorderLayout.CENTER);
+		//
 		bloc.setLayout(new BorderLayout());
 		bloc.add(blocEntete,BorderLayout.NORTH);
 		bloc.add(blocSyllabus,BorderLayout.WEST);
 		bloc.add(blocCompetences,BorderLayout.CENTER);
+		bloc.add(blocDetail, BorderLayout.SOUTH);
 		bloc.setOpaque(false);
 		
 		//Paramètrage de la vue
