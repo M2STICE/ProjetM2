@@ -256,9 +256,24 @@ public class NavigationViewListener {
 		        }
 		        else
 		        {
+		           String requete = "select competence.code_competence, "
+		    	   			+ "competence.nom_competence,"
+		    	   			+ "competence.code_domaine "
+			    	   		+ "from competence "
+			    	   		+ "where nom_competence = '"+ nomCompetenceSelection + "'";
+		           navigationView.competenceCourante = interfaceUtilisateur.getController().getCompetence(requete).get(0);
+		           Thread th1 = new Thread(){
+			    		 public void run(){
+			    			 detailView.afficher(navigationView.competenceCourante);
+			    		 }
+			    	   };
+			       th1.start();
+			       
+			       
+		        	
 		           LinkedList<Item> listItemDelaCompetenceChoisie = new LinkedList<Item>();
 			    	   
-		    	   String requete = "select item.code_item, "
+		    	   requete = "select item.code_item, "
 		    	   			+ "item.nom_item, "
 		    	   			+ "item.code_competence, "
 		    	   			+ "item.code_evaluation "
@@ -312,21 +327,32 @@ public class NavigationViewListener {
 							   + "where nom_item = '" + nomItemSelection + "'";
 				   
 					   navigationView.itemCourant = interfaceUtilisateur.getController().getItem(requete).get(0);
+					   Thread th1 = new Thread(){
+				    		 public void run(){
+				    			 detailView.afficher(navigationView.itemCourant);
+				    		 }
+				    	   };
+			    	   th1.start();
 					   setEc();
 					   comparaisonItemSelection = nomItemSelection;
 				   }
 				}
 				else
 				{
-					
-					
-					if(comparaisonItemSelection.compareTo(nomItemSelection)!=0)
-					   {
-						   String requete1 = "select * from item "
-								   + "where nom_item = '" + nomItemSelection + "'";
-						   navigationView.itemCourant = interfaceUtilisateur.getController().getItem(requete1).get(0);
-						   
-					   }
+				   if(comparaisonItemSelection.compareTo(nomItemSelection)!=0)
+				   {
+					   String requete1 = "select * from item "
+							   + "where nom_item = '" + nomItemSelection + "'";
+					   navigationView.itemCourant = interfaceUtilisateur.getController().getItem(requete1).get(0);
+				   }
+				   
+				   Thread th1 = new Thread(){
+			    		 public void run(){
+			    			 detailView.afficher(navigationView.itemCourant);
+			    		 }
+			    	   };
+		    	   th1.start();
+				   
 				   LinkedList<Ec> listEcDuItemChoisi = new LinkedList<Ec>();
 		    	   String requete = "select ec.code_ec, "
 		   				+ "ec.nom_ec,"
@@ -425,6 +451,14 @@ public class NavigationViewListener {
 			       		+ "where nom_sous_item = '"+ nomSousItemSelection + "'";
 			       
 			    	   navigationView.sousItemCourant = interfaceUtilisateur.getController().getSousItem(requete).get(0);
+			    	   
+			    	   Thread th1 = new Thread(){
+				    		 public void run(){
+				    			 detailView.afficher(navigationView.sousItemCourant);
+				    		 }
+				    	   };
+			    	   th1.start();
+			    	   
 			    	   setEvaluation();
 			    	   comparaisonSousItemSelection = nomSousItemSelection;
 			       }

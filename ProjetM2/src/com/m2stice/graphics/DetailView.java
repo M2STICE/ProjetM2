@@ -13,6 +13,8 @@ import javax.swing.JTextArea;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
+import com.m2stice.model.Item;
+import com.m2stice.model.SousItem;
 
 public class DetailView extends JPanel {
 
@@ -81,5 +83,14 @@ public class DetailView extends JPanel {
 			+"\n  Nombres ECTS: "+ec.getNombreEcts()
 			+"\n  Resume: "+ec.getResume());
 	}
-
+	
+	public void afficher(Item item)
+	{
+		setDetail(" Item: " + item.getNom().toUpperCase(), "  Code: "+item.getCode());
+	}
+	
+	public void afficher(SousItem sousitem)
+	{
+		setDetail(" Sous-item: " + sousitem.getNom().toUpperCase(), "  Code: "+sousitem.getCode());
+	}
 }
