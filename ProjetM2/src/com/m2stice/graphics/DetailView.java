@@ -78,7 +78,8 @@ public class DetailView extends JPanel {
 		setDetail(" EC: "+ec.getNom().toUpperCase(), "  Code: "+ec.getCode()
 			+"\n  Coefficent: "+ec.getCoefficient()
 			+"\n  Descriptions: "+ec.getResume()
-			+"\n  Nombres ECTS: "+ec.getNombreEcts());
+			+"\n  Nombres ECTS: "+ec.getNombreEcts()
+			+"\n  Resume: "+ec.getResume());
 	}
 
 }
