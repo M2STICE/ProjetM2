@@ -163,12 +163,17 @@ public class NavigationViewListener {
 		        
 		       if(navigationView.listCompetenceCourant == null)
 		       {
-			       if(comparaisonDomaineSelection.compareTo(nomDomaineSelection)!=0)
-			       {
+			       if(comparaisonDomaineSelection.compareTo(nomDomaineSelection)!=0){
 			    	   String requete = "select * from domaine "
 			       		+ "where nom_domaine = '"+ nomDomaineSelection+ "'";
 			       
 			    	   navigationView.domaineCourant = interfaceUtilisateur.getController().getDomaine(requete).get(0);
+			    	   Thread th1 = new Thread(){
+				    		 public void run(){
+				    			 detailView.afficher(navigationView.domaineCourant);
+				    		 }
+				    	   };
+			    	   th1.start();
 			    	   setCompetence();
 			    	   comparaisonDomaineSelection = nomDomaineSelection;
 			       }
