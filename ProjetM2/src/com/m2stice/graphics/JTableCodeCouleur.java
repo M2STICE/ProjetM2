@@ -19,6 +19,10 @@ import java.awt.Component;
 
 public class JTableCodeCouleur extends DefaultTableCellRenderer {
 
+	/**
+	 * Numéro de série
+	 */
+	private static final long serialVersionUID = 971L;
 	public LinkedList<String> liste;
 	public JTableCodeCouleur(LinkedList<String> l)
 	{
@@ -41,28 +45,23 @@ public class JTableCodeCouleur extends DefaultTableCellRenderer {
 	                	{
 	                		if(codeCouleur == 1)
 	                		{
-	                			Color clr = new Color(204, 0, 0);
-	                            component.setBackground(clr);
+	                            component.setBackground(Color.decode("#ff4d4d"));
 	                		}
 	                		if(codeCouleur == 2)
 	                		{
-	                			Color clr = new Color(204, 51, 0);
-	                            component.setBackground(clr);
+	                            component.setBackground(Color.decode("#ff9999"));
 	                		}
 	                		if(codeCouleur == 3)
 	                		{
-	                			Color clr = new Color(255, 153, 0);
-	                            component.setBackground(clr);
+	                            component.setBackground(Color.decode("#ffb84d"));
 	                		}
 	                		if(codeCouleur == 4)
 	                		{
-	                			Color clr = new Color(102, 255, 0);
-	                            component.setBackground(clr);
+	                            component.setBackground(Color.decode("#ffcc66"));
 	                		}
 	                		if(codeCouleur == 5)
 	                		{
-	                			Color clr = new Color(0, 102, 0);
-	                            component.setBackground(clr);
+	                            component.setBackground(Color.decode("#99e599"));
 	                		}
 	                	}
                 	}
