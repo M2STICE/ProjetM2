@@ -161,14 +161,12 @@ public class NavigationViewListener {
 		          }
 		        }
 		        
-		       if(navigationView.listCompetenceCourant == null)
-		       {
+		       if(navigationView.listCompetenceCourant == null){
 			       if(comparaisonDomaineSelection.compareTo(nomDomaineSelection)!=0){
 			    	   String requete = "select * from domaine "
-			       		+ "where nom_domaine = '"+ nomDomaineSelection+ "'";
-			       
-			    	   navigationView.domaineCourant = interfaceUtilisateur.getController().getDomaine(requete).get(0);
-			    	   Thread th1 = new Thread(){
+					       		+ "where nom_domaine = '"+ nomDomaineSelection+ "'";
+					   navigationView.domaineCourant = interfaceUtilisateur.getController().getDomaine(requete).get(0);
+					   Thread th1 = new Thread(){
 				    		 public void run(){
 				    			 detailView.afficher(navigationView.domaineCourant);
 				    		 }
@@ -178,11 +176,20 @@ public class NavigationViewListener {
 			    	   comparaisonDomaineSelection = nomDomaineSelection;
 			       }
 		       }
-		       else
-		       {
+		       else{
+		    	   String requete = "select * from domaine "
+				       		+ "where nom_domaine = '"+ nomDomaineSelection+ "'";
+				   navigationView.domaineCourant = interfaceUtilisateur.getController().getDomaine(requete).get(0);
+				   Thread th1 = new Thread(){
+			    		 public void run(){
+			    			 detailView.afficher(navigationView.domaineCourant);
+			    		 }
+			    	   };
+		    	   th1.start();
+		    	   
 		    	   LinkedList<Competence> listCompeteceDuDomaineChoisi = new LinkedList<Competence>();
 		    	   
-		    	   String requete = "select competence.code_competence, "
+		    	   requete = "select competence.code_competence, "
 		    	   			+ "competence.nom_competence,"
 		    	   			+ "competence.code_domaine "
 		    	   			+ "from competence "
@@ -237,7 +244,12 @@ public class NavigationViewListener {
 			    	   		+ "from competence "
 			    	   		+ "where nom_competence = '"+ nomCompetenceSelection + "'";
 			    	   navigationView.competenceCourante = interfaceUtilisateur.getController().getCompetence(requete).get(0);
-	
+			    	   Thread th1 = new Thread(){
+				    		 public void run(){
+				    			 detailView.afficher(navigationView.competenceCourante);
+				    		 }
+				    	   };
+			    	   th1.start();
 			    	   setItem();
 			    	   comparaisonCompetenceSelection = nomCompetenceSelection;
 			       }
@@ -377,6 +389,12 @@ public class NavigationViewListener {
 			       		+ "where nom_ec = '" + nomEcSelection + "'";
 			       
 			    	   navigationView.ecCourant = interfaceUtilisateur.getController().getEc(requete).get(0);
+			    	   Thread th1 = new Thread(){
+				    		 public void run(){
+				    			 detailView.afficher(navigationView.ecCourant);
+				    		 }
+				    	   };
+			    	   th1.start();
 			    	   setSousItem();
 			    	   comparaisonEcSelection = nomEcSelection;
 			       }

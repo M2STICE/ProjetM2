@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.m2stice.model.Competence;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
 
@@ -64,11 +65,20 @@ public class DetailView extends JPanel {
 	}
 	
 	public void afficher(Domaine domaine){
-		setDetail("Domaine: "+domaine.getNom().toUpperCase(), "Code: "+domaine.getCode()+"\nCode du diplome:"+domaine.getCodeDiplome());
+		setDetail(" Domaine: "+domaine.getNom().toUpperCase(), "  Code: "+domaine.getCode()
+			+"\n  Code du diplome: "+domaine.getCodeDiplome());
+	}
+	
+	public void afficher(Competence competence){
+		setDetail(" Compétence: "+competence.getNom(), "  Code: "+competence.getCode()
+			+"  Code du domaine: "+competence.getCodeDomaine());
 	}
 	
 	public void afficher(Ec ec){
-		
+		setDetail(" EC: "+ec.getNom(), "  Code: "+ec.getCode()
+			+"  Coefficent: "+ec.getCoefficient()
+			+"  Descriptions: "+ec.getResume()
+			+"  Nombres ECTS: "+ec.getNombreEcts());
 	}
 
 }
