@@ -59,6 +59,8 @@ public class DetailView extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.add(blocInferieur,BorderLayout.CENTER);
 		this.setOpaque(false);
+		
+		this.interfaceUtilisateur.revalidate();
 	}
 	
 	public void setDetail(String entete,String contenu){
@@ -80,8 +82,7 @@ public class DetailView extends JPanel {
 		setDetail(" EC: "+ec.getNom().toUpperCase(), "  Code: "+ec.getCode()
 			+"\n  Coefficent: "+ec.getCoefficient()
 			+"\n  Descriptions: "+ec.getResume()
-			+"\n  Nombres ECTS: "+ec.getNombreEcts()
-			+"\n  Resume: "+ec.getResume());
+			+"\n  Nombres ECTS: "+ec.getNombreEcts());
 	}
 	
 	public void afficher(Item item)

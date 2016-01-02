@@ -83,6 +83,7 @@ public class CompetenceView extends JPanel {
 		this.setOpaque(false);
 		this.add(blocInferrieure,BorderLayout.CENTER);
 		
+		this.interfaceUtilisateur.revalidate();
 	}
 	
 	/**
@@ -140,7 +141,8 @@ public class CompetenceView extends JPanel {
 		blocTableau.setBackground(Color.GRAY);
 		blocTableau.setPreferredSize(new Dimension(maxLength*8,15+ld.size()*20));
 		this.bloc.add(blocTableau);
-		interfaceUtilisateur.repaint();
+		this.revalidate();
+		this.repaint();
 		
 		click_competence = false;
 		click_item = false;
@@ -225,8 +227,8 @@ public class CompetenceView extends JPanel {
 		if(maxLength>40)
 			blocTableau.setPreferredSize(new Dimension(300,20+lc.size()*18));
 		this.bloc.add(blocTableau);
-		
-		interfaceUtilisateur.repaint();
+		this.revalidate();
+		this.repaint();
 	}
 	public void setItemJTable(LinkedList<Item> li,NavigationViewListener nvl){
 		if(click_evaluation == true)
@@ -296,7 +298,8 @@ public class CompetenceView extends JPanel {
 			blocTableau.setPreferredSize(new Dimension(300,20+li.size()*18));
 		this.bloc.add(blocTableau);
 		click_item = true;
-		interfaceUtilisateur.repaint();
+		this.revalidate();
+		this.repaint();
 	}
 	public void setEcJTable(LinkedList<Ec> lec,NavigationViewListener nvl){
 		if(click_evaluation == true)
@@ -339,7 +342,8 @@ public class CompetenceView extends JPanel {
 			blocTableau.setPreferredSize(new Dimension(300,20+lec.size()*18));
 		this.bloc.add(blocTableau);
 		click_ec = true;
-		interfaceUtilisateur.repaint();
+		this.revalidate();
+		this.repaint();
 	}
 	public void setSousItemJTable(LinkedList<SousItem> lsi,NavigationViewListener nvl){
 		
@@ -400,7 +404,8 @@ public class CompetenceView extends JPanel {
 			blocTableau.setPreferredSize(new Dimension(300,20+lsi.size()*18));
 		this.bloc.add(blocTableau);
 		click_sous_item=true;
-		interfaceUtilisateur.repaint();
+		this.revalidate();
+		this.repaint();
 	}
 	public void setEvaluationJTable(LinkedList<Evaluation> le,NavigationViewListener nvl){
 		if(click_evaluation == true)
@@ -455,6 +460,8 @@ public class CompetenceView extends JPanel {
 			blocTableau.setPreferredSize(new Dimension(150,20+le.size()*18));
 		this.bloc.add(blocTableau);
 		click_evaluation = true;
-		interfaceUtilisateur.repaint();
+		this.revalidate();
+		this.repaint();
 	}
+	
 }

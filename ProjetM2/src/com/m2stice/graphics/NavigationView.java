@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.plaf.IconUIResource;
 
 import com.m2stice.controller.NavigationViewListener;
 import com.m2stice.model.Annee;

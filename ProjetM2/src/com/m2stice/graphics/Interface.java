@@ -115,6 +115,7 @@ public class Interface extends Applet {
 	 */
 	public void setBlocPrincipal(JPanel blocPrincipal) {
 		this.removeAll();
+		this.blocPrincipal.removeAll();
 		this.blocPrincipal = blocPrincipal;
 		this.add(this.blocPrincipal,BorderLayout.CENTER);
 		this.repaint();
@@ -155,9 +156,8 @@ public class Interface extends Applet {
 	 * le super.repaint() ne fonctionne pas bien
 	 */
 	public void repaint(){
+		this.revalidate();
 		super.repaint();
-		this.resize(this.getWidth(),this.getHeight()+1);
-		this.resize(this.getWidth(),this.getHeight());
 	}
 	
 	/**

@@ -161,31 +161,26 @@ public class NavigationViewListener {
 		          }
 		        }
 		        
+		        String requete = "select * from domaine "
+			       		+ "where nom_domaine = '"+ nomDomaineSelection+ "'";
+			   navigationView.domaineCourant = interfaceUtilisateur.getController().getDomaine(requete).get(0);
+			   Thread th1 = new Thread(){
+		    		 public void run(){
+		    			 detailView.afficher(navigationView.domaineCourant);
+		    		 }
+		    	   };
+	    	   th1.start();
+		        
 		       if(navigationView.listCompetenceCourant == null){
 			       if(comparaisonDomaineSelection.compareTo(nomDomaineSelection)!=0){
-			    	   String requete = "select * from domaine "
+			    	   requete = "select * from domaine "
 					       		+ "where nom_domaine = '"+ nomDomaineSelection+ "'";
 					   navigationView.domaineCourant = interfaceUtilisateur.getController().getDomaine(requete).get(0);
-					   Thread th1 = new Thread(){
-				    		 public void run(){
-				    			 detailView.afficher(navigationView.domaineCourant);
-				    		 }
-				    	   };
-			    	   th1.start();
 			    	   setCompetence();
 			    	   comparaisonDomaineSelection = nomDomaineSelection;
 			       }
 		       }
 		       else{
-		    	   String requete = "select * from domaine "
-				       		+ "where nom_domaine = '"+ nomDomaineSelection+ "'";
-				   navigationView.domaineCourant = interfaceUtilisateur.getController().getDomaine(requete).get(0);
-				   Thread th1 = new Thread(){
-			    		 public void run(){
-			    			 detailView.afficher(navigationView.domaineCourant);
-			    		 }
-			    	   };
-		    	   th1.start();
 		    	   
 		    	   LinkedList<Competence> listCompeteceDuDomaineChoisi = new LinkedList<Competence>();
 		    	   
@@ -234,43 +229,29 @@ public class NavigationViewListener {
 		          }
 		        }
 		        
+		        String requete = "select competence.code_competence, "
+	    	   			+ "competence.nom_competence,"
+	    	   			+ "competence.code_domaine "
+		    	   		+ "from competence "
+		    	   		+ "where nom_competence = '"+ nomCompetenceSelection + "'";
+		    	   navigationView.competenceCourante = interfaceUtilisateur.getController().getCompetence(requete).get(0);
+		    	   Thread th1 = new Thread(){
+			    		 public void run(){
+			    			 detailView.afficher(navigationView.competenceCourante);
+			    		 }
+			    	   };
+		    	   th1.start();
+		        
 		        if (navigationView.listItemCourant == null)
 		        {
 			       if(comparaisonCompetenceSelection.compareTo(nomCompetenceSelection)!=0)
 			       {
-			    	   String requete = "select competence.code_competence, "
-		    	   			+ "competence.nom_competence,"
-		    	   			+ "competence.code_domaine "
-			    	   		+ "from competence "
-			    	   		+ "where nom_competence = '"+ nomCompetenceSelection + "'";
-			    	   navigationView.competenceCourante = interfaceUtilisateur.getController().getCompetence(requete).get(0);
-			    	   Thread th1 = new Thread(){
-				    		 public void run(){
-				    			 detailView.afficher(navigationView.competenceCourante);
-				    		 }
-				    	   };
-			    	   th1.start();
 			    	   setItem();
 			    	   comparaisonCompetenceSelection = nomCompetenceSelection;
 			       }
 		        }
 		        else
 		        {
-		           String requete = "select competence.code_competence, "
-		    	   			+ "competence.nom_competence,"
-		    	   			+ "competence.code_domaine "
-			    	   		+ "from competence "
-			    	   		+ "where nom_competence = '"+ nomCompetenceSelection + "'";
-		           navigationView.competenceCourante = interfaceUtilisateur.getController().getCompetence(requete).get(0);
-		           Thread th1 = new Thread(){
-			    		 public void run(){
-			    			 detailView.afficher(navigationView.competenceCourante);
-			    		 }
-			    	   };
-			       th1.start();
-			       
-			       
-		        	
 		           LinkedList<Item> listItemDelaCompetenceChoisie = new LinkedList<Item>();
 			    	   
 		    	   requete = "select item.code_item, "
@@ -297,6 +278,7 @@ public class NavigationViewListener {
 		           requete += ")";
 		    	   listItemDelaCompetenceChoisie = interfaceUtilisateur.getController().getItem(requete);
 		    	   competenceView.setItemJTable(listItemDelaCompetenceChoisie, navigationView.getNavigationViewListener());
+		    	   competenceView.repaint();
 		        }
 			}
 			
@@ -318,43 +300,31 @@ public class NavigationViewListener {
 				    nomItemSelection = (String) table.getValueAt(selectedRow[i], selectedColumns[j]);
 				  }
 				}
+				
+				String requete = "select * from item "
+						   + "where nom_item = '" + nomItemSelection + "'";
+			   
+			   navigationView.itemCourant = interfaceUtilisateur.getController().getItem(requete).get(0);
+			   Thread th1 = new Thread(){
+	    		 public void run(){
+	    			 detailView.afficher(navigationView.itemCourant);
+	    		 }
+	    	   };
+		    	th1.start();
 			   
 				if (navigationView.listEcCourant == null)
 				{
 					if(comparaisonItemSelection.compareTo(nomItemSelection)!=0)
 				   {
-					   String requete = "select * from item "
-							   + "where nom_item = '" + nomItemSelection + "'";
-				   
-					   navigationView.itemCourant = interfaceUtilisateur.getController().getItem(requete).get(0);
-					   Thread th1 = new Thread(){
-				    		 public void run(){
-				    			 detailView.afficher(navigationView.itemCourant);
-				    		 }
-				    	   };
-			    	   th1.start();
+
 					   setEc();
 					   comparaisonItemSelection = nomItemSelection;
 				   }
 				}
-				else
-				{
-				   if(comparaisonItemSelection.compareTo(nomItemSelection)!=0)
-				   {
-					   String requete1 = "select * from item "
-							   + "where nom_item = '" + nomItemSelection + "'";
-					   navigationView.itemCourant = interfaceUtilisateur.getController().getItem(requete1).get(0);
-				   }
-				   
-				   Thread th1 = new Thread(){
-			    		 public void run(){
-			    			 detailView.afficher(navigationView.itemCourant);
-			    		 }
-			    	   };
-		    	   th1.start();
+				else{
 				   
 				   LinkedList<Ec> listEcDuItemChoisi = new LinkedList<Ec>();
-		    	   String requete = "select ec.code_ec, "
+		    	   requete = "select ec.code_ec, "
 		   				+ "ec.nom_ec,"
 						+ "ec.coefficient_ec, "
 						+ "ec.nombre_ects, "
