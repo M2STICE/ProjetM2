@@ -38,11 +38,11 @@ public class DetailView extends JPanel {
 		
 		entete.setPreferredSize(new Dimension(0,20));
 		entete.setOpaque(true);
-		entete.setFont(new Font("Gill Sans MT",Font.BOLD,20));
+		entete.setFont(new Font("Gill Sans MT",Font.BOLD,15));
 		entete.setBackground(Color.WHITE);
 		
 		contenu.setOpaque(true);
-		contenu.setFont(new Font("Gill Sans MT",Font.ROMAN_BASELINE,20));
+		contenu.setFont(new Font("Gill Sans MT",Font.ROMAN_BASELINE,11));
 		contenu.setBackground(Color.WHITE);
 		contenu.setEditable(false);
 		
@@ -75,7 +75,7 @@ public class DetailView extends JPanel {
 	}
 	
 	public void afficher(Ec ec){
-		setDetail(" EC: "+ec.getNom(), "  Code: "+ec.getCode()
+		setDetail(" EC: "+ec.getNom().toUpperCase(), "  Code: "+ec.getCode()
 			+"\n  Coefficent: "+ec.getCoefficient()
 			+"\n  Descriptions: "+ec.getResume()
 			+"\n  Nombres ECTS: "+ec.getNombreEcts());

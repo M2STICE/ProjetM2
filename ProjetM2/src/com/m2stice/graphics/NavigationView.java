@@ -170,7 +170,7 @@ public class NavigationView extends JPanel {
 		blocDetail.setLayout(new BorderLayout());
 		blocDetail.setPreferredSize(new Dimension(0,150));
 		blocDetail.setOpaque(false);
-		JLabel titreDetail = new JLabel("   Détails");
+		JLabel titreDetail = new JLabel(" Détails");
 		titreDetail.setFont(new Font("Gill Sans MT",Font.ROMAN_BASELINE,20));
 		titreDetail.setForeground(Color.WHITE);
 		titreDetail.setOpaque(true);
