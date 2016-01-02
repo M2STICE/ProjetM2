@@ -222,6 +222,8 @@ public class CompetenceView extends JPanel {
 		JScrollPane blocTableau = new JScrollPane(tableauCompetence);
 		blocTableau.setBackground(Color.GRAY);
 		blocTableau.setPreferredSize(new Dimension(maxLength*8,20+lc.size()*18));
+		if(maxLength>40)
+			blocTableau.setPreferredSize(new Dimension(300,20+lc.size()*18));
 		this.bloc.add(blocTableau);
 		
 		interfaceUtilisateur.repaint();
@@ -290,6 +292,8 @@ public class CompetenceView extends JPanel {
 		JScrollPane blocTableau = new JScrollPane(tableauItem);
 		blocTableau.setBackground(Color.GRAY);
 		blocTableau.setPreferredSize(new Dimension(maxLength*8,20+li.size()*18));
+		if(maxLength>40)
+			blocTableau.setPreferredSize(new Dimension(300,20+li.size()*18));
 		this.bloc.add(blocTableau);
 		click_item = true;
 		interfaceUtilisateur.repaint();
@@ -331,6 +335,8 @@ public class CompetenceView extends JPanel {
 		JScrollPane blocTableau = new JScrollPane(tableauEC);
 		blocTableau.setBackground(Color.GRAY);
 		blocTableau.setPreferredSize(new Dimension(maxLength*8,20+lec.size()*18));
+		if(maxLength>40)
+			blocTableau.setPreferredSize(new Dimension(300,20+lec.size()*18));
 		this.bloc.add(blocTableau);
 		click_ec = true;
 		interfaceUtilisateur.repaint();
@@ -390,6 +396,8 @@ public class CompetenceView extends JPanel {
 		JScrollPane blocTableau = new JScrollPane(tableauSousItem);
 		blocTableau.setBackground(Color.GRAY);
 		blocTableau.setPreferredSize(new Dimension(maxLength*8,20+lsi.size()*18));
+		if(maxLength>40)
+			blocTableau.setPreferredSize(new Dimension(300,20+lsi.size()*18));
 		this.bloc.add(blocTableau);
 		click_sous_item=true;
 		interfaceUtilisateur.repaint();
@@ -443,6 +451,8 @@ public class CompetenceView extends JPanel {
 		JScrollPane blocTableau = new JScrollPane(tableauEvaluation);
 		blocTableau.setBackground(Color.GRAY);
 		blocTableau.setPreferredSize(new Dimension(maxLength*8,20+le.size()*18));
+		if(maxLength<15)
+			blocTableau.setPreferredSize(new Dimension(150,20+le.size()*18));
 		this.bloc.add(blocTableau);
 		click_evaluation = true;
 		interfaceUtilisateur.repaint();
