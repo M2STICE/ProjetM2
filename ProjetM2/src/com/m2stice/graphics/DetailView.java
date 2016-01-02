@@ -70,15 +70,15 @@ public class DetailView extends JPanel {
 	}
 	
 	public void afficher(Competence competence){
-		setDetail(" Compétence: "+competence.getNom(), "  Code: "+competence.getCode()
-			+"  Code du domaine: "+competence.getCodeDomaine());
+		setDetail(" Compétence: "+competence.getNom().toUpperCase(), "  Code: "+competence.getCode()
+			+"\n  Code du domaine: "+competence.getCodeDomaine());
 	}
 	
 	public void afficher(Ec ec){
 		setDetail(" EC: "+ec.getNom(), "  Code: "+ec.getCode()
-			+"  Coefficent: "+ec.getCoefficient()
-			+"  Descriptions: "+ec.getResume()
-			+"  Nombres ECTS: "+ec.getNombreEcts());
+			+"\n  Coefficent: "+ec.getCoefficient()
+			+"\n  Descriptions: "+ec.getResume()
+			+"\n  Nombres ECTS: "+ec.getNombreEcts());
 	}
 
 }
