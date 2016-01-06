@@ -13,7 +13,6 @@ package com.m2stice.model;
 */
 public class Etudiant extends Utilisateur {
  
-	private int code;
 	private String nom;
 	private String prenom;
 
@@ -26,7 +25,7 @@ public class Etudiant extends Utilisateur {
 	 * @param motDePasse
 	 */
 	public Etudiant(int code, String nom, String prenom, String motDePasse) {
-		this.code = code;
+		this.setCode(code);
 		this.nom = nom;
 		this.prenom = prenom;
 		this.setNomUtilisateur(prenom+"."+nom);
@@ -35,15 +34,7 @@ public class Etudiant extends Utilisateur {
 	}
 
 	public String toString(){
-		return "ID: "+code+" NOM: "+nom+" PRENOM: "+prenom+" MOT DE PASSE: "+getMotDePasse()+"\n";
-	}
-	
-	public int getCode() {
-		return code;
-	}
-
-	public void setCode(int code) {
-		this.code = code;
+		return "ID: "+getCode()+" NOM: "+nom+" PRENOM: "+prenom+" MOT DE PASSE: "+getMotDePasse()+"\n";
 	}
 
 	public String getNom() {

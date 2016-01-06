@@ -46,7 +46,10 @@ public class ResultatViewListener {
 	}
 	
 	public LinkedList<Promotion> getPromotions(Diplome d){
-		return interfaceUtilisateur.getController().getPromotion("SELECT * FROM PROMOTION WHERE CODE_DIPLOME = "+d.getCode()+";");
+		if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("etu")==0)
+			return interfaceUtilisateur.getController().getPromotion("SELECT PROMOTION.CODE_PROMOTION, NOM_PROMOTION, ANNEE_DEBUT_PROMOTION, ANNEE_FIN_PROMOTION, CODE_ANNEE, CODE_DIPLOME FROM PROMOTION JOIN ETUDIANT_PROMOTION ON PROMOTION.CODE_PROMOTION = ETUDIANT_PROMOTION.CODE_PROMOTION WHERE CODE_DIPLOME = "+d.getCode()+" AND CODE_ETUDIANT = "+interfaceUtilisateur.utilisateurCourant.getCode()+";");
+		else
+			return interfaceUtilisateur.getController().getPromotion("SELECT * FROM PROMOTION WHERE CODE_DIPLOME = "+d.getCode()+";");
 	}
 
 }

@@ -2,10 +2,23 @@ package com.m2stice.model;
 
 public class Utilisateur {
 	
+	private int code;
 	private String nomUtilisateur;
 	private String motDePasse;
 	public String type;
 	
+	/**
+	 * @return the code
+	 */
+	public int getCode() {
+		return code;
+	}
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(int code) {
+		this.code = code;
+	}
 	/**
 	 * @return the nomUtilisateur
 	 */
