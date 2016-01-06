@@ -70,7 +70,6 @@ public class NavigationView extends JPanel {
 	public Semestre semestreCourant;
 	public Ue ueCourant;
 	public Promotion promotionCourante;
-	public Object utilisateurCourant;
 	public LinkedList<Ec> listEcCourant;
 	public LinkedList<Item> listItemCourant;
 	public LinkedList<Competence> listCompetenceCourant;
@@ -167,7 +166,7 @@ public class NavigationView extends JPanel {
 		navigationViewListener.setDetailView(detailView);
 		//
 		blocDetail.setLayout(new BorderLayout());
-		blocDetail.setPreferredSize(new Dimension(0,150));
+		blocDetail.setPreferredSize(new Dimension(0,200));
 		blocDetail.setOpaque(false);
 		JLabel titreDetail = new JLabel(" Détails");
 		titreDetail.setFont(new Font("Gill Sans MT",Font.ROMAN_BASELINE,20));

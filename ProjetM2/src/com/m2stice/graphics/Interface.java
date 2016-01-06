@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.m2stice.controller.Controller;
+import com.m2stice.model.Utilisateur;
 
 /*
 * Nom de classe : Interface
@@ -41,6 +42,7 @@ public class Interface extends Applet {
 	
 	private JPanel blocPrincipal; //JPanel qui contient le bloc principal
 	private Controller controller;
+	public Utilisateur utilisateurCourant;
 	
 	/**
 	 * Numéro de série

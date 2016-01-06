@@ -42,9 +42,10 @@ public class AuthentificationViewListener {
 			int codeEtudiant = 0;
 			etudiants = interfaceUtilisateur.getController().getEtudiant("SELECT * FROM ETUDIANT;");
 			for(Etudiant e:etudiants){
-				if(nomUtilisateur.compareToIgnoreCase(e.getPrenom()+"."+e.getNom())==0&&motDePasse.compareTo(e.getMotDePasse())==0){
+				if(nomUtilisateur.compareToIgnoreCase(e.getNomUtilisateur())==0&&motDePasse.compareTo(e.getMotDePasse())==0){
 					exist = true;
 					codeEtudiant = e.getCode();
+					interfaceUtilisateur.utilisateurCourant = e;
 				}
 			}
 			if(exist){
@@ -67,9 +68,10 @@ public class AuthentificationViewListener {
 				int codeIntervenant = 0;
 				intervenants = interfaceUtilisateur.getController().getIntervenant("SELECT * FROM INTERVENANT;");
 				for(Intervenant i:intervenants){
-					if(nomUtilisateur.compareToIgnoreCase(i.getPrenom()+"."+i.getNom())==0&&motDePasse.compareTo(i.getMotDePasse())==0){
+					if(nomUtilisateur.compareToIgnoreCase(i.getNomUtilisateur())==0&&motDePasse.compareTo(i.getMotDePasse())==0){
 						exist = true;
 						codeIntervenant = i.getCode();
+						interfaceUtilisateur.utilisateurCourant = i;
 					}
 				}
 				if(exist){
@@ -90,9 +92,10 @@ public class AuthentificationViewListener {
 			else{
 				administrateurs = interfaceUtilisateur.getController().getAdministrateur("SELECT * FROM ADMINISTRATEUR;");
 				for(Administrateur a:administrateurs){
-					if(nomUtilisateur.compareTo(a.getNom())==0&&motDePasse.compareTo(a.getMotDePasse())==0){
+					if(nomUtilisateur.compareTo(a.getNomUtilisateur())==0&&motDePasse.compareTo(a.getMotDePasse())==0){
 						exist = true;
 						rechercheView = new RechercheView(interfaceUtilisateur);
+						interfaceUtilisateur.utilisateurCourant = a;
 						interfaceUtilisateur.setBlocPrincipal(rechercheView);
 					}
 				}

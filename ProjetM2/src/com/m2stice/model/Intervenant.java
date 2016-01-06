@@ -12,12 +12,11 @@ package com.m2stice.model;
 * Emmanuel
 * 
 */
-public class Intervenant {
+public class Intervenant extends Utilisateur{
 	
 	private int code;
 	private String nom;
 	private String prenom;
-	private String motDePasse;
 	
 	/**
 	 * Constructeur de l'objet Intervenant 
@@ -30,11 +29,13 @@ public class Intervenant {
 		this.code = code;
 		this.nom = nom;
 		this.prenom = prenom;
-		this.motDePasse = motDePasse;
+		this.setNomUtilisateur(prenom+"."+nom);
+		this.setMotDePasse(motDePasse);
+		this.type = "inter";
 	}
 
 	public String toString(){
-		return "ID: "+code+" NOM: "+nom+" MOT DE PASSE: "+motDePasse+"\n";
+		return "ID: "+code+" NOM: "+nom+" MOT DE PASSE: "+getMotDePasse()+"\n";
 	}
 	
 	public int getCode() {
@@ -65,14 +66,6 @@ public class Intervenant {
 	 */
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
-	}
-
-	public String getMotDePasse() {
-		return motDePasse;
-	}
-
-	public void setMotDePasse(String motDePasse) {
-		this.motDePasse = motDePasse;
 	}
 
 }
