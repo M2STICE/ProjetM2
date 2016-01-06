@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.LinkedList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,6 +14,7 @@ import javax.swing.JTextArea;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
+import com.m2stice.model.Intervenant;
 import com.m2stice.model.Item;
 import com.m2stice.model.SousItem;
 
@@ -78,11 +80,18 @@ public class DetailView extends JPanel {
 			+"\n  Code du domaine: "+competence.getCodeDomaine());
 	}
 	
-	public void afficher(Ec ec){
+	public void afficher(Ec ec, LinkedList<Intervenant> listIntervenant){
+		String intervenant = new String("\n  LISTE D'INTERVENANTS: \n");
+		for (int i = 0; i < listIntervenant.size(); i++)
+		{
+			intervenant += "\n  (" + listIntervenant.get(i).getCode() + ") - " + listIntervenant.get(i).getNom() + " " +listIntervenant.get(i).getPrenom();
+		}
+		
 		setDetail(" EC: "+ec.getNom().toUpperCase(), "  Code: "+ec.getCode()
 			+"\n  Coefficent: "+ec.getCoefficient()
 			+"\n  Descriptions: "+ec.getResume()
-			+"\n  Nombres ECTS: "+ec.getNombreEcts());
+			+"\n  Nombres ECTS: "+ec.getNombreEcts()
+			+"\n" + intervenant);
 	}
 	
 	public void afficher(Item item)

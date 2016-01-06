@@ -23,6 +23,7 @@ import com.m2stice.model.Ec;
 import com.m2stice.model.Etudiant;
 import com.m2stice.model.Evaluation;
 import com.m2stice.model.EvaluationEtudiant;
+import com.m2stice.model.Intervenant;
 import com.m2stice.model.Item;
 import com.m2stice.model.SousItem;
 
@@ -55,6 +56,8 @@ public class NavigationViewListener {
 	public LinkedList<String> listeCouleurCompetence=null;
 	public LinkedList<String> listeCouleurDomaine=null;
 	public LinkedList<String> listeCouleurEvaluation=null;
+	
+	LinkedList<Intervenant> listeIntervenant = new LinkedList<Intervenant>();
 	
 	public NavigationViewListener(Interface interfaceUtilisateur,NavigationView navigationView){
 		this.interfaceUtilisateur = interfaceUtilisateur;
@@ -385,9 +388,24 @@ public class NavigationViewListener {
 			       		+ "where nom_ec = '" + nomEcSelection + "'";
 			       
 			    	   navigationView.ecCourant = interfaceUtilisateur.getController().getEc(requete).get(0);
+			    	   			    	   
+			    	   requete = "select intervenant.code_intervenant, "
+			    	   		+ "intervenant.nom_intervenant, "
+			    	   		+ "intervenant.prenom_intervenant, "
+			    	   		+ "intervenant.mot_de_passe from intervenant "
+			    	   		+ "inner join intervenant_ec on "
+			    	   		+ "intervenant.code_intervenant = intervenant_ec.code_intervenant "
+			    	   		+ "inner join ec on "
+			    	   		+ "ec.code_ec = intervenant_ec.code_ec "
+			    	   		+ "where ec.code_ec = " + navigationView.ecCourant.getCode() + ";";
+			    	   
+			    	   //System.out.println(requete);
+			    	   
+			    	   listeIntervenant = interfaceUtilisateur.getController().getIntervenant(requete);
+			    	   
 			    	   Thread th1 = new Thread(){
 				    		 public void run(){
-				    			 detailView.afficher(navigationView.ecCourant);
+				    			 detailView.afficher(navigationView.ecCourant, listeIntervenant);
 				    		 }
 				    	   };
 			    	   th1.start();
