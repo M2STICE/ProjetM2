@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
@@ -144,37 +142,8 @@ public class ResultatView extends JPanel {
 				jl.setOpaque(true);
 				jl.setFont(new Font("Gill Sans MT",Font.BOLD,20));
 				jl.setBackground(Color.decode("#66a8da"));
-				jl.addMouseListener(new MouseListener() {
-					
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						jl.setBackground(Color.decode("#66a8da"));
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						jl.setBackground(Color.decode("#ffb401"));
-						
-					}
-					
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						resultatViewListener.getNavigationView(d,p);
-					}
-				});
+				jl.addMouseListener(resultatViewListener.getItemListener(jl,d,p));
 				this.blocResultat.add(jl);
-				
 			}
 		}
 		setEntete(somme);
@@ -200,6 +169,10 @@ public class ResultatView extends JPanel {
 			//e.printStackTrace();
 		}
 		super.repaint();
+	}
+	
+	public void setBouton(String titre){
+		retourBouton.setText(titre);
 	}
 	
 }

@@ -1,9 +1,15 @@
 package com.m2stice.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
+import javax.swing.JLabel;
+
+import com.m2stice.graphics.AuthentificationView;
 import com.m2stice.graphics.Interface;
 import com.m2stice.graphics.NavigationView;
 import com.m2stice.graphics.RechercheView;
@@ -14,11 +20,10 @@ import com.m2stice.model.Promotion;
 public class ResultatViewListener {
 	
 	private Interface interfaceUtilisateur;
-	@SuppressWarnings("unused")
 	private ResultatView resultatView;
+	private AuthentificationView authentificationView;
 	private RechercheView rechercheView;
 	private NavigationView navigationView;
-	//private LinkedList<Diplome> diplomes; 
 	
 	public ResultatViewListener(Interface interfaceUtilisateur,ResultatView resultatView){
 		this.interfaceUtilisateur = interfaceUtilisateur;
@@ -26,11 +31,57 @@ public class ResultatViewListener {
 	}
 	
 	public ActionListener getRetourBoutonListener(){
-		return new ActionListener() {
+		if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("admin")==0){
+			resultatView.setBouton("Retour");
+			return new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					rechercheView = new RechercheView(interfaceUtilisateur);
+					interfaceUtilisateur.setBlocPrincipal(rechercheView);
+				}
+			};
+		}
+		else{
+			resultatView.setBouton("Déconnexion");
+			return new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					authentificationView = new AuthentificationView(interfaceUtilisateur);
+					interfaceUtilisateur.setBlocPrincipal(authentificationView);
+				
+				}
+			};
+		}
+	}
+	
+	public MouseListener getItemListener(JLabel jl, Diplome d, Promotion p){
+		return new MouseListener() {
+			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				rechercheView = new RechercheView(interfaceUtilisateur);
-		        interfaceUtilisateur.setBlocPrincipal(rechercheView);
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				jl.setBackground(Color.decode("#66a8da"));
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				jl.setBackground(Color.decode("#ffb401"));
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				getNavigationView(d,p);
 			}
 		};
 	}
