@@ -1,6 +1,7 @@
 package com.m2stice.controller;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -1187,15 +1188,84 @@ public class NavigationViewListener {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int taille = competenceView.bloc.getComponents().length;
-				for(int i=0;i<taille;i++){
-					competenceView.bloc.getComponent(i).setSize(competenceView.bloc.getComponent(i).getWidth()+10,competenceView.bloc.getComponent(i).getHeight());
-					competenceView.bloc.getComponent(i).setMaximumSize(new Dimension(competenceView.bloc.getComponent(i).getWidth()+10,competenceView.bloc.getComponent(i).getHeight()));
-					if(i>0)
-						competenceView.bloc.getComponent(i).setLocation(competenceView.bloc.getComponent(i).getX()+(10*i),competenceView.bloc.getComponent(i).getY());
-					competenceView.bloc.repaint();
-					competenceView.bloc.getParent().repaint();
+				if(competenceView.tableauDomaine!=null){
+					try{
+						competenceView.tableauDomaine.setRowHeight(competenceView.tableauDomaine.getRowHeight()+2);
+						competenceView.tableauDomaine.setPreferredSize(new Dimension(competenceView.getWidth()+10,competenceView.getHeight()+1));
+						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()+10,competenceView.bloc.getComponent(0).getHeight()+5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()+20,competenceView.bloc.getComponent(0).getHeight()+5));
+						competenceView.tableauDomaine.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauDomaine.getFont().getSize()+2));
+						competenceView.tableauDomaine.revalidate();
+					}
+					catch(Exception e1){}
 				}
+				
+				if(competenceView.tableauCompetence!=null){
+					try{
+						competenceView.tableauCompetence.setRowHeight(competenceView.tableauCompetence.getRowHeight()+2);
+						competenceView.tableauCompetence.setPreferredSize(new Dimension(competenceView.getWidth()+10,competenceView.getHeight()+1));
+						competenceView.bloc.getComponent(1).setSize(competenceView.bloc.getComponent(1).getWidth()+10,competenceView.bloc.getComponent(1).getHeight()+5);
+						competenceView.bloc.getComponent(1).setPreferredSize(new Dimension(competenceView.bloc.getComponent(1).getWidth()+20,competenceView.bloc.getComponent(1).getHeight()+5));
+						competenceView.tableauCompetence.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauCompetence.getFont().getSize()+2));
+					}
+					catch(Exception e1){}
+				}
+				if(competenceView.tableauCompetence!=null){
+					try{
+						competenceView.tableauCompetence.setRowHeight(competenceView.tableauCompetence.getRowHeight()+2);
+						competenceView.tableauCompetence.setPreferredSize(new Dimension(competenceView.getWidth()+10,competenceView.getHeight()+1));
+//						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()+10,competenceView.bloc.getComponent(0).getHeight()+5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()+20,competenceView.bloc.getComponent(0).getHeight()+5));
+						competenceView.tableauCompetence.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauCompetence.getFont().getSize()+2));
+					}
+					catch(Exception e1){}
+				}
+				
+				if(competenceView.tableauItem!=null){
+					try{
+						competenceView.tableauItem.setRowHeight(competenceView.tableauItem.getRowHeight()+2);
+						competenceView.tableauItem.setPreferredSize(new Dimension(competenceView.getWidth()+10,competenceView.getHeight()+1));
+//						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()+10,competenceView.bloc.getComponent(0).getHeight()+5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()+20,competenceView.bloc.getComponent(0).getHeight()+5));
+						competenceView.tableauItem.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauItem.getFont().getSize()+2));
+					}
+					catch(Exception e1){}
+				}
+				
+				if(competenceView.tableauEC!=null){
+					try{
+						competenceView.tableauEC.setRowHeight(competenceView.tableauEC.getRowHeight()+2);
+						competenceView.tableauEC.setPreferredSize(new Dimension(competenceView.getWidth()+10,competenceView.getHeight()+1));
+//						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()+10,competenceView.bloc.getComponent(0).getHeight()+5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()+20,competenceView.bloc.getComponent(0).getHeight()+5));
+						competenceView.tableauEC.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauEC.getFont().getSize()+2));
+					}
+					catch(Exception e1){}
+				}
+				
+				if(competenceView.tableauSousItem!=null){
+					try{
+						competenceView.tableauSousItem.setRowHeight(competenceView.tableauSousItem.getRowHeight()+2);
+						competenceView.tableauSousItem.setPreferredSize(new Dimension(competenceView.getWidth()+10,competenceView.getHeight()+1));
+//						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()+10,competenceView.bloc.getComponent(0).getHeight()+5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()+20,competenceView.bloc.getComponent(0).getHeight()+5));
+						competenceView.tableauSousItem.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauSousItem.getFont().getSize()+2));
+					}
+					catch(Exception e1){}
+				}
+				
+				if(competenceView.tableauEvaluation!=null){
+					try{
+						competenceView.tableauEvaluation.setRowHeight(competenceView.tableauEvaluation.getRowHeight()+2);
+						competenceView.tableauEvaluation.setPreferredSize(new Dimension(competenceView.getWidth()+10,competenceView.getHeight()+1));
+//						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()+10,competenceView.bloc.getComponent(0).getHeight()+5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()+20,competenceView.bloc.getComponent(0).getHeight()+5));
+						competenceView.tableauEvaluation.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauEvaluation.getFont().getSize()+2));
+					}
+					catch(Exception e1){}
+				}
+				
+				competenceView.revalidate();
 				competenceView.bloc.repaint();
 			}
 		};
@@ -1206,16 +1276,88 @@ public class NavigationViewListener {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int taille = competenceView.bloc.getComponents().length;
-				for(int i=0;i<taille;i++){
-					competenceView.bloc.getComponent(i).setSize(competenceView.bloc.getComponent(i).getWidth()-10,competenceView.bloc.getComponent(i).getHeight());
-					competenceView.bloc.getComponent(i).setMaximumSize(new Dimension(competenceView.bloc.getComponent(i).getWidth()-10,competenceView.bloc.getComponent(i).getHeight()));
-					if(i>0)
-						competenceView.bloc.getComponent(i).setLocation(competenceView.bloc.getComponent(i).getX()-(10*i),competenceView.bloc.getComponent(i).getY());
-					competenceView.bloc.repaint();
-					competenceView.bloc.getParent().repaint();
+				//int taille = competenceView.bloc.getComponents().length;
+				
+				if(competenceView.tableauDomaine!=null){
+					try{
+						competenceView.tableauDomaine.setRowHeight(competenceView.tableauDomaine.getRowHeight()-2);
+						competenceView.tableauDomaine.setPreferredSize(new Dimension(competenceView.getWidth()-10,competenceView.getHeight()-1));
+						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()-10,competenceView.bloc.getComponent(0).getHeight()-5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()-20,competenceView.bloc.getComponent(0).getHeight()-5));
+						competenceView.tableauDomaine.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauDomaine.getFont().getSize()-2));
+						competenceView.tableauDomaine.revalidate();
+					}
+					catch(Exception e1){}
 				}
+				
+				if(competenceView.tableauCompetence!=null){
+					try{
+						competenceView.tableauCompetence.setRowHeight(competenceView.tableauCompetence.getRowHeight()-2);
+						competenceView.tableauCompetence.setPreferredSize(new Dimension(competenceView.getWidth()-10,competenceView.getHeight()-1));
+						competenceView.bloc.getComponent(1).setSize(competenceView.bloc.getComponent(1).getWidth()-10,competenceView.bloc.getComponent(0).getHeight()-5);
+						competenceView.bloc.getComponent(1).setPreferredSize(new Dimension(competenceView.bloc.getComponent(1).getWidth()-20,competenceView.bloc.getComponent(1).getHeight()-5));
+						competenceView.tableauCompetence.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauCompetence.getFont().getSize()-2));
+					}
+					catch(Exception e1){}
+				}
+				if(competenceView.tableauCompetence!=null){
+					try{
+						competenceView.tableauCompetence.setRowHeight(competenceView.tableauCompetence.getRowHeight()-2);
+						competenceView.tableauCompetence.setPreferredSize(new Dimension(competenceView.getWidth()-10,competenceView.getHeight()-1));
+//						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()-10,competenceView.bloc.getComponent(0).getHeight()-5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()-20,competenceView.bloc.getComponent(0).getHeight()-5));
+						competenceView.tableauCompetence.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauCompetence.getFont().getSize()-2));
+					}
+					catch(Exception e1){}
+				}
+				
+				if(competenceView.tableauItem!=null){
+					try{
+						competenceView.tableauItem.setRowHeight(competenceView.tableauItem.getRowHeight()-2);
+						competenceView.tableauItem.setPreferredSize(new Dimension(competenceView.getWidth()-10,competenceView.getHeight()-1));
+//						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()-10,competenceView.bloc.getComponent(0).getHeight()-5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()-20,competenceView.bloc.getComponent(0).getHeight()-5));
+						competenceView.tableauItem.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauItem.getFont().getSize()-2));
+					}
+					catch(Exception e1){}
+				}
+				
+				if(competenceView.tableauEC!=null){
+					try{
+						competenceView.tableauEC.setRowHeight(competenceView.tableauEC.getRowHeight()-2);
+						competenceView.tableauEC.setPreferredSize(new Dimension(competenceView.getWidth()-10,competenceView.getHeight()-1));
+//						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()-10,competenceView.bloc.getComponent(0).getHeight()-5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()-20,competenceView.bloc.getComponent(0).getHeight()-5));
+						competenceView.tableauEC.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauEC.getFont().getSize()-2));
+					}
+					catch(Exception e1){}
+				}
+				
+				if(competenceView.tableauSousItem!=null){
+					try{
+						competenceView.tableauSousItem.setRowHeight(competenceView.tableauSousItem.getRowHeight()-2);
+						competenceView.tableauSousItem.setPreferredSize(new Dimension(competenceView.getWidth()-10,competenceView.getHeight()-1));
+//						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()-10,competenceView.bloc.getComponent(0).getHeight()-5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()-20,competenceView.bloc.getComponent(0).getHeight()-5));
+						competenceView.tableauSousItem.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauSousItem.getFont().getSize()-2));
+					}
+					catch(Exception e1){}
+				}
+				
+				if(competenceView.tableauEvaluation!=null){
+					try{
+						competenceView.tableauEvaluation.setRowHeight(competenceView.tableauEvaluation.getRowHeight()-2);
+						competenceView.tableauEvaluation.setPreferredSize(new Dimension(competenceView.getWidth()-10,competenceView.getHeight()-1));
+//						competenceView.bloc.getComponent(0).setSize(competenceView.bloc.getComponent(0).getWidth()-10,competenceView.bloc.getComponent(0).getHeight()-5);
+						competenceView.bloc.getComponent(0).setPreferredSize(new Dimension(competenceView.bloc.getComponent(0).getWidth()-20,competenceView.bloc.getComponent(0).getHeight()-5));
+						competenceView.tableauEvaluation.setFont(new Font("Dialog",Font.PLAIN,competenceView.tableauEvaluation.getFont().getSize()-2));
+					}
+					catch(Exception e1){}
+				}
+				
+				competenceView.bloc.revalidate();
 				competenceView.bloc.repaint();
+				
 			}
 		};
 	}

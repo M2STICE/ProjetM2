@@ -70,10 +70,15 @@ public class Interface extends Applet {
 	 */
 	public void start(){
 		controller.setMainInterface(this);
+		
+		
 		if(!controller.getProperties())
 			this.blocPrincipal = new DatabaseInfoView(this);
-		else
-			this.blocPrincipal = new AuthentificationView(this);
+		else{
+			//Pour la dèv
+			utilisateurCourant = controller.getAdministrateur("SELECT * FROM ADMINISTRATEUR;").getFirst();
+			this.blocPrincipal = new RechercheView(this);
+		}
 		
 		//Paramétrage de l'applet
 		

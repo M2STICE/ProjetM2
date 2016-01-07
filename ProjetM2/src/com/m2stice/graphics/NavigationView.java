@@ -109,10 +109,10 @@ public class NavigationView extends JPanel {
 		//
 		blocCommande.setLayout(new FlowLayout(FlowLayout.LEADING));
 		blocCommande.setPreferredSize(new Dimension(1024,45));
-		blocCommande.add(Box.createVerticalBox());
-		blocCommande.add(Box.createVerticalBox());
-		blocCommande.add(Box.createVerticalBox());
-		blocCommande.add(clickButton);
+//		blocCommande.add(Box.createVerticalBox());
+//		blocCommande.add(Box.createVerticalBox());
+//		blocCommande.add(Box.createVerticalBox());
+//		blocCommande.add(clickButton);
 		blocCommande.add(Box.createVerticalBox());
 		blocCommande.add(Box.createVerticalBox());
 		blocCommande.add(Box.createVerticalBox());
