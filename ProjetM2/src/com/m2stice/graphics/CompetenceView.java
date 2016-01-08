@@ -412,7 +412,7 @@ public class CompetenceView extends JPanel {
 		{
 			this.bloc.remove(5);
 		}
-		
+		LinkedList<String> listCouleur = new LinkedList<String>();
 		donneesEvaluation = new Object[le.size()][1];
 		int cpt = 0;
 		int maxLength = 0;
@@ -432,6 +432,7 @@ public class CompetenceView extends JPanel {
 					if(codeEvaluation == e.getCode())
 					{
 						String nouveauContenu = tab[0]+";"+tab[1]+";"+e.getNom().toUpperCase();
+						listCouleur.add(nouveauContenu);
 						nvl.listeCouleurEvaluation.set(i, nouveauContenu);
 					}
 				}
@@ -445,7 +446,7 @@ public class CompetenceView extends JPanel {
 		//Pour le code couleur
 		if(nvl.listeCouleurEvaluation != null)
 		{
-		 tableauEvaluation.setDefaultRenderer(Object.class, new JTableCodeCouleur(nvl.listeCouleurEvaluation));
+		 tableauEvaluation.setDefaultRenderer(Object.class, new JTableCodeCouleur(listCouleur));
 		}
 		
 		cellSelectionEvaluation = tableauEvaluation.getSelectionModel();

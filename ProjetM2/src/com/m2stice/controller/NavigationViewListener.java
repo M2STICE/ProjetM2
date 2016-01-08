@@ -820,13 +820,14 @@ public class NavigationViewListener {
 								int annee_debut = navigationView.promotionCourante.getAnneeDebutPromotion();
 								int annee_fin = navigationView.promotionCourante.getAnneeFinPromotion();
 								float somme = 0;
-								float moyenne;
+								float moyenne=0;
 								
 								for(int comp = 0; comp <listCodeEvaluation.size() ; comp ++)
 								{
 									
 									listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
 									somme = 0;
+									moyenne = 0;
 									for(int comp1 = 0; comp1<lesEtudiant.size() ; comp1 ++)
 									{
 										lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
@@ -920,27 +921,27 @@ public class NavigationViewListener {
 									
 									m = s/nb_evaluation;
 									
-									if(m >= 1 && m<2)
+									if((int)m >= 1 && (int)m<2)
 									{
 										String moy =""+listCodeSousItem.get(cpt)+";1";
 										listeCouleurSousItem.add(moy);
 									}
-									if(m >= 2 && m<3)
+									if((int)m >= 2 && (int)m<3)
 									{
 										String moy =""+listCodeSousItem.get(cpt)+";2";
 										listeCouleurSousItem.add(moy);
 									}
-									if(m>=3 && m<4)
+									if((int)m>=3 && (int)m<4)
 									{
 										String moy =""+listCodeSousItem.get(cpt)+";3";
 										listeCouleurSousItem.add(moy);
 									}
-									if(m>=4 && m<5)
+									if((int)m>=4 && (int)m<5)
 									{
 										String moy =""+listCodeSousItem.get(cpt)+";4";
 										listeCouleurSousItem.add(moy);
 									}
-									if(m==5)
+									if((int)m==5)
 									{
 										String moy =""+listCodeSousItem.get(cpt)+";5";
 										listeCouleurSousItem.add(moy);
@@ -984,27 +985,27 @@ public class NavigationViewListener {
 									
 									m = s/nbSousItem;
 									
-									if(m >= 1 && m<2)
+									if((int)m >= 1 && (int)m<2)
 									{
 										String moy =""+listCodesItems.get(cpt)+";1";
 										listeCouleurItem.add(moy);
 									}
-									if(m >= 2 && m<3)
+									if((int)m >= 2 && (int)m<3)
 									{
 										String moy =""+listCodesItems.get(cpt)+";2";
 										listeCouleurItem.add(moy);
 									}
-									if(m >= 3 && m<4)
+									if((int)m >= 3 && (int)m<4)
 									{
 										String moy =""+listCodesItems.get(cpt)+";3";
 										listeCouleurItem.add(moy);
 									}
-									if(m >= 4 && m<5)
+									if((int)m >= 4 && (int)m<5)
 									{
 										String moy =""+listCodesItems.get(cpt)+";4";
 										listeCouleurItem.add(moy);
 									}
-									if(m==5)
+									if((int)m==5)
 									{
 										String moy =""+listCodesItems.get(cpt)+";5";
 										listeCouleurItem.add(moy);
@@ -1048,27 +1049,27 @@ public class NavigationViewListener {
 									}
 									m=s/nbItem;
 									
-									if(m >= 1 && m<2)
+									if((int)m >= 1 && (int)m<2)
 									{
 										String moy =""+listCodesComp.get(cpt)+";1";
 										listeCouleurCompetence.add(moy);
 									}
-									if(m >= 2 && m<3)
+									if((int)m >= 2 && (int)m<3)
 									{
 										String moy =""+listCodesComp.get(cpt)+";2";
 										listeCouleurCompetence.add(moy);
 									}
-									if(m >= 3 && m<4)
+									if((int)m >= 3 && (int)m<4)
 									{
 										String moy =""+listCodesComp.get(cpt)+";3";
 										listeCouleurCompetence.add(moy);
 									}
-									if(m >= 4 && m<5)
+									if((int)m >= 4 && (int)m<5)
 									{
 										String moy =""+listCodesComp.get(cpt)+";4";
 										listeCouleurCompetence.add(moy);
 									}
-									if(m == 5)
+									if((int)m == 5)
 									{
 										String moy =""+listCodesComp.get(cpt)+";5";
 										listeCouleurCompetence.add(moy);
@@ -1112,30 +1113,30 @@ public class NavigationViewListener {
 									
 									m=s/nbComptence;
 									
-									if(m >= 1 && m<2)
+									if((int)m >= 1 && (int)m<2)
 									{
 										String moy =""+listCodeDomaines.get(cpt)+";1";
 										listeCouleurDomaine.add(moy);
 									}
 									
-									if(m >= 2 && m<3)
+									if((int)m >= 2 && (int)m<3)
 									{
 										String moy =""+listCodeDomaines.get(cpt)+";2";
 										listeCouleurDomaine.add(moy);
 									}
-									if(m >= 3 && m<4)
+									if((int)m >= 3 && (int)m<4)
 									{
 										String moy =""+listCodeDomaines.get(cpt)+";3";
 										listeCouleurDomaine.add(moy);
 									}
 									
-									if(m >= 4 && m<5)
+									if((int)m >= 4 && (int)m<5)
 									{
 										String moy =""+listCodeDomaines.get(cpt)+";4";
 										listeCouleurDomaine.add(moy);
 									}
 									
-									if(m == 5)
+									if((int)m == 5)
 									{
 										String moy =""+listCodeDomaines.get(cpt)+";5";
 										listeCouleurDomaine.add(moy);
