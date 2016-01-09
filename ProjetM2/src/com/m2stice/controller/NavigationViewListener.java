@@ -1394,8 +1394,6 @@ public class NavigationViewListener {
 					etudiantSelectionner = liste.getSelectedValue();
 				else
 					etudiantSelectionner = null;
-				
-				System.out.println(etudiantSelectionner);
 			}
 		};
 	}

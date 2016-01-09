@@ -57,7 +57,7 @@ public class DetailView extends JPanel {
 		contenu.setBackground(Color.WHITE);
 		contenu.setEditable(false);
 		
-		listeEtudiant.setPreferredSize(new Dimension(150,0));
+		listeEtudiant.setPreferredSize(new Dimension(200,0));
 		
 		bloc.setLayout(new BorderLayout());
 		bloc.add(entete,BorderLayout.NORTH);
