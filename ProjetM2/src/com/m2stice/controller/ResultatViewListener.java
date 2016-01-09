@@ -81,18 +81,32 @@ public class ResultatViewListener {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				getNavigationView(d,p);
+				Color defaut = jl.getForeground();
+				Thread th = new Thread(){
+					public void run(){
+						resultatView.chargementImg.setVisible(true);
+						getNavigationView(d,p);
+						resultatView.chargementImg.setVisible(false);
+						jl.setForeground(defaut);
+						jl.setText("  "+jl.getText().trim().substring(1));
+					}
+				};
+				th.start();
+				jl.setText(" >" +jl.getText().trim());
+				jl.setForeground(Color.decode("#ffb401"));
 			}
 		};
 	}
 	
 	public void getNavigationView(Diplome d){
 		navigationView = new NavigationView(interfaceUtilisateur,d);
+		interfaceUtilisateur.derniereVue = resultatView;
         interfaceUtilisateur.setBlocPrincipal(navigationView);
 	}
 	
 	public void getNavigationView(Diplome d,Promotion p){
 		navigationView = new NavigationView(interfaceUtilisateur,d,p);
+		interfaceUtilisateur.derniereVue = resultatView;
         interfaceUtilisateur.setBlocPrincipal(navigationView);
 	}
 	

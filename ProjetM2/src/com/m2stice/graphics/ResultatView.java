@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,6 +45,7 @@ public class ResultatView extends JPanel {
 	private JLabel titreRecherche = new JLabel(" 🔍  Résultat de la recherche: '...'");
 	private JLabel detailRecherche = new JLabel("     X résultats trouvés");
 	private BanniereComponent banniere;						//La banniere de la vue
+	public JLabel chargementImg;
 	private JButton retourBouton = new JButton("retour");
 	
 	/**
@@ -56,12 +58,15 @@ public class ResultatView extends JPanel {
 		this.setOpaque(false);
 		
 		//Paramétrage des composants de la vue
+		chargementImg = new JLabel(new ImageIcon(interfaceUtilisateur.loadImage("ChargementIcon.gif")));
+		chargementImg.setVisible(false);
 		//
 		retourBouton.addActionListener(resultatViewListener.getRetourBoutonListener());
 		//
 		banniere = new BanniereComponent(interfaceUtilisateur,"ResultatViewBanniere.jpg");
 		banniere.setPreferredSize(new Dimension(1024,69));
 		banniere.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		banniere.add(chargementImg);
 		banniere.add(retourBouton);
 		//
 		titreRecherche.setFont(new Font("Gill Sans MT",Font.BOLD,30));
@@ -173,6 +178,13 @@ public class ResultatView extends JPanel {
 	
 	public void setBouton(String titre){
 		retourBouton.setText(titre);
+	}
+	
+	public void clear(){
+		this.blocEntete.removeAll();
+		this.blocRecherche.removeAll();
+		this.bloc.removeAll();
+		this.removeAll();
 	}
 	
 }

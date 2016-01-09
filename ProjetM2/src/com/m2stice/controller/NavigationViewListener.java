@@ -16,6 +16,7 @@ import com.m2stice.graphics.CompetenceView;
 import com.m2stice.graphics.DetailView;
 import com.m2stice.graphics.Interface;
 import com.m2stice.graphics.NavigationView;
+import com.m2stice.graphics.ResultatView;
 import com.m2stice.graphics.SyllabusView;
 import com.m2stice.model.Annee;
 import com.m2stice.model.Competence;
@@ -39,7 +40,7 @@ import com.m2stice.model.SousItem;
 public class NavigationViewListener {
 	
 	private Interface interfaceUtilisateur;
-	//private ResultatView resultatView;
+	private ResultatView resultatView;
 	private NavigationView navigationView;
 	//private SyllabusView syllabusView;
 	private CompetenceView competenceView;
@@ -1359,6 +1360,18 @@ public class NavigationViewListener {
 				competenceView.bloc.revalidate();
 				competenceView.bloc.repaint();
 				
+			}
+		};
+	}
+	
+	public ActionListener getRetourBoutonListener(){
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				resultatView = (ResultatView)interfaceUtilisateur.derniereVue;
+				resultatView.clear();
+				resultatView.init();
+				interfaceUtilisateur.setBlocPrincipal(resultatView);
 			}
 		};
 	}

@@ -43,6 +43,7 @@ public class Interface extends Applet {
 	private JPanel blocPrincipal; //JPanel qui contient le bloc principal
 	private Controller controller;
 	public Utilisateur utilisateurCourant;
+	public JPanel derniereVue;
 	
 	/**
 	 * Numéro de série

@@ -49,19 +49,19 @@ public class JTableCodeCouleur extends DefaultTableCellRenderer {
 	                		}
 	                		if(codeCouleur == 2)
 	                		{
-	                            component.setBackground(Color.decode("#ff9999"));
+	                            component.setBackground(Color.decode("#ff9d4d"));
 	                		}
 	                		if(codeCouleur == 3)
 	                		{
-	                            component.setBackground(Color.decode("#ffb84d"));
+	                            component.setBackground(Color.decode("#fff04d"));
 	                		}
 	                		if(codeCouleur == 4)
 	                		{
-	                            component.setBackground(Color.decode("#ffcc66"));
+	                            component.setBackground(Color.decode("#55cb66"));
 	                		}
 	                		if(codeCouleur == 5)
 	                		{
-	                            component.setBackground(Color.decode("#99e599"));
+	                            component.setBackground(Color.decode("#4dc2ff"));
 	                		}
 	                	}
                 	}

@@ -57,6 +57,8 @@ public class NavigationView extends JPanel {
 	private JButton zoomMoinsButton = new JButton();
 	private BanniereComponent banniere;					//Bannière de la fenêtre
 	public JLabel chargementImg;
+	private JButton retourBouton = new JButton("Retour");
+	
 	private NavigationViewListener navigationViewListener;
 	
 	public Diplome diplomeCourant;
@@ -84,10 +86,13 @@ public class NavigationView extends JPanel {
 		chargementImg = new JLabel(new ImageIcon(interfaceUtilisateur.loadImage("ChargementIcon.gif")));
 		chargementImg.setVisible(false);
 		//
+		retourBouton.addActionListener(navigationViewListener.getRetourBoutonListener());
+		//
 		banniere = new BanniereComponent(interfaceUtilisateur,"ResultatViewBanniere.jpg");
 		banniere.setPreferredSize(new Dimension(1024,69));
 		banniere.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		banniere.add(chargementImg);
+		banniere.add(retourBouton);
 		//
 		clickButton.setPreferredSize(new Dimension(35,35));
 		clickButton.setIcon(new ImageIcon(interfaceUtilisateur.loadImage("BoutonFlecheIcon.png")));
