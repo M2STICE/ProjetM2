@@ -7,13 +7,16 @@ import java.awt.Font;
 import java.util.LinkedList;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.m2stice.controller.NavigationViewListener;
 import com.m2stice.model.Competence;
 import com.m2stice.model.Domaine;
 import com.m2stice.model.Ec;
+import com.m2stice.model.Etudiant;
 import com.m2stice.model.Intervenant;
 import com.m2stice.model.Item;
 import com.m2stice.model.SousItem;
@@ -27,8 +30,11 @@ public class DetailView extends JPanel {
 	private Interface interfaceUtilisateur;
 	private JPanel bloc;
 	private JScrollPane blocInferieur;
+	//private JScrollPane bloc;
+	//private JScrollPane blocEtudiant;
 	private JLabel entete;
 	private JTextArea contenu;
+	private JList<String> listeEtudiant;
 	
 	public DetailView(Interface interfaceUtilisateur) {
 		this.interfaceUtilisateur = interfaceUtilisateur;
@@ -39,6 +45,7 @@ public class DetailView extends JPanel {
 		this.bloc = new JPanel();
 		this.entete = new JLabel();
 		this.contenu = new JTextArea();
+		this.listeEtudiant = new JList<>();
 		
 		entete.setPreferredSize(new Dimension(0,20));
 		entete.setOpaque(true);
@@ -49,6 +56,8 @@ public class DetailView extends JPanel {
 		contenu.setFont(new Font("Gill Sans MT",Font.ROMAN_BASELINE,11));
 		contenu.setBackground(Color.WHITE);
 		contenu.setEditable(false);
+		
+		listeEtudiant.setPreferredSize(new Dimension(150,0));
 		
 		bloc.setLayout(new BorderLayout());
 		bloc.add(entete,BorderLayout.NORTH);
@@ -94,13 +103,25 @@ public class DetailView extends JPanel {
 			+"\n" + intervenant);
 	}
 	
-	public void afficher(Item item)
-	{
+	public void afficher(Item item){
 		setDetail(" Item: " + item.getNom().toUpperCase(), "  Code: "+item.getCode());
 	}
 	
-	public void afficher(SousItem sousitem)
-	{
+	public void afficher(SousItem sousitem){
 		setDetail(" Sous-item: " + sousitem.getNom().toUpperCase(), "  Code: "+sousitem.getCode());
+	}
+	
+	public void afficherEtudiants(LinkedList<Etudiant> etudiants,NavigationViewListener navigationViewListener){
+		remove(listeEtudiant);
+		String[] liste = new String[etudiants.size()+1];
+		liste[0] = "Tous les étudiants";
+		for(int i=0;i<etudiants.size();i++){
+			liste[i+1] = etudiants.get(i).getNom().toUpperCase()+" "+etudiants.get(i).getPrenom().substring(0,1).toUpperCase()+etudiants.get(i).getPrenom().substring(1).toLowerCase();
+		}
+		listeEtudiant = new JList<>(liste);
+		listeEtudiant.addListSelectionListener(navigationViewListener.getListeEtudiantListener(listeEtudiant));
+		this.bloc.add(listeEtudiant,BorderLayout.EAST);
+		this.revalidate();
+		this.repaint();
 	}
 }

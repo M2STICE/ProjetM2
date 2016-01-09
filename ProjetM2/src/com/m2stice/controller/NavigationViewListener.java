@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -58,7 +59,7 @@ public class NavigationViewListener {
 	public LinkedList<String> listeCouleurCompetence=null;
 	public LinkedList<String> listeCouleurDomaine=null;
 	public LinkedList<String> listeCouleurEvaluation=null;
-	
+	public String etudiantSelectionner = null ;
 	LinkedList<Intervenant> listeIntervenant = new LinkedList<Intervenant>();
 	
 	public NavigationViewListener(Interface interfaceUtilisateur,NavigationView navigationView){
@@ -76,6 +77,15 @@ public class NavigationViewListener {
 	
 	public void setDetailView(DetailView detailView){
 		this.detailView = detailView;
+		if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("admin")==0){
+			detailView.afficherEtudiants(interfaceUtilisateur.getController().getEtudiant("select etudiant.code_etudiant, nom_etudiant, prenom_etudiant, mot_de_passe_etudiant "
+					+ "from etudiant, etudiant_promotion, promotion "
+					+ "where etudiant.code_etudiant = etudiant_promotion.code_etudiant and "
+					+ "etudiant_promotion.code_promotion = promotion.code_promotion and "
+					+ "promotion.code_diplome = "+navigationView.diplomeCourant.getCode()+" and "
+					+ "promotion.code_promotion = "+navigationView.promotionCourante.getCode()+";"),this);
+		}
+		
 	}
 	
 	public void setDomaine(){
@@ -1372,6 +1382,20 @@ public class NavigationViewListener {
 				resultatView.clear();
 				resultatView.init();
 				interfaceUtilisateur.setBlocPrincipal(resultatView);
+			}
+		};
+	}
+	
+	public ListSelectionListener getListeEtudiantListener(JList<String> liste){
+		return new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(liste.getSelectedValue().compareToIgnoreCase("Tous les étudiants")!=0)
+					etudiantSelectionner = liste.getSelectedValue();
+				else
+					etudiantSelectionner = null;
+				
+				System.out.println(etudiantSelectionner);
 			}
 		};
 	}
