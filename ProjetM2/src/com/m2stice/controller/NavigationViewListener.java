@@ -52,15 +52,21 @@ public class NavigationViewListener {
 	private String comparaisonItemSelection="";
 	private String comparaisonEcSelection="";
 	private String comparaisonSousItemSelection="";
-	//private String comparaisonEvaluationSelection="";public LinkedList<String> listCouleurEvaluation;
 	
+	private String comparaisonEtudiantSelection="";
 	public LinkedList<String> listeCouleurSousItem=null;
 	public LinkedList<String> listeCouleurItem=null;
 	public LinkedList<String> listeCouleurCompetence=null;
 	public LinkedList<String> listeCouleurDomaine=null;
 	public LinkedList<String> listeCouleurEvaluation=null;
 	public String etudiantSelectionner = null ;
+	public int codeEtudiantSelectionner;
+	public int anneeCourante = 0;
 	LinkedList<Intervenant> listeIntervenant = new LinkedList<Intervenant>();
+	LinkedList<Integer> listeCodeItemCourant = new LinkedList<Integer>();
+	LinkedList<Integer> listeCodeCompetenceCourant = new LinkedList<Integer>();
+	LinkedList<Integer> listeCodeDomaineCourant = new LinkedList<Integer>();
+	LinkedList<Domaine> lesDomainesGlobales = null;
 	
 	public NavigationViewListener(Interface interfaceUtilisateur,NavigationView navigationView){
 		this.interfaceUtilisateur = interfaceUtilisateur;
@@ -77,27 +83,149 @@ public class NavigationViewListener {
 	
 	public void setDetailView(DetailView detailView){
 		this.detailView = detailView;
+		
+		
+	}
+	
+	public void modifierDetailView()
+	{
 		if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("admin")==0){
-			detailView.afficherEtudiants(interfaceUtilisateur.getController().getEtudiant("select etudiant.code_etudiant, nom_etudiant, prenom_etudiant, mot_de_passe_etudiant "
+			this.detailView.afficherEtudiants(interfaceUtilisateur.getController().getEtudiant("select etudiant.code_etudiant, nom_etudiant, prenom_etudiant, mot_de_passe_etudiant "
 					+ "from etudiant, etudiant_promotion, promotion "
 					+ "where etudiant.code_etudiant = etudiant_promotion.code_etudiant and "
 					+ "etudiant_promotion.code_promotion = promotion.code_promotion and "
+					+ "promotion.code_annee = "+anneeCourante+" and "
 					+ "promotion.code_diplome = "+navigationView.diplomeCourant.getCode()+" and "
 					+ "promotion.code_promotion = "+navigationView.promotionCourante.getCode()+";"),this);
 		}
-		
 	}
 	
 	public void setDomaine(){
 		int codeDiplome = navigationView.diplomeCourant.getCode();
-		String requete = "select domaine.code_domaine, "
-				+ "domaine.nom_domaine,"
-				+ "domaine.code_diplome "
-				+ "from domaine "
-				+ "inner join diplome on "
-				+ "domaine.code_diplome = diplome.code_diplome "
-				+ "where diplome.code_diplome = " + codeDiplome + ";";
-		competenceView.setDomaineJTable(interfaceUtilisateur.getController().getDomaine(requete), this);
+		String requete="";
+		if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("inter")!=0)
+		{	
+			requete = "select domaine.code_domaine, "
+					+ "domaine.nom_domaine, "
+					+ "domaine.code_diplome "
+					+ "from domaine "
+					+ "inner join diplome on "
+					+ "domaine.code_diplome = diplome.code_diplome "
+					+ "where diplome.code_diplome = " + codeDiplome + ";";
+			
+			competenceView.setDomaineJTable(interfaceUtilisateur.getController().getDomaine(requete), this);
+		}
+		
+		
+		if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("inter")==0)
+		{
+			requete = "select ec.code_ec, "
+					+ "ec.nom_ec, ec.coefficient_ec, "
+					+ "ec.nombre_ects, ec.volume_heure_cours, "
+					+ "ec.volume_heure_TD, ec.volume_heure_TP, "
+					+ "ec.volume_heure_BE, ec.volume_heure_TPERSO, "
+					+ "ec.resume_ec, ec.code_ue, "
+					+ "ec.responsable_ec, ec.code_semestre "
+					+ "from ec, intervenant_ec "
+					+ "where ec.code_ec = intervenant_ec.code_ec and "
+					+ "intervenant_ec.code_intervenant ="+interfaceUtilisateur.utilisateurCourant.getCode();
+			
+			LinkedList<Ec> lesEc = interfaceUtilisateur.getController().getEc(requete);
+			LinkedList<Item> lesItemsGlobal = new LinkedList<Item>();
+			LinkedList<Integer> listCodesItems = new LinkedList<Integer>();
+			
+			int i = 0;
+			while (i < lesEc.size())
+			{
+				LinkedList<Item> lesItems = new LinkedList<Item>();
+				requete = "select item.code_item, "
+	    	   			+ "item.nom_item, "
+	    	   			+ "item.code_competence, "
+	    	   			+ "item.code_evaluation "
+						+ "from item "
+						+ "inner join ec_item on "
+						+ "ec_item.code_item = item.code_item "
+						+ "inner join ec on "
+						+ "ec.code_ec = ec_item.code_ec "
+						+ "where ec.code_ec = " + lesEc.get(i).getCode();
+				lesItems = interfaceUtilisateur.getController().getItem(requete);
+				
+				for (int item = 0; item < lesItems.size(); item++)
+				{
+					if (listCodesItems.indexOf(lesItems.get(item).getCode()) == -1)
+					{
+						lesItemsGlobal.add(lesItems.get(item));
+						listCodesItems.add(lesItems.get(item).getCode());
+					}
+				}
+
+				i++;
+			}
+			
+			listeCodeItemCourant = listCodesItems;
+		
+			LinkedList<Competence> lesCompetencesGlobales = new LinkedList<Competence>();
+			LinkedList<Integer> listCodesComp = new LinkedList<Integer>();
+			
+			i = 0;
+			while (i < lesItemsGlobal.size())
+			{
+				LinkedList<Competence> lesCompetences = new LinkedList<Competence>();
+				requete = "select competence.code_competence, "
+	    	   			+ "competence.nom_competence,"
+	    	   			+ "competence.code_domaine "
+						+ "from competence "
+						+ "inner join item on "
+						+ "item.code_competence = competence.code_competence "
+						+ "where code_item = " + lesItemsGlobal.get(i).getCode();
+				
+				lesCompetences = interfaceUtilisateur.getController().getCompetence(requete);
+				
+				for (int comp = 0; comp < lesCompetences.size(); comp++)
+				{
+					if (listCodesComp.indexOf(lesCompetences.get(comp).getCode()) == -1)
+					{
+						lesCompetencesGlobales.add(lesCompetences.get(comp));
+						listCodesComp.add(lesCompetences.get(comp).getCode());
+					}
+				}
+			
+				i++;
+			}
+			 navigationView.listEcCourant = lesEc;
+			 navigationView.listItemCourant = lesItemsGlobal;
+			 navigationView.listCompetenceCourant = lesCompetencesGlobales;
+			 
+			 lesDomainesGlobales = new LinkedList<Domaine>();
+				LinkedList<Integer> listCodeDomaines = new LinkedList<>();
+				
+				i = 0;
+				while (i < listCodesComp.size()) 
+				{
+					LinkedList<Domaine> lesDomaines = new LinkedList<Domaine>();
+					requete = "select domaine.code_domaine, "
+							+ "domaine.nom_domaine,"
+							+ "domaine.code_diplome "
+							+ "from domaine "
+							+ "inner join competence on "
+							+ "competence.code_domaine = domaine.code_domaine "
+							+ "where competence.code_competence = " + listCodesComp.get(i);
+					
+					lesDomaines = interfaceUtilisateur.getController().getDomaine(requete);
+					
+					for (int j = 0; j < lesDomaines.size(); j++) 
+					{
+						if (listCodeDomaines.indexOf(lesDomaines.get(j).getCode()) == -1){
+							lesDomainesGlobales.add(lesDomaines.get(j));
+							listCodeDomaines.add(lesDomaines.get(j).getCode());
+						}
+					}
+					i++;
+				}
+				
+				competenceView.setDomaineJTable(interfaceUtilisateur.getController().getDomaine(requete), this);
+		}
+		
 	}
 	
 	public void setCompetence(){
@@ -394,7 +522,7 @@ public class NavigationViewListener {
 		            nomEcSelection = (String) table.getValueAt(selectedRow[i], selectedColumns[j]);
 		          }
 		        }
-		        if(comparaisonEcSelection.compareTo(nomEcSelection)!=0)
+		        if(comparaisonEcSelection.compareTo(nomEcSelection)!=0 )
 			       {
 			    	   String requete = "select * from ec "
 			       		+ "where nom_ec = '" + nomEcSelection + "'";
@@ -424,6 +552,35 @@ public class NavigationViewListener {
 			    	   setSousItem();
 			    	   comparaisonEcSelection = nomEcSelection;
 			       }
+		        if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("inter")==0)
+		        {
+		        	String requete = "select * from ec "
+				       		+ "where nom_ec = '" + nomEcSelection + "'";
+				       
+				    	   navigationView.ecCourant = interfaceUtilisateur.getController().getEc(requete).get(0);
+				    	   			    	   
+				    	   requete = "select intervenant.code_intervenant, "
+				    	   		+ "intervenant.nom_intervenant, "
+				    	   		+ "intervenant.prenom_intervenant, "
+				    	   		+ "intervenant.mot_de_passe from intervenant "
+				    	   		+ "inner join intervenant_ec on "
+				    	   		+ "intervenant.code_intervenant = intervenant_ec.code_intervenant "
+				    	   		+ "inner join ec on "
+				    	   		+ "ec.code_ec = intervenant_ec.code_ec "
+				    	   		+ "where ec.code_ec = " + navigationView.ecCourant.getCode() + ";";
+				    	   
+				    	   //System.out.println(requete);
+				    	   
+				    	   listeIntervenant = interfaceUtilisateur.getController().getIntervenant(requete);
+				    	   
+				    	   Thread th1 = new Thread(){
+					    		 public void run(){
+					    			 detailView.afficher(navigationView.ecCourant, listeIntervenant);
+					    		 }
+					    	   };
+				    	   th1.start();
+				    	   setSousItem();
+		        }
 			}
 			
 		};
@@ -521,6 +678,7 @@ public class NavigationViewListener {
 						
 						if(tailleCheminSyllabus >= 2)
 						{
+						
 						 if(tailleCheminSyllabus == 2)
 						 {
 							 annee = cheminSyllabus[2].substring(1, cheminSyllabus[2].length()-1);
@@ -533,7 +691,23 @@ public class NavigationViewListener {
 						 LinkedList <Annee> listAnnee = new LinkedList<Annee>();
 						 listAnnee = interfaceUtilisateur.getController().getAnnee(requete);
 						 codeAnnee = listAnnee.get(0).getCode();
-						 
+						 anneeCourante = codeAnnee;
+						 modifierDetailView();
+						}
+						if(tailleCheminSyllabus == 1)
+						{
+							requete = "select ec.code_ec, "
+									+ "ec.nom_ec, ec.coefficient_ec, "
+									+ "ec.nombre_ects, ec.volume_heure_cours, "
+									+ "ec.volume_heure_TD, ec.volume_heure_TP, "
+									+ "ec.volume_heure_BE, ec.volume_heure_TPERSO, "
+									+ "ec.resume_ec, ec.code_ue, "
+									+ "ec.responsable_ec, ec.code_semestre "
+									+ "from ec, ue "
+									+ "where ec.code_ue = ue.code_ue and "
+									+ "ue.code_diplome ="+ navigationView.diplomeCourant.getCode()+ ";";
+							
+							lesEc  = interfaceUtilisateur.getController().getEc(requete);
 						}
 						if (tailleCheminSyllabus == 2)
 						{
@@ -641,9 +815,6 @@ public class NavigationViewListener {
 							lesEc = interfaceUtilisateur.getController().getEc(requete);
 						}
 						
-						
-						
-						
 						LinkedList<Item> lesItemsGlobal = new LinkedList<Item>();
 						LinkedList<Integer> listCodesItems = new LinkedList<Integer>();
 						
@@ -675,16 +846,8 @@ public class NavigationViewListener {
 							i++;
 						}
 						
-						
-						
-						/*
-						System.out.println("--------------------------------");
-						System.out.println("Items");
-						for(int i1=0; i1<listCodesItems.size();i1++)
-						{
-							System.out.println(lesItemsGlobal.get(i1).getCode());
-						}
-						System.out.println("--------------------------------");*/
+						listeCodeItemCourant = listCodesItems;
+				
 					
 						LinkedList<Competence> lesCompetencesGlobales = new LinkedList<Competence>();
 						LinkedList<Integer> listCodesComp = new LinkedList<Integer>();
@@ -715,6 +878,9 @@ public class NavigationViewListener {
 							i++;
 						}
 						
+						listeCodeCompetenceCourant= listCodesComp;
+						
+						
 						if(tailleCheminSyllabus == 2 || tailleCheminSyllabus == 3 || tailleCheminSyllabus == 4 || tailleCheminSyllabus == 5)
 						{
 						 navigationView.listEcCourant = lesEc;
@@ -722,15 +888,14 @@ public class NavigationViewListener {
 						 navigationView.listCompetenceCourant = lesCompetencesGlobales;
 						}
 						
-						/*System.out.println("--------------------------------");
-						System.out.println("Compétences");
-						for(int i1=0; i1<listCodesComp.size();i1++)
+						if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("etu")==0)
 						{
-							System.out.println(lesCompetencesGlobales.get(i1).getCode());
+							navigationView.listEcCourant = lesEc;
+							navigationView.listItemCourant = lesItemsGlobal;
+							navigationView.listCompetenceCourant = lesCompetencesGlobales;
 						}
-						System.out.println("--------------------------------");*/
 
-						LinkedList<Domaine> lesDomainesGlobales = new LinkedList<Domaine>();
+						lesDomainesGlobales = new LinkedList<Domaine>();
 						LinkedList<Integer> listCodeDomaines = new LinkedList<>();
 						
 						i = 0;
@@ -757,74 +922,458 @@ public class NavigationViewListener {
 							i++;
 						}
 						
-						//Traitements pour le code couleur
-						if(tailleCheminSyllabus != 1 )
+						listeCodeDomaineCourant = listCodeDomaines;
+						
+						if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("admin")==0)
 						{
-							LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
-							
-							for(int iter = 0; iter<navigationView.listEcCourant.size(); iter++)
+							//Traitements pour le code couleur de la promotion
+							if(tailleCheminSyllabus != 1  && etudiantSelectionner == null)
 							{
-								LinkedList<SousItem> lesSousItem = new LinkedList<SousItem>();
-								requete ="select sous_item.code_sous_item, "
-										+ "sous_item.nom_sous_item "
-										+ "from sous_item, ec_sous_item "
-										+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and "
-										+ "ec_sous_item.code_ec = "+navigationView.listEcCourant.get(iter).getCode();
-								lesSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+								LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
 								
-								for(int comp = 0 ; comp < lesSousItem.size(); comp ++)
+								for(int iter = 0; iter<navigationView.listEcCourant.size(); iter++)
 								{
-									if(listCodeSousItem.indexOf(lesSousItem.get(comp).getCode()) == -1)
+									LinkedList<SousItem> lesSousItem = new LinkedList<SousItem>();
+									requete ="select sous_item.code_sous_item, "
+											+ "sous_item.nom_sous_item "
+											+ "from sous_item, ec_sous_item "
+											+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and "
+											+ "ec_sous_item.code_ec = "+navigationView.listEcCourant.get(iter).getCode();
+									lesSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+									
+									for(int comp = 0 ; comp < lesSousItem.size(); comp ++)
 									{
-										listCodeSousItem.add(lesSousItem.get(comp).getCode());
+										if(listCodeSousItem.indexOf(lesSousItem.get(comp).getCode()) == -1)
+										{
+											listCodeSousItem.add(lesSousItem.get(comp).getCode());
+										}
 									}
 								}
-							}
-							
-							LinkedList <Integer> listCodeEvaluation = new LinkedList<Integer>();
-							
-							for(int iter = 0; iter<listCodeSousItem.size(); iter++)
-							{
-								LinkedList<Evaluation> lesEvaluation = new LinkedList<Evaluation>();
-								requete="select evaluation.code_evaluation, "
-										+ "evaluation.nom_evaluation,"
-										+ "evaluation.note_maximale, "
-										+ "evaluation.coefficient_evaluation, "
-										+ "evaluation.type_epreuve "
-										+ "from evaluation, sous_item_evaluation "
-										+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
-										+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
-								lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
 								
-								for(int comp = 0; comp < lesEvaluation.size(); comp++)
+								LinkedList <Integer> listCodeEvaluation = new LinkedList<Integer>();
+								
+								for(int iter = 0; iter<listCodeSousItem.size(); iter++)
 								{
-									if(listCodeEvaluation.indexOf(lesEvaluation.get(comp).getCode()) == -1)
+									LinkedList<Evaluation> lesEvaluation = new LinkedList<Evaluation>();
+									requete="select evaluation.code_evaluation, "
+											+ "evaluation.nom_evaluation,"
+											+ "evaluation.note_maximale, "
+											+ "evaluation.coefficient_evaluation, "
+											+ "evaluation.type_epreuve "
+											+ "from evaluation, sous_item_evaluation "
+											+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+											+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
+									lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+									
+									for(int comp = 0; comp < lesEvaluation.size(); comp++)
 									{
-										listCodeEvaluation.add(lesEvaluation.get(comp).getCode());
+										if(listCodeEvaluation.indexOf(lesEvaluation.get(comp).getCode()) == -1)
+										{
+											listCodeEvaluation.add(lesEvaluation.get(comp).getCode());
+										}
 									}
 								}
+								
+								LinkedList<Etudiant> lesEtudiant = new LinkedList<Etudiant>();
+								requete="select etudiant.code_etudiant, "
+										+ "etudiant.nom_etudiant, "
+										+ "etudiant.prenom_etudiant, "
+										+ "etudiant.mot_de_passe_etudiant "
+										+ "from etudiant, promotion, etudiant_promotion "
+										+ "where etudiant.code_etudiant = etudiant_promotion.code_etudiant "
+										+ "and promotion.code_promotion = etudiant_promotion.code_promotion "
+										+ "and promotion.code_promotion = "+navigationView.promotionCourante.getCode()+" "
+										+ "and promotion.code_diplome = "+navigationView.promotionCourante.getCodeDiplome()+" "
+										+ "and promotion.code_annee = "+codeAnnee;
+								
+								lesEtudiant = interfaceUtilisateur.getController().getEtudiant(requete);
+								
+								int nombre_etudiant = lesEtudiant.size();
+								
+								//Si il y a des étudiants pour cette promotion
+								if(nombre_etudiant != 0)
+								{
+								
+									//Récupérer les tuples concernés dans la table etudiant_evaluation
+									LinkedList<EvaluationEtudiant> listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+									LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+									int annee_debut = navigationView.promotionCourante.getAnneeDebutPromotion();
+									int annee_fin = navigationView.promotionCourante.getAnneeFinPromotion();
+									float somme = 0;
+									float moyenne=0;
+									
+									for(int comp = 0; comp <listCodeEvaluation.size() ; comp ++)
+									{
+										
+										listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+										somme = 0;
+										moyenne = 0;
+										for(int comp1 = 0; comp1<lesEtudiant.size() ; comp1 ++)
+										{
+											lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+											requete ="select etudiant_evaluation.code_etudiant, "
+													+ "etudiant_evaluation.code_evaluation, "
+													+ "etudiant_evaluation.note_evaluation, "
+													+ "etudiant_evaluation.date_evaluation "
+													+ "from etudiant_evaluation "
+													+ "where etudiant_evaluation.code_etudiant ="+lesEtudiant.get(comp1).getCode()
+													+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp)
+													+ " and etudiant_evaluation.date_evaluation between '"+annee_debut+"-09-01' and '"+annee_fin+"-07-01'";
+											
+											lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
+											
+											for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
+											{
+												listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
+											}
+										}
+										for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
+										{
+											somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
+										}
+										
+										moyenne = somme / nombre_etudiant;
+										
+										if( moyenne >=0 && moyenne< 10)
+										{
+											String moy =""+listCodeEvaluation.get(comp)+";1";
+											listeCouleurEvaluation.add(moy);
+										}
+										if(moyenne>=10 && moyenne<12)
+										{
+											String moy =""+listCodeEvaluation.get(comp)+";2";
+											listeCouleurEvaluation.add(moy);
+										}
+										if(moyenne>=12 && moyenne<14)
+										{
+											String moy =""+listCodeEvaluation.get(comp)+";3";
+											listeCouleurEvaluation.add(moy);
+										}
+										if(moyenne>=14 && moyenne<16)
+										{
+											String moy =""+listCodeEvaluation.get(comp)+";4";
+											listeCouleurEvaluation.add(moy);
+										}
+										if(moyenne>=16 && moyenne<=20)
+										{
+											String moy =""+listCodeEvaluation.get(comp)+";5";
+											listeCouleurEvaluation.add(moy);
+										}
+										
+									}
+									
+									//Attribution code couleur SousItem
+									for(int cpt = 0 ; cpt <listCodeSousItem.size() ; cpt ++)
+									{
+										float s = 0;
+										float m = 0;
+										int nb_evaluation=0;
+										requete="select evaluation.code_evaluation, "
+												+ "evaluation.nom_evaluation,"
+												+ "evaluation.note_maximale, "
+												+ "evaluation.coefficient_evaluation, "
+												+ "evaluation.type_epreuve "
+												+ "from evaluation, sous_item_evaluation "
+												+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+												+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(cpt);
+										
+										LinkedList <Evaluation> listEvaluation = new LinkedList<Evaluation>();
+										listEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+										
+										for(int compt = 0 ; compt< listEvaluation.size(); compt ++)
+										{
+											
+											int codeEvaluation = listEvaluation.get(compt).getCode();
+											
+											for(int compteur = 0 ; compteur < listeCouleurEvaluation.size() ; compteur ++)
+											{
+												String tab[] = listeCouleurEvaluation.get(compteur).split(";");
+												int codeEval = Integer.parseInt(tab[0]);
+												int codeCoul = Integer.parseInt(tab[1]);
+												if(codeEvaluation == codeEval)
+												{
+													s = s+codeCoul;
+													nb_evaluation ++;
+												}
+											}
+											
+										}
+										
+										m = s/nb_evaluation;
+										
+										if((int)m >= 1 && (int)m<2)
+										{
+											String moy =""+listCodeSousItem.get(cpt)+";1";
+											listeCouleurSousItem.add(moy);
+										}
+										if((int)m >= 2 && (int)m<3)
+										{
+											String moy =""+listCodeSousItem.get(cpt)+";2";
+											listeCouleurSousItem.add(moy);
+										}
+										if((int)m>=3 && (int)m<4)
+										{
+											String moy =""+listCodeSousItem.get(cpt)+";3";
+											listeCouleurSousItem.add(moy);
+										}
+										if((int)m>=4 && (int)m<5)
+										{
+											String moy =""+listCodeSousItem.get(cpt)+";4";
+											listeCouleurSousItem.add(moy);
+										}
+										if((int)m==5)
+										{
+											String moy =""+listCodeSousItem.get(cpt)+";5";
+											listeCouleurSousItem.add(moy);
+										}
+									}
+									
+									//Attribution code couleur Item
+									for(int cpt = 0 ; cpt < listCodesItems.size(); cpt ++)
+									{
+										float s = 0;
+										float m = 0;
+										int nbSousItem = 0;
+										
+										requete ="select sous_item.code_sous_item, "
+												+ "sous_item.nom_sous_item "
+												+ "from sous_item, item_sous_item "
+												+ "where sous_item.code_sous_item = item_sous_item.code_sous_item and "
+												+ "item_sous_item.code_item ="+listCodesItems.get(cpt);
+										
+										LinkedList<SousItem> listSousItem = new LinkedList<SousItem>();
+										listSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+										
+										for(int comp = 0; comp < listSousItem.size() ; comp++)
+										{
+											int codeSousItem = listSousItem.get(comp).getCode();
+											
+											for(int compt = 0 ; compt <listeCouleurSousItem.size(); compt++)
+											{
+												String tab[]=listeCouleurSousItem.get(compt).split(";");
+												int codeSI = Integer.parseInt(tab[0]);
+												int codeCouleur = Integer.parseInt(tab[1]);
+												
+												if(codeSousItem == codeSI)
+												{
+													s = s+codeCouleur;
+													nbSousItem ++;
+												}
+												
+											}
+										}
+										
+										m = s/nbSousItem;
+										
+										if((int)m >= 1 && (int)m<2)
+										{
+											String moy =""+listCodesItems.get(cpt)+";1";
+											listeCouleurItem.add(moy);
+										}
+										if((int)m >= 2 && (int)m<3)
+										{
+											String moy =""+listCodesItems.get(cpt)+";2";
+											listeCouleurItem.add(moy);
+										}
+										if((int)m >= 3 && (int)m<4)
+										{
+											String moy =""+listCodesItems.get(cpt)+";3";
+											listeCouleurItem.add(moy);
+										}
+										if((int)m >= 4 && (int)m<5)
+										{
+											String moy =""+listCodesItems.get(cpt)+";4";
+											listeCouleurItem.add(moy);
+										}
+										if((int)m==5)
+										{
+											String moy =""+listCodesItems.get(cpt)+";5";
+											listeCouleurItem.add(moy);
+										}
+									}
+									
+									//Attribution code couleur Compétence
+									for(int cpt = 0; cpt<listCodesComp.size() ; cpt++ )
+									{
+										float s = 0;
+										float m = 0;
+										int nbItem = 0;
+										
+										requete="select item.code_item, "
+												+ "item.nom_item, "
+												+ "item.code_competence, "
+												+ "item.code_evaluation "
+												+ "from item "
+												+ "where item.code_competence ="+listCodesComp.get(cpt);
+										
+										LinkedList<Item> listItem = new LinkedList<Item>();
+										listItem = interfaceUtilisateur.getController().getItem(requete);
+										
+										for(int comp = 0 ; comp < listItem.size() ; comp++)
+										{
+											int codeItem = listItem.get(comp).getCode();
+											
+											for(int compt = 0 ; compt < listeCouleurItem.size(); compt++)
+											{
+												String tab[] = listeCouleurItem.get(compt).split(";");
+												int codeI = Integer.parseInt(tab[0]);
+												int codeCouleur = Integer.parseInt(tab[1]);
+												
+												if(codeItem == codeI)
+												{
+													s=s+codeCouleur;
+													nbItem++;
+												}
+												
+											}
+										}
+										m=s/nbItem;
+										
+										if((int)m >= 1 && (int)m<2)
+										{
+											String moy =""+listCodesComp.get(cpt)+";1";
+											listeCouleurCompetence.add(moy);
+										}
+										if((int)m >= 2 && (int)m<3)
+										{
+											String moy =""+listCodesComp.get(cpt)+";2";
+											listeCouleurCompetence.add(moy);
+										}
+										if((int)m >= 3 && (int)m<4)
+										{
+											String moy =""+listCodesComp.get(cpt)+";3";
+											listeCouleurCompetence.add(moy);
+										}
+										if((int)m >= 4 && (int)m<5)
+										{
+											String moy =""+listCodesComp.get(cpt)+";4";
+											listeCouleurCompetence.add(moy);
+										}
+										if((int)m == 5)
+										{
+											String moy =""+listCodesComp.get(cpt)+";5";
+											listeCouleurCompetence.add(moy);
+										}
+										
+									}
+									
+									//Attribution code couleur Domaine
+									for(int cpt = 0; cpt<listCodeDomaines.size() ; cpt++ )
+									{
+										float s = 0;
+										float m = 0;
+										int nbComptence = 0;
+										
+										requete="select competence.code_competence, "
+												+ "competence.nom_competence, "
+												+ "competence.code_domaine "
+												+ "from competence "
+												+ "where competence.code_domaine ="+listCodeDomaines.get(cpt);
+										
+										LinkedList<Competence> listCompetence = new LinkedList<Competence>();
+										listCompetence = interfaceUtilisateur.getController().getCompetence(requete);
+										
+										for(int comp = 0 ; comp <listCompetence.size() ; comp++)
+										{
+											int codeComp = listCompetence.get(comp).getCode();
+											
+											for(int compt = 0 ; compt < listeCouleurCompetence.size(); compt++)
+											{
+												String tab[] = listeCouleurCompetence.get(compt).split(";");
+												int codeCpt = Integer.parseInt(tab[0]);
+												int codeCouleur = Integer.parseInt(tab[1]);
+												
+												if(codeComp == codeCpt)
+												{
+													s= s+codeCouleur;
+													nbComptence++;
+												}
+											}
+										}
+										
+										m=s/nbComptence;
+										
+										if((int)m >= 1 && (int)m<2)
+										{
+											String moy =""+listCodeDomaines.get(cpt)+";1";
+											listeCouleurDomaine.add(moy);
+										}
+										
+										if((int)m >= 2 && (int)m<3)
+										{
+											String moy =""+listCodeDomaines.get(cpt)+";2";
+											listeCouleurDomaine.add(moy);
+										}
+										if((int)m >= 3 && (int)m<4)
+										{
+											String moy =""+listCodeDomaines.get(cpt)+";3";
+											listeCouleurDomaine.add(moy);
+										}
+										
+										if((int)m >= 4 && (int)m<5)
+										{
+											String moy =""+listCodeDomaines.get(cpt)+";4";
+											listeCouleurDomaine.add(moy);
+										}
+										
+										if((int)m == 5)
+										{
+											String moy =""+listCodeDomaines.get(cpt)+";5";
+											listeCouleurDomaine.add(moy);
+										}
+										
+									}
+								}
+								competenceView.bloc.removeAll();
+								competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
 							}
 							
-							LinkedList<Etudiant> lesEtudiant = new LinkedList<Etudiant>();
-							requete="select etudiant.code_etudiant, "
-									+ "etudiant.nom_etudiant, "
-									+ "etudiant.prenom_etudiant, "
-									+ "etudiant.mot_de_passe_etudiant "
-									+ "from etudiant, promotion, etudiant_promotion "
-									+ "where etudiant.code_etudiant = etudiant_promotion.code_etudiant "
-									+ "and promotion.code_promotion = etudiant_promotion.code_promotion "
-									+ "and promotion.code_promotion = "+navigationView.promotionCourante.getCode()+" "
-									+ "and promotion.code_diplome = "+navigationView.promotionCourante.getCodeDiplome()+" "
-									+ "and promotion.code_annee = "+codeAnnee;
-							
-							lesEtudiant = interfaceUtilisateur.getController().getEtudiant(requete);
-							
-							int nombre_etudiant = lesEtudiant.size();
-							
-							//Si il y a des étudiants pour cette promotion
-							if(nombre_etudiant != 0)
+							//Code couleur pour un étudiant en particulier
+							if(tailleCheminSyllabus != 1  && etudiantSelectionner != null)
 							{
-							
+								LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
+								for(int iter = 0; iter<navigationView.listEcCourant.size(); iter++)
+								{
+									LinkedList<SousItem> lesSousItem = new LinkedList<SousItem>();
+									requete ="select sous_item.code_sous_item, "
+											+ "sous_item.nom_sous_item "
+											+ "from sous_item, ec_sous_item "
+											+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and "
+											+ "ec_sous_item.code_ec = "+navigationView.listEcCourant.get(iter).getCode();
+									lesSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+									
+									for(int comp = 0 ; comp < lesSousItem.size(); comp ++)
+									{
+										if(listCodeSousItem.indexOf(lesSousItem.get(comp).getCode()) == -1)
+										{
+											listCodeSousItem.add(lesSousItem.get(comp).getCode());
+										}
+									}
+								}
+								
+								LinkedList <Integer> listCodeEvaluation = new LinkedList<Integer>();
+								
+								for(int iter = 0; iter<listCodeSousItem.size(); iter++)
+								{
+									LinkedList<Evaluation> lesEvaluation = new LinkedList<Evaluation>();
+									requete="select evaluation.code_evaluation, "
+											+ "evaluation.nom_evaluation,"
+											+ "evaluation.note_maximale, "
+											+ "evaluation.coefficient_evaluation, "
+											+ "evaluation.type_epreuve "
+											+ "from evaluation, sous_item_evaluation "
+											+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+											+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
+									lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+									
+									for(int comp = 0; comp < lesEvaluation.size(); comp++)
+									{
+										if(listCodeEvaluation.indexOf(lesEvaluation.get(comp).getCode()) == -1)
+										{
+											listCodeEvaluation.add(lesEvaluation.get(comp).getCode());
+										}
+									}
+								}
 								//Récupérer les tuples concernés dans la table etudiant_evaluation
 								LinkedList<EvaluationEtudiant> listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
 								LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
@@ -839,31 +1388,27 @@ public class NavigationViewListener {
 									listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
 									somme = 0;
 									moyenne = 0;
-									for(int comp1 = 0; comp1<lesEtudiant.size() ; comp1 ++)
+									requete ="select etudiant_evaluation.code_etudiant, "
+											+ "etudiant_evaluation.code_evaluation, "
+											+ "etudiant_evaluation.note_evaluation, "
+											+ "etudiant_evaluation.date_evaluation "
+											+ "from etudiant_evaluation "
+											+ "where etudiant_evaluation.code_etudiant ="+codeEtudiantSelectionner
+											+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp)
+											+ " and etudiant_evaluation.date_evaluation between '"+annee_debut+"-09-01' and '"+annee_fin+"-07-01'";
+									
+									lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
+									for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
 									{
-										lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
-										requete ="select etudiant_evaluation.code_etudiant, "
-												+ "etudiant_evaluation.code_evaluation, "
-												+ "etudiant_evaluation.note_evaluation, "
-												+ "etudiant_evaluation.date_evaluation "
-												+ "from etudiant_evaluation "
-												+ "where etudiant_evaluation.code_etudiant ="+lesEtudiant.get(comp1).getCode()
-												+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp)
-												+ " and etudiant_evaluation.date_evaluation between '"+annee_debut+"-09-01' and '"+annee_fin+"-07-01'";
-										
-										lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
-										
-										for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
-										{
-											listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
-										}
+										listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
 									}
+								
 									for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
 									{
 										somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
 									}
 									
-									moyenne = somme / nombre_etudiant;
+									moyenne = somme;
 									
 									if( moyenne >=0 && moyenne< 10)
 									{
@@ -890,9 +1435,7 @@ public class NavigationViewListener {
 										String moy =""+listCodeEvaluation.get(comp)+";5";
 										listeCouleurEvaluation.add(moy);
 									}
-									
 								}
-								
 								//Attribution code couleur SousItem
 								for(int cpt = 0 ; cpt <listCodeSousItem.size() ; cpt ++)
 								{
@@ -960,7 +1503,7 @@ public class NavigationViewListener {
 								}
 								
 								//Attribution code couleur Item
-								for(int cpt = 0 ; cpt < listCodesItems.size(); cpt ++)
+								for(int cpt = 0 ; cpt < listeCodeItemCourant.size(); cpt ++)
 								{
 									float s = 0;
 									float m = 0;
@@ -970,7 +1513,7 @@ public class NavigationViewListener {
 											+ "sous_item.nom_sous_item "
 											+ "from sous_item, item_sous_item "
 											+ "where sous_item.code_sous_item = item_sous_item.code_sous_item and "
-											+ "item_sous_item.code_item ="+listCodesItems.get(cpt);
+											+ "item_sous_item.code_item ="+listeCodeItemCourant.get(cpt);
 									
 									LinkedList<SousItem> listSousItem = new LinkedList<SousItem>();
 									listSousItem = interfaceUtilisateur.getController().getSousItem(requete);
@@ -998,33 +1541,33 @@ public class NavigationViewListener {
 									
 									if((int)m >= 1 && (int)m<2)
 									{
-										String moy =""+listCodesItems.get(cpt)+";1";
+										String moy =""+listeCodeItemCourant.get(cpt)+";1";
 										listeCouleurItem.add(moy);
 									}
 									if((int)m >= 2 && (int)m<3)
 									{
-										String moy =""+listCodesItems.get(cpt)+";2";
+										String moy =""+listeCodeItemCourant.get(cpt)+";2";
 										listeCouleurItem.add(moy);
 									}
 									if((int)m >= 3 && (int)m<4)
 									{
-										String moy =""+listCodesItems.get(cpt)+";3";
+										String moy =""+listeCodeItemCourant.get(cpt)+";3";
 										listeCouleurItem.add(moy);
 									}
 									if((int)m >= 4 && (int)m<5)
 									{
-										String moy =""+listCodesItems.get(cpt)+";4";
+										String moy =""+listeCodeItemCourant.get(cpt)+";4";
 										listeCouleurItem.add(moy);
 									}
 									if((int)m==5)
 									{
-										String moy =""+listCodesItems.get(cpt)+";5";
+										String moy =""+listeCodeItemCourant.get(cpt)+";5";
 										listeCouleurItem.add(moy);
 									}
 								}
 								
 								//Attribution code couleur Compétence
-								for(int cpt = 0; cpt<listCodesComp.size() ; cpt++ )
+								for(int cpt = 0; cpt<listeCodeCompetenceCourant.size() ; cpt++ )
 								{
 									float s = 0;
 									float m = 0;
@@ -1035,7 +1578,7 @@ public class NavigationViewListener {
 											+ "item.code_competence, "
 											+ "item.code_evaluation "
 											+ "from item "
-											+ "where item.code_competence ="+listCodesComp.get(cpt);
+											+ "where item.code_competence ="+listeCodeCompetenceCourant.get(cpt);
 									
 									LinkedList<Item> listItem = new LinkedList<Item>();
 									listItem = interfaceUtilisateur.getController().getItem(requete);
@@ -1062,34 +1605,34 @@ public class NavigationViewListener {
 									
 									if((int)m >= 1 && (int)m<2)
 									{
-										String moy =""+listCodesComp.get(cpt)+";1";
+										String moy =""+listeCodeCompetenceCourant.get(cpt)+";1";
 										listeCouleurCompetence.add(moy);
 									}
 									if((int)m >= 2 && (int)m<3)
 									{
-										String moy =""+listCodesComp.get(cpt)+";2";
+										String moy =""+listeCodeCompetenceCourant.get(cpt)+";2";
 										listeCouleurCompetence.add(moy);
 									}
 									if((int)m >= 3 && (int)m<4)
 									{
-										String moy =""+listCodesComp.get(cpt)+";3";
+										String moy =""+listeCodeCompetenceCourant.get(cpt)+";3";
 										listeCouleurCompetence.add(moy);
 									}
 									if((int)m >= 4 && (int)m<5)
 									{
-										String moy =""+listCodesComp.get(cpt)+";4";
+										String moy =""+listeCodeCompetenceCourant.get(cpt)+";4";
 										listeCouleurCompetence.add(moy);
 									}
 									if((int)m == 5)
 									{
-										String moy =""+listCodesComp.get(cpt)+";5";
+										String moy =""+listeCodeCompetenceCourant.get(cpt)+";5";
 										listeCouleurCompetence.add(moy);
 									}
 									
 								}
 								
 								//Attribution code couleur Domaine
-								for(int cpt = 0; cpt<listCodeDomaines.size() ; cpt++ )
+								for(int cpt = 0; cpt<listeCodeDomaineCourant.size() ; cpt++ )
 								{
 									float s = 0;
 									float m = 0;
@@ -1099,7 +1642,7 @@ public class NavigationViewListener {
 											+ "competence.nom_competence, "
 											+ "competence.code_domaine "
 											+ "from competence "
-											+ "where competence.code_domaine ="+listCodeDomaines.get(cpt);
+											+ "where competence.code_domaine ="+listeCodeDomaineCourant.get(cpt);
 									
 									LinkedList<Competence> listCompetence = new LinkedList<Competence>();
 									listCompetence = interfaceUtilisateur.getController().getCompetence(requete);
@@ -1126,46 +1669,882 @@ public class NavigationViewListener {
 									
 									if((int)m >= 1 && (int)m<2)
 									{
-										String moy =""+listCodeDomaines.get(cpt)+";1";
+										String moy =""+listeCodeDomaineCourant.get(cpt)+";1";
 										listeCouleurDomaine.add(moy);
 									}
 									
 									if((int)m >= 2 && (int)m<3)
 									{
-										String moy =""+listCodeDomaines.get(cpt)+";2";
+										String moy =""+listeCodeDomaineCourant.get(cpt)+";2";
 										listeCouleurDomaine.add(moy);
 									}
 									if((int)m >= 3 && (int)m<4)
 									{
-										String moy =""+listCodeDomaines.get(cpt)+";3";
+										String moy =""+listeCodeDomaineCourant.get(cpt)+";3";
 										listeCouleurDomaine.add(moy);
 									}
 									
 									if((int)m >= 4 && (int)m<5)
 									{
-										String moy =""+listCodeDomaines.get(cpt)+";4";
+										String moy =""+listeCodeDomaineCourant.get(cpt)+";4";
 										listeCouleurDomaine.add(moy);
 									}
 									
 									if((int)m == 5)
 									{
-										String moy =""+listCodeDomaines.get(cpt)+";5";
+										String moy =""+listeCodeDomaineCourant.get(cpt)+";5";
 										listeCouleurDomaine.add(moy);
 									}
 									
 								}
 							}
-							
-							
-							
 							competenceView.bloc.removeAll();
 							competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
 						}
 						
-						
+						//Code couleur utilisateur étudiant
+						if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("etu")==0){
 							
+							if(tailleCheminSyllabus != 1)
+							{
+								LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
+								for(int iter = 0; iter<navigationView.listEcCourant.size(); iter++)
+								{
+									LinkedList<SousItem> lesSousItem = new LinkedList<SousItem>();
+									requete ="select sous_item.code_sous_item, "
+											+ "sous_item.nom_sous_item "
+											+ "from sous_item, ec_sous_item "
+											+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and "
+											+ "ec_sous_item.code_ec = "+navigationView.listEcCourant.get(iter).getCode();
+									lesSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+									
+									for(int comp = 0 ; comp < lesSousItem.size(); comp ++)
+									{
+										if(listCodeSousItem.indexOf(lesSousItem.get(comp).getCode()) == -1)
+										{
+											listCodeSousItem.add(lesSousItem.get(comp).getCode());
+										}
+									}
+								}
+								
+								LinkedList <Integer> listCodeEvaluation = new LinkedList<Integer>();
+								
+								for(int iter = 0; iter<listCodeSousItem.size(); iter++)
+								{
+									LinkedList<Evaluation> lesEvaluation = new LinkedList<Evaluation>();
+									requete="select evaluation.code_evaluation, "
+											+ "evaluation.nom_evaluation,"
+											+ "evaluation.note_maximale, "
+											+ "evaluation.coefficient_evaluation, "
+											+ "evaluation.type_epreuve "
+											+ "from evaluation, sous_item_evaluation "
+											+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+											+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
+									lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+									
+									for(int comp = 0; comp < lesEvaluation.size(); comp++)
+									{
+										if(listCodeEvaluation.indexOf(lesEvaluation.get(comp).getCode()) == -1)
+										{
+											listCodeEvaluation.add(lesEvaluation.get(comp).getCode());
+										}
+									}
+								}
+								
+								for(int iter = 0; iter<listCodeEvaluation.size(); iter++)
+								{
+									listeCouleurEvaluation.add(""+listCodeEvaluation.get(iter)+";1");
+								}
+								
+								//Récupérer les tuples concernés dans la table etudiant_evaluation
+								LinkedList<EvaluationEtudiant> listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+								LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+								int annee_debut = navigationView.promotionCourante.getAnneeDebutPromotion();
+								int annee_fin = navigationView.promotionCourante.getAnneeFinPromotion();
+								float somme = 0;
+								float moyenne=0;
+								
+								for(int comp = 0; comp <listCodeEvaluation.size() ; comp ++)
+								{
+									
+									listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+									somme = 0;
+									moyenne = 0;
+									requete ="select etudiant_evaluation.code_etudiant, "
+											+ "etudiant_evaluation.code_evaluation, "
+											+ "etudiant_evaluation.note_evaluation, "
+											+ "etudiant_evaluation.date_evaluation "
+											+ "from etudiant_evaluation "
+											+ "where etudiant_evaluation.code_etudiant ="+interfaceUtilisateur.utilisateurCourant.getCode()
+											+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp)
+											+ " and etudiant_evaluation.date_evaluation between '"+annee_debut+"-09-01' and '"+annee_fin+"-07-01'";
+									
+									lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
+									for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
+									{
+										listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
+									}
+								
+									for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
+									{
+										somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
+									}
+									
+									moyenne = somme;
+									
+									if( moyenne >=0 && moyenne< 10)
+									{
+										String moy =""+listCodeEvaluation.get(comp)+";1";
+										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+										{
+											String tab[] = listeCouleurEvaluation.get(iter).split(";");
+											int codeEvaluation = Integer.parseInt(tab[0]);
+											if(codeEvaluation == listCodeEvaluation.get(comp))
+											{
+												listeCouleurEvaluation.set(iter, moy);
+											}
+										}
+									}
+									if(moyenne>=10 && moyenne<12)
+									{
+										String moy =""+listCodeEvaluation.get(comp)+";2";
+										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+										{
+											String tab[] = listeCouleurEvaluation.get(iter).split(";");
+											int codeEvaluation = Integer.parseInt(tab[0]);
+											if(codeEvaluation == listCodeEvaluation.get(comp))
+											{
+												listeCouleurEvaluation.set(iter, moy);
+											}
+										}
+									}
+									if(moyenne>=12 && moyenne<14)
+									{
+										String moy =""+listCodeEvaluation.get(comp)+";3";
+										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+										{
+											String tab[] = listeCouleurEvaluation.get(iter).split(";");
+											int codeEvaluation = Integer.parseInt(tab[0]);
+											if(codeEvaluation == listCodeEvaluation.get(comp))
+											{
+												listeCouleurEvaluation.set(iter, moy);
+											}
+										}
+									}
+									if(moyenne>=14 && moyenne<16)
+									{
+										String moy =""+listCodeEvaluation.get(comp)+";4";
+										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+										{
+											String tab[] = listeCouleurEvaluation.get(iter).split(";");
+											int codeEvaluation = Integer.parseInt(tab[0]);
+											if(codeEvaluation == listCodeEvaluation.get(comp))
+											{
+												listeCouleurEvaluation.set(iter, moy);
+											}
+										}
+									}
+									if(moyenne>=16 && moyenne<=20)
+									{
+										String moy =""+listCodeEvaluation.get(comp)+";5";
+										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+										{
+											String tab[] = listeCouleurEvaluation.get(iter).split(";");
+											int codeEvaluation = Integer.parseInt(tab[0]);
+											if(codeEvaluation == listCodeEvaluation.get(comp))
+											{
+												listeCouleurEvaluation.set(iter, moy);
+											}
+										}
+									}
+								}
+								//Attribution code couleur SousItem
+								for(int cpt = 0 ; cpt <listCodeSousItem.size() ; cpt ++)
+								{
+									float s = 0;
+									float m = 0;
+									int nb_evaluation=0;
+									requete="select evaluation.code_evaluation, "
+											+ "evaluation.nom_evaluation,"
+											+ "evaluation.note_maximale, "
+											+ "evaluation.coefficient_evaluation, "
+											+ "evaluation.type_epreuve "
+											+ "from evaluation, sous_item_evaluation "
+											+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+											+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(cpt);
+									
+									LinkedList <Evaluation> listEvaluation = new LinkedList<Evaluation>();
+									listEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+									
+									for(int compt = 0 ; compt< listEvaluation.size(); compt ++)
+									{
+										
+										int codeEvaluation = listEvaluation.get(compt).getCode();
+										
+										for(int compteur = 0 ; compteur < listeCouleurEvaluation.size() ; compteur ++)
+										{
+											String tab[] = listeCouleurEvaluation.get(compteur).split(";");
+											int codeEval = Integer.parseInt(tab[0]);
+											int codeCoul = Integer.parseInt(tab[1]);
+											if(codeEvaluation == codeEval)
+											{
+												s = s+codeCoul;
+												nb_evaluation ++;
+											}
+										}
+										
+									}
+									
+									m = s/nb_evaluation;
+									
+									if((int)m >= 1 && (int)m<2)
+									{
+										String moy =""+listCodeSousItem.get(cpt)+";1";
+										listeCouleurSousItem.add(moy);
+									}
+									if((int)m >= 2 && (int)m<3)
+									{
+										String moy =""+listCodeSousItem.get(cpt)+";2";
+										listeCouleurSousItem.add(moy);
+									}
+									if((int)m>=3 && (int)m<4)
+									{
+										String moy =""+listCodeSousItem.get(cpt)+";3";
+										listeCouleurSousItem.add(moy);
+									}
+									if((int)m>=4 && (int)m<5)
+									{
+										String moy =""+listCodeSousItem.get(cpt)+";4";
+										listeCouleurSousItem.add(moy);
+									}
+									if((int)m==5)
+									{
+										String moy =""+listCodeSousItem.get(cpt)+";5";
+										listeCouleurSousItem.add(moy);
+									}
+								}
+								
+								//Attribution code couleur Item
+								for(int cpt = 0 ; cpt < listeCodeItemCourant.size(); cpt ++)
+								{
+									float s = 0;
+									float m = 0;
+									int nbSousItem = 0;
+									
+									requete ="select sous_item.code_sous_item, "
+											+ "sous_item.nom_sous_item "
+											+ "from sous_item, item_sous_item "
+											+ "where sous_item.code_sous_item = item_sous_item.code_sous_item and "
+											+ "item_sous_item.code_item ="+listeCodeItemCourant.get(cpt);
+									
+									LinkedList<SousItem> listSousItem = new LinkedList<SousItem>();
+									listSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+									
+									for(int comp = 0; comp < listSousItem.size() ; comp++)
+									{
+										int codeSousItem = listSousItem.get(comp).getCode();
+										
+										for(int compt = 0 ; compt <listeCouleurSousItem.size(); compt++)
+										{
+											String tab[]=listeCouleurSousItem.get(compt).split(";");
+											int codeSI = Integer.parseInt(tab[0]);
+											int codeCouleur = Integer.parseInt(tab[1]);
+											
+											if(codeSousItem == codeSI)
+											{
+												s = s+codeCouleur;
+												nbSousItem ++;
+											}
+											
+										}
+									}
+									
+									m = s/nbSousItem;
+									
+									if((int)m >= 1 && (int)m<2)
+									{
+										String moy =""+listeCodeItemCourant.get(cpt)+";1";
+										listeCouleurItem.add(moy);
+									}
+									if((int)m >= 2 && (int)m<3)
+									{
+										String moy =""+listeCodeItemCourant.get(cpt)+";2";
+										listeCouleurItem.add(moy);
+									}
+									if((int)m >= 3 && (int)m<4)
+									{
+										String moy =""+listeCodeItemCourant.get(cpt)+";3";
+										listeCouleurItem.add(moy);
+									}
+									if((int)m >= 4 && (int)m<5)
+									{
+										String moy =""+listeCodeItemCourant.get(cpt)+";4";
+										listeCouleurItem.add(moy);
+									}
+									if((int)m==5)
+									{
+										String moy =""+listeCodeItemCourant.get(cpt)+";5";
+										listeCouleurItem.add(moy);
+									}
+								}
+								
+								//Attribution code couleur Compétence
+								for(int cpt = 0; cpt<listeCodeCompetenceCourant.size() ; cpt++ )
+								{
+									float s = 0;
+									float m = 0;
+									int nbItem = 0;
+									
+									requete="select item.code_item, "
+											+ "item.nom_item, "
+											+ "item.code_competence, "
+											+ "item.code_evaluation "
+											+ "from item "
+											+ "where item.code_competence ="+listeCodeCompetenceCourant.get(cpt);
+									
+									LinkedList<Item> listItem = new LinkedList<Item>();
+									listItem = interfaceUtilisateur.getController().getItem(requete);
+									
+									for(int comp = 0 ; comp < listItem.size() ; comp++)
+									{
+										int codeItem = listItem.get(comp).getCode();
+										
+										for(int compt = 0 ; compt < listeCouleurItem.size(); compt++)
+										{
+											String tab[] = listeCouleurItem.get(compt).split(";");
+											int codeI = Integer.parseInt(tab[0]);
+											int codeCouleur = Integer.parseInt(tab[1]);
+											
+											if(codeItem == codeI)
+											{
+												s=s+codeCouleur;
+												nbItem++;
+											}
+											
+										}
+									}
+									m=s/nbItem;
+									
+									if((int)m >= 1 && (int)m<2)
+									{
+										String moy =""+listeCodeCompetenceCourant.get(cpt)+";1";
+										listeCouleurCompetence.add(moy);
+									}
+									if((int)m >= 2 && (int)m<3)
+									{
+										String moy =""+listeCodeCompetenceCourant.get(cpt)+";2";
+										listeCouleurCompetence.add(moy);
+									}
+									if((int)m >= 3 && (int)m<4)
+									{
+										String moy =""+listeCodeCompetenceCourant.get(cpt)+";3";
+										listeCouleurCompetence.add(moy);
+									}
+									if((int)m >= 4 && (int)m<5)
+									{
+										String moy =""+listeCodeCompetenceCourant.get(cpt)+";4";
+										listeCouleurCompetence.add(moy);
+									}
+									if((int)m == 5)
+									{
+										String moy =""+listeCodeCompetenceCourant.get(cpt)+";5";
+										listeCouleurCompetence.add(moy);
+									}
+									
+								}
+								
+								//Attribution code couleur Domaine
+								for(int cpt = 0; cpt<listeCodeDomaineCourant.size() ; cpt++ )
+								{
+									float s = 0;
+									float m = 0;
+									int nbComptence = 0;
+									
+									requete="select competence.code_competence, "
+											+ "competence.nom_competence, "
+											+ "competence.code_domaine "
+											+ "from competence "
+											+ "where competence.code_domaine ="+listeCodeDomaineCourant.get(cpt);
+									
+									LinkedList<Competence> listCompetence = new LinkedList<Competence>();
+									listCompetence = interfaceUtilisateur.getController().getCompetence(requete);
+									
+									for(int comp = 0 ; comp <listCompetence.size() ; comp++)
+									{
+										int codeComp = listCompetence.get(comp).getCode();
+										
+										for(int compt = 0 ; compt < listeCouleurCompetence.size(); compt++)
+										{
+											String tab[] = listeCouleurCompetence.get(compt).split(";");
+											int codeCpt = Integer.parseInt(tab[0]);
+											int codeCouleur = Integer.parseInt(tab[1]);
+											
+											if(codeComp == codeCpt)
+											{
+												s= s+codeCouleur;
+												nbComptence++;
+											}
+										}
+									}
+									
+									m=s/nbComptence;
+									
+									if((int)m >= 1 && (int)m<2)
+									{
+										String moy =""+listeCodeDomaineCourant.get(cpt)+";1";
+										listeCouleurDomaine.add(moy);
+									}
+									
+									if((int)m >= 2 && (int)m<3)
+									{
+										String moy =""+listeCodeDomaineCourant.get(cpt)+";2";
+										listeCouleurDomaine.add(moy);
+									}
+									if((int)m >= 3 && (int)m<4)
+									{
+										String moy =""+listeCodeDomaineCourant.get(cpt)+";3";
+										listeCouleurDomaine.add(moy);
+									}
+									
+									if((int)m >= 4 && (int)m<5)
+									{
+										String moy =""+listeCodeDomaineCourant.get(cpt)+";4";
+										listeCouleurDomaine.add(moy);
+									}
+									
+									if((int)m == 5)
+									{
+										String moy =""+listeCodeDomaineCourant.get(cpt)+";5";
+										listeCouleurDomaine.add(moy);
+									}
+									
+								}
+								
+							}
+							competenceView.bloc.removeAll();
+							competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
+							
+						}
 						
-						if(tailleCheminSyllabus == 1)
+						if(tailleCheminSyllabus == 1 && interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("etu")==0)
+						{
+							
+							
+							LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
+							for(int iter = 0; iter<navigationView.listEcCourant.size(); iter++)
+							{
+								LinkedList<SousItem> lesSousItem = new LinkedList<SousItem>();
+								requete ="select sous_item.code_sous_item, "
+										+ "sous_item.nom_sous_item "
+										+ "from sous_item, ec_sous_item "
+										+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and "
+										+ "ec_sous_item.code_ec = "+navigationView.listEcCourant.get(iter).getCode();
+								lesSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+								
+								for(int comp = 0 ; comp < lesSousItem.size(); comp ++)
+								{
+									if(listCodeSousItem.indexOf(lesSousItem.get(comp).getCode()) == -1)
+									{
+										listCodeSousItem.add(lesSousItem.get(comp).getCode());
+									}
+								}
+							}
+							
+							LinkedList <Integer> listCodeEvaluation = new LinkedList<Integer>();
+							
+							for(int iter = 0; iter<listCodeSousItem.size(); iter++)
+							{
+								LinkedList<Evaluation> lesEvaluation = new LinkedList<Evaluation>();
+								requete="select evaluation.code_evaluation, "
+										+ "evaluation.nom_evaluation,"
+										+ "evaluation.note_maximale, "
+										+ "evaluation.coefficient_evaluation, "
+										+ "evaluation.type_epreuve "
+										+ "from evaluation, sous_item_evaluation "
+										+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+										+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
+								lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+								
+								for(int comp = 0; comp < lesEvaluation.size(); comp++)
+								{
+									if(listCodeEvaluation.indexOf(lesEvaluation.get(comp).getCode()) == -1)
+									{
+										listCodeEvaluation.add(lesEvaluation.get(comp).getCode());
+									}
+								}
+							}
+							
+							for(int iter = 0; iter<listCodeEvaluation.size(); iter++)
+							{
+								listeCouleurEvaluation.add(""+listCodeEvaluation.get(iter)+";1");
+							}
+							
+							//Récupérer les tuples concernés dans la table etudiant_evaluation
+							LinkedList<EvaluationEtudiant> listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+							LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+							float somme = 0;
+							float moyenne=0;
+							
+							for(int comp = 0; comp <listCodeEvaluation.size() ; comp ++)
+							{
+								
+								listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+								somme = 0;
+								moyenne = 0;
+								requete ="select etudiant_evaluation.code_etudiant, "
+										+ "etudiant_evaluation.code_evaluation, "
+										+ "etudiant_evaluation.note_evaluation, "
+										+ "etudiant_evaluation.date_evaluation "
+										+ "from etudiant_evaluation "
+										+ "where etudiant_evaluation.code_etudiant ="+interfaceUtilisateur.utilisateurCourant.getCode()
+										+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp);
+								
+								lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
+								
+								for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
+								{
+									listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
+								}
+							
+								for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
+								{
+									somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
+								}
+								
+								moyenne = somme;
+								
+								if( moyenne >=0 && moyenne< 10)
+								{
+									String moy =""+listCodeEvaluation.get(comp)+";1";
+									for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+									{
+										String tab[] = listeCouleurEvaluation.get(iter).split(";");
+										int codeEvaluation = Integer.parseInt(tab[0]);
+										if(codeEvaluation == listCodeEvaluation.get(comp))
+										{
+											listeCouleurEvaluation.set(iter, moy);
+										}
+									}
+								}
+								if(moyenne>=10 && moyenne<12)
+								{
+									String moy =""+listCodeEvaluation.get(comp)+";2";
+									for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+									{
+										String tab[] = listeCouleurEvaluation.get(iter).split(";");
+										int codeEvaluation = Integer.parseInt(tab[0]);
+										if(codeEvaluation == listCodeEvaluation.get(comp))
+										{
+											listeCouleurEvaluation.set(iter, moy);
+										}
+									}
+								}
+								if(moyenne>=12 && moyenne<14)
+								{
+									String moy =""+listCodeEvaluation.get(comp)+";3";
+									for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+									{
+										String tab[] = listeCouleurEvaluation.get(iter).split(";");
+										int codeEvaluation = Integer.parseInt(tab[0]);
+										if(codeEvaluation == listCodeEvaluation.get(comp))
+										{
+											listeCouleurEvaluation.set(iter, moy);
+										}
+									}
+								}
+								if(moyenne>=14 && moyenne<16)
+								{
+									String moy =""+listCodeEvaluation.get(comp)+";4";
+									for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+									{
+										String tab[] = listeCouleurEvaluation.get(iter).split(";");
+										int codeEvaluation = Integer.parseInt(tab[0]);
+										if(codeEvaluation == listCodeEvaluation.get(comp))
+										{
+											listeCouleurEvaluation.set(iter, moy);
+										}
+									}
+								}
+								if(moyenne>=16 && moyenne<=20)
+								{
+									String moy =""+listCodeEvaluation.get(comp)+";5";
+									for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+									{
+										String tab[] = listeCouleurEvaluation.get(iter).split(";");
+										int codeEvaluation = Integer.parseInt(tab[0]);
+										if(codeEvaluation == listCodeEvaluation.get(comp))
+										{
+											listeCouleurEvaluation.set(iter, moy);
+										}
+									}
+								}
+							}
+							//Attribution code couleur SousItem
+							for(int cpt = 0 ; cpt <listCodeSousItem.size() ; cpt ++)
+							{
+								float s = 0;
+								float m = 0;
+								int nb_evaluation=0;
+								requete="select evaluation.code_evaluation, "
+										+ "evaluation.nom_evaluation,"
+										+ "evaluation.note_maximale, "
+										+ "evaluation.coefficient_evaluation, "
+										+ "evaluation.type_epreuve "
+										+ "from evaluation, sous_item_evaluation "
+										+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+										+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(cpt);
+								
+								LinkedList <Evaluation> listEvaluation = new LinkedList<Evaluation>();
+								listEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+								
+								for(int compt = 0 ; compt< listEvaluation.size(); compt ++)
+								{
+									
+									int codeEvaluation = listEvaluation.get(compt).getCode();
+									
+									for(int compteur = 0 ; compteur < listeCouleurEvaluation.size() ; compteur ++)
+									{
+										String tab[] = listeCouleurEvaluation.get(compteur).split(";");
+										int codeEval = Integer.parseInt(tab[0]);
+										int codeCoul = Integer.parseInt(tab[1]);
+										if(codeEvaluation == codeEval)
+										{
+											s = s+codeCoul;
+											nb_evaluation ++;
+										}
+									}
+									
+								}
+								
+								m = s/nb_evaluation;
+								
+								if((int)m >= 1 && (int)m<2)
+								{
+									String moy =""+listCodeSousItem.get(cpt)+";1";
+									listeCouleurSousItem.add(moy);
+								}
+								if((int)m >= 2 && (int)m<3)
+								{
+									String moy =""+listCodeSousItem.get(cpt)+";2";
+									listeCouleurSousItem.add(moy);
+								}
+								if((int)m>=3 && (int)m<4)
+								{
+									String moy =""+listCodeSousItem.get(cpt)+";3";
+									listeCouleurSousItem.add(moy);
+								}
+								if((int)m>=4 && (int)m<5)
+								{
+									String moy =""+listCodeSousItem.get(cpt)+";4";
+									listeCouleurSousItem.add(moy);
+								}
+								if((int)m==5)
+								{
+									String moy =""+listCodeSousItem.get(cpt)+";5";
+									listeCouleurSousItem.add(moy);
+								}
+							}
+							
+							//Attribution code couleur Item
+							for(int cpt = 0 ; cpt < listeCodeItemCourant.size(); cpt ++)
+							{
+								float s = 0;
+								float m = 0;
+								int nbSousItem = 0;
+								
+								requete ="select sous_item.code_sous_item, "
+										+ "sous_item.nom_sous_item "
+										+ "from sous_item, item_sous_item "
+										+ "where sous_item.code_sous_item = item_sous_item.code_sous_item and "
+										+ "item_sous_item.code_item ="+listeCodeItemCourant.get(cpt);
+								
+								LinkedList<SousItem> listSousItem = new LinkedList<SousItem>();
+								listSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+								
+								for(int comp = 0; comp < listSousItem.size() ; comp++)
+								{
+									int codeSousItem = listSousItem.get(comp).getCode();
+									
+									for(int compt = 0 ; compt <listeCouleurSousItem.size(); compt++)
+									{
+										String tab[]=listeCouleurSousItem.get(compt).split(";");
+										int codeSI = Integer.parseInt(tab[0]);
+										int codeCouleur = Integer.parseInt(tab[1]);
+										
+										if(codeSousItem == codeSI)
+										{
+											s = s+codeCouleur;
+											nbSousItem ++;
+										}
+										
+									}
+								}
+								
+								m = s/nbSousItem;
+								
+								if((int)m >= 1 && (int)m<2)
+								{
+									String moy =""+listeCodeItemCourant.get(cpt)+";1";
+									listeCouleurItem.add(moy);
+								}
+								if((int)m >= 2 && (int)m<3)
+								{
+									String moy =""+listeCodeItemCourant.get(cpt)+";2";
+									listeCouleurItem.add(moy);
+								}
+								if((int)m >= 3 && (int)m<4)
+								{
+									String moy =""+listeCodeItemCourant.get(cpt)+";3";
+									listeCouleurItem.add(moy);
+								}
+								if((int)m >= 4 && (int)m<5)
+								{
+									String moy =""+listeCodeItemCourant.get(cpt)+";4";
+									listeCouleurItem.add(moy);
+								}
+								if((int)m==5)
+								{
+									String moy =""+listeCodeItemCourant.get(cpt)+";5";
+									listeCouleurItem.add(moy);
+								}
+							}
+							
+							//Attribution code couleur Compétence
+							for(int cpt = 0; cpt<listeCodeCompetenceCourant.size() ; cpt++ )
+							{
+								float s = 0;
+								float m = 0;
+								int nbItem = 0;
+								
+								requete="select item.code_item, "
+										+ "item.nom_item, "
+										+ "item.code_competence, "
+										+ "item.code_evaluation "
+										+ "from item "
+										+ "where item.code_competence ="+listeCodeCompetenceCourant.get(cpt);
+								
+								LinkedList<Item> listItem = new LinkedList<Item>();
+								listItem = interfaceUtilisateur.getController().getItem(requete);
+								
+								for(int comp = 0 ; comp < listItem.size() ; comp++)
+								{
+									int codeItem = listItem.get(comp).getCode();
+									
+									for(int compt = 0 ; compt < listeCouleurItem.size(); compt++)
+									{
+										String tab[] = listeCouleurItem.get(compt).split(";");
+										int codeI = Integer.parseInt(tab[0]);
+										int codeCouleur = Integer.parseInt(tab[1]);
+										
+										if(codeItem == codeI)
+										{
+											s=s+codeCouleur;
+											nbItem++;
+										}
+										
+									}
+								}
+								m=s/nbItem;
+								
+								if((int)m >= 1 && (int)m<2)
+								{
+									String moy =""+listeCodeCompetenceCourant.get(cpt)+";1";
+									listeCouleurCompetence.add(moy);
+								}
+								if((int)m >= 2 && (int)m<3)
+								{
+									String moy =""+listeCodeCompetenceCourant.get(cpt)+";2";
+									listeCouleurCompetence.add(moy);
+								}
+								if((int)m >= 3 && (int)m<4)
+								{
+									String moy =""+listeCodeCompetenceCourant.get(cpt)+";3";
+									listeCouleurCompetence.add(moy);
+								}
+								if((int)m >= 4 && (int)m<5)
+								{
+									String moy =""+listeCodeCompetenceCourant.get(cpt)+";4";
+									listeCouleurCompetence.add(moy);
+								}
+								if((int)m == 5)
+								{
+									String moy =""+listeCodeCompetenceCourant.get(cpt)+";5";
+									listeCouleurCompetence.add(moy);
+								}
+								
+							}
+							
+							//Attribution code couleur Domaine
+							for(int cpt = 0; cpt<listeCodeDomaineCourant.size() ; cpt++ )
+							{
+								float s = 0;
+								float m = 0;
+								int nbComptence = 0;
+								
+								requete="select competence.code_competence, "
+										+ "competence.nom_competence, "
+										+ "competence.code_domaine "
+										+ "from competence "
+										+ "where competence.code_domaine ="+listeCodeDomaineCourant.get(cpt);
+								
+								LinkedList<Competence> listCompetence = new LinkedList<Competence>();
+								listCompetence = interfaceUtilisateur.getController().getCompetence(requete);
+								
+								for(int comp = 0 ; comp <listCompetence.size() ; comp++)
+								{
+									int codeComp = listCompetence.get(comp).getCode();
+									
+									for(int compt = 0 ; compt < listeCouleurCompetence.size(); compt++)
+									{
+										String tab[] = listeCouleurCompetence.get(compt).split(";");
+										int codeCpt = Integer.parseInt(tab[0]);
+										int codeCouleur = Integer.parseInt(tab[1]);
+										
+										if(codeComp == codeCpt)
+										{
+											s= s+codeCouleur;
+											nbComptence++;
+										}
+									}
+								}
+								
+								m=s/nbComptence;
+								
+								if((int)m >= 1 && (int)m<2)
+								{
+									String moy =""+listeCodeDomaineCourant.get(cpt)+";1";
+									listeCouleurDomaine.add(moy);
+								}
+								
+								if((int)m >= 2 && (int)m<3)
+								{
+									String moy =""+listeCodeDomaineCourant.get(cpt)+";2";
+									listeCouleurDomaine.add(moy);
+								}
+								if((int)m >= 3 && (int)m<4)
+								{
+									String moy =""+listeCodeDomaineCourant.get(cpt)+";3";
+									listeCouleurDomaine.add(moy);
+								}
+								
+								if((int)m >= 4 && (int)m<5)
+								{
+									String moy =""+listeCodeDomaineCourant.get(cpt)+";4";
+									listeCouleurDomaine.add(moy);
+								}
+								
+								if((int)m == 5)
+								{
+									String moy =""+listeCodeDomaineCourant.get(cpt)+";5";
+									listeCouleurDomaine.add(moy);
+								}
+								
+							}
+							competenceView.bloc.removeAll();
+							competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
+						}
+						
+						if(tailleCheminSyllabus == 1 && interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("etu")!=0)
 						{
 							competenceView.bloc.removeAll();
 							navigationView.listEcCourant = null;
@@ -1173,17 +2552,6 @@ public class NavigationViewListener {
 							navigationView.listCompetenceCourant = null;
 							setDomaine();
 						}
-						/*System.out.println("--------------------------------");
-						System.out.println("Domaines");
-						for(int i1=0; i1<listCodeDomaines.size();i1++)
-						{
-							System.out.println(lesDomainesGlobales.get(i1).getCode());
-						}
-						System.out.println("--------------------------------");*/
-						
-						/*competenceView.bloc.removeAll();
-						competenceView.setDomaineJTable(lesDomainesGlobales);
-						*/
 						navigationView.chargementImg.setVisible(false);
 					}
 				};
@@ -1390,10 +2758,1804 @@ public class NavigationViewListener {
 		return new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if(liste.getSelectedValue().compareToIgnoreCase("Tous les étudiants")!=0)
-					etudiantSelectionner = liste.getSelectedValue();
-				else
-					etudiantSelectionner = null;
+				if(comparaisonEtudiantSelection.compareTo(liste.getSelectedValue())!=0)
+				{
+					if(liste.getSelectedValue().compareToIgnoreCase("Tous les étudiants")!=0)
+					{
+						etudiantSelectionner = liste.getSelectedValue();
+						
+						if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("inter")==0)
+						{
+							Thread th = new Thread(){
+								public void run(){
+									navigationView.chargementImg.setVisible(true);
+									listeCouleurEvaluation = new LinkedList<String>();
+									listeCouleurSousItem = new LinkedList<String>();
+									listeCouleurItem = new LinkedList<String>();
+									listeCouleurCompetence = new LinkedList<String>();
+									listeCouleurDomaine = new LinkedList<String>();
+									String tableau[] = etudiantSelectionner.split(" ");
+									String nom = tableau[0].toLowerCase();
+									String prenom = tableau[1].toLowerCase();
+									String requete = "select * from etudiant where etudiant.nom_etudiant ='"+nom+""
+											+ "' and etudiant.prenom_etudiant='"+prenom+"';";
+									LinkedList<Etudiant> listeEtudiant = new LinkedList<Etudiant>();
+									listeEtudiant = interfaceUtilisateur.getController().getEtudiant(requete);
+									codeEtudiantSelectionner = listeEtudiant.get(0).getCode();
+									
+									LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
+									for(int iter = 0; iter<navigationView.listEcCourant.size(); iter++)
+									{
+										LinkedList<SousItem> lesSousItem = new LinkedList<SousItem>();
+										requete ="select sous_item.code_sous_item, "
+												+ "sous_item.nom_sous_item "
+												+ "from sous_item, ec_sous_item "
+												+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and "
+												+ "ec_sous_item.code_ec = "+navigationView.listEcCourant.get(iter).getCode();
+										lesSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+										
+										for(int comp = 0 ; comp < lesSousItem.size(); comp ++)
+										{
+											if(listCodeSousItem.indexOf(lesSousItem.get(comp).getCode()) == -1)
+											{
+												listCodeSousItem.add(lesSousItem.get(comp).getCode());
+											}
+										}
+									}
+									
+									LinkedList <Integer> listCodeEvaluation = new LinkedList<Integer>();
+									
+									for(int iter = 0; iter<listCodeSousItem.size(); iter++)
+									{
+										LinkedList<Evaluation> lesEvaluation = new LinkedList<Evaluation>();
+										requete="select evaluation.code_evaluation, "
+												+ "evaluation.nom_evaluation,"
+												+ "evaluation.note_maximale, "
+												+ "evaluation.coefficient_evaluation, "
+												+ "evaluation.type_epreuve "
+												+ "from evaluation, sous_item_evaluation "
+												+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+												+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
+										lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+										
+										for(int comp = 0; comp < lesEvaluation.size(); comp++)
+										{
+											if(listCodeEvaluation.indexOf(lesEvaluation.get(comp).getCode()) == -1)
+											{
+												listCodeEvaluation.add(lesEvaluation.get(comp).getCode());
+											}
+										}
+									}
+									
+									
+										//Récupérer les tuples concernés dans la table etudiant_evaluation
+										LinkedList<EvaluationEtudiant> listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+										LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+										float somme = 0;
+										float moyenne=0;
+										
+										for(int comp = 0; comp <listCodeEvaluation.size() ; comp ++)
+										{
+											
+											listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+											somme = 0;
+											moyenne = 0;
+												lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+												requete ="select etudiant_evaluation.code_etudiant, "
+														+ "etudiant_evaluation.code_evaluation, "
+														+ "etudiant_evaluation.note_evaluation, "
+														+ "etudiant_evaluation.date_evaluation "
+														+ "from etudiant_evaluation "
+														+ "where etudiant_evaluation.code_etudiant ="+codeEtudiantSelectionner
+														+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp);
+												
+												lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
+												
+											for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
+											{
+													listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
+											}
+											
+											for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
+											{
+												somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
+											}
+											
+											moyenne = somme ;
+											
+											if( moyenne >=0 && moyenne< 10)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";1";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=10 && moyenne<12)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";2";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=12 && moyenne<14)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";3";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=14 && moyenne<16)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";4";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=16 && moyenne<=20)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";5";
+												listeCouleurEvaluation.add(moy);
+											}
+											
+										}
+										
+										//Attribution code couleur SousItem
+										for(int cpt = 0 ; cpt <listCodeSousItem.size() ; cpt ++)
+										{
+											float s = 0;
+											float m = 0;
+											int nb_evaluation=0;
+											requete="select evaluation.code_evaluation, "
+													+ "evaluation.nom_evaluation,"
+													+ "evaluation.note_maximale, "
+													+ "evaluation.coefficient_evaluation, "
+													+ "evaluation.type_epreuve "
+													+ "from evaluation, sous_item_evaluation "
+													+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+													+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(cpt);
+											
+											LinkedList <Evaluation> listEvaluation = new LinkedList<Evaluation>();
+											listEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+											
+											for(int compt = 0 ; compt< listEvaluation.size(); compt ++)
+											{
+												
+												int codeEvaluation = listEvaluation.get(compt).getCode();
+												
+												for(int compteur = 0 ; compteur < listeCouleurEvaluation.size() ; compteur ++)
+												{
+													String tab[] = listeCouleurEvaluation.get(compteur).split(";");
+													int codeEval = Integer.parseInt(tab[0]);
+													int codeCoul = Integer.parseInt(tab[1]);
+													if(codeEvaluation == codeEval)
+													{
+														s = s+codeCoul;
+														nb_evaluation ++;
+													}
+												}
+												
+											}
+											
+											m = s/nb_evaluation;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";1";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";2";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m>=3 && (int)m<4)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";3";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m>=4 && (int)m<5)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";4";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m==5)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";5";
+												listeCouleurSousItem.add(moy);
+											}
+										}
+										
+										LinkedList<Item> lesItemsGlobal = new LinkedList<Item>();
+										LinkedList<Integer> listCodesItems = new LinkedList<Integer>();
+										
+										int i = 0;
+										while (i < navigationView.listEcCourant.size())
+										{
+											LinkedList<Item> lesItems = new LinkedList<Item>();
+											requete = "select item.code_item, "
+								    	   			+ "item.nom_item, "
+								    	   			+ "item.code_competence, "
+								    	   			+ "item.code_evaluation "
+													+ "from item "
+													+ "inner join ec_item on "
+													+ "ec_item.code_item = item.code_item "
+													+ "inner join ec on "
+													+ "ec.code_ec = ec_item.code_ec "
+													+ "where ec.code_ec = " + navigationView.listEcCourant.get(i).getCode();
+											lesItems = interfaceUtilisateur.getController().getItem(requete);
+											
+											for (int item = 0; item < lesItems.size(); item++)
+											{
+												if (listCodesItems.indexOf(lesItems.get(item).getCode()) == -1)
+												{
+													lesItemsGlobal.add(lesItems.get(item));
+													listCodesItems.add(lesItems.get(item).getCode());
+												}
+											}
+	
+											i++;
+										}
+										
+										LinkedList<Competence> lesCompetencesGlobales = new LinkedList<Competence>();
+										LinkedList<Integer> listCodesComp = new LinkedList<Integer>();
+										
+										i = 0;
+										while (i < lesItemsGlobal.size())
+										{
+											LinkedList<Competence> lesCompetences = new LinkedList<Competence>();
+											requete = "select competence.code_competence, "
+								    	   			+ "competence.nom_competence,"
+								    	   			+ "competence.code_domaine "
+													+ "from competence "
+													+ "inner join item on "
+													+ "item.code_competence = competence.code_competence "
+													+ "where code_item = " + lesItemsGlobal.get(i).getCode();
+											
+											lesCompetences = interfaceUtilisateur.getController().getCompetence(requete);
+											
+											for (int comp = 0; comp < lesCompetences.size(); comp++)
+											{
+												if (listCodesComp.indexOf(lesCompetences.get(comp).getCode()) == -1)
+												{
+													lesCompetencesGlobales.add(lesCompetences.get(comp));
+													listCodesComp.add(lesCompetences.get(comp).getCode());
+												}
+											}
+										
+											i++;
+										}
+										lesDomainesGlobales = new LinkedList<Domaine>();
+										LinkedList<Integer> listCodeDomaines = new LinkedList<>();
+										
+										i = 0;
+										while (i < listCodesComp.size()) 
+										{
+											LinkedList<Domaine> lesDomaines = new LinkedList<Domaine>();
+											requete = "select domaine.code_domaine, "
+													+ "domaine.nom_domaine,"
+													+ "domaine.code_diplome "
+													+ "from domaine "
+													+ "inner join competence on "
+													+ "competence.code_domaine = domaine.code_domaine "
+													+ "where competence.code_competence = " + listCodesComp.get(i);
+											
+											lesDomaines = interfaceUtilisateur.getController().getDomaine(requete);
+											
+											for (int j = 0; j < lesDomaines.size(); j++) 
+											{
+												if (listCodeDomaines.indexOf(lesDomaines.get(j).getCode()) == -1){
+													lesDomainesGlobales.add(lesDomaines.get(j));
+													listCodeDomaines.add(lesDomaines.get(j).getCode());
+												}
+											}
+											i++;
+										}
+										//Attribution code couleur Item
+										for(int cpt = 0 ; cpt < listCodesItems.size(); cpt ++)
+										{
+											float s = 0;
+											float m = 0;
+											int nbSousItem = 0;
+											
+											requete ="select sous_item.code_sous_item, "
+													+ "sous_item.nom_sous_item "
+													+ "from sous_item, item_sous_item "
+													+ "where sous_item.code_sous_item = item_sous_item.code_sous_item and "
+													+ "item_sous_item.code_item ="+listCodesItems.get(cpt);
+											
+											LinkedList<SousItem> listSousItem = new LinkedList<SousItem>();
+											listSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+											
+											for(int comp = 0; comp < listSousItem.size() ; comp++)
+											{
+												int codeSousItem = listSousItem.get(comp).getCode();
+												
+												for(int compt = 0 ; compt <listeCouleurSousItem.size(); compt++)
+												{
+													String tab[]=listeCouleurSousItem.get(compt).split(";");
+													int codeSI = Integer.parseInt(tab[0]);
+													int codeCouleur = Integer.parseInt(tab[1]);
+													
+													if(codeSousItem == codeSI)
+													{
+														s = s+codeCouleur;
+														nbSousItem ++;
+													}
+													
+												}
+											}
+											
+											m = s/nbSousItem;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listCodesItems.get(cpt)+";1";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listCodesItems.get(cpt)+";2";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m >= 3 && (int)m<4)
+											{
+												String moy =""+listCodesItems.get(cpt)+";3";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m >= 4 && (int)m<5)
+											{
+												String moy =""+listCodesItems.get(cpt)+";4";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m==5)
+											{
+												String moy =""+listCodesItems.get(cpt)+";5";
+												listeCouleurItem.add(moy);
+											}
+										}
+										
+										//Attribution code couleur Compétence
+										for(int cpt = 0; cpt<listCodesComp.size() ; cpt++ )
+										{
+											float s = 0;
+											float m = 0;
+											int nbItem = 0;
+											
+											requete="select item.code_item, "
+													+ "item.nom_item, "
+													+ "item.code_competence, "
+													+ "item.code_evaluation "
+													+ "from item "
+													+ "where item.code_competence ="+listCodesComp.get(cpt);
+											
+											LinkedList<Item> listItem = new LinkedList<Item>();
+											listItem = interfaceUtilisateur.getController().getItem(requete);
+											
+											for(int comp = 0 ; comp < listItem.size() ; comp++)
+											{
+												int codeItem = listItem.get(comp).getCode();
+												
+												for(int compt = 0 ; compt < listeCouleurItem.size(); compt++)
+												{
+													String tab[] = listeCouleurItem.get(compt).split(";");
+													int codeI = Integer.parseInt(tab[0]);
+													int codeCouleur = Integer.parseInt(tab[1]);
+													
+													if(codeItem == codeI)
+													{
+														s=s+codeCouleur;
+														nbItem++;
+													}
+													
+												}
+											}
+											m=s/nbItem;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listCodesComp.get(cpt)+";1";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listCodesComp.get(cpt)+";2";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m >= 3 && (int)m<4)
+											{
+												String moy =""+listCodesComp.get(cpt)+";3";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m >= 4 && (int)m<5)
+											{
+												String moy =""+listCodesComp.get(cpt)+";4";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m == 5)
+											{
+												String moy =""+listCodesComp.get(cpt)+";5";
+												listeCouleurCompetence.add(moy);
+											}
+											
+										}
+										
+										//Attribution code couleur Domaine
+										for(int cpt = 0; cpt<listCodeDomaines.size() ; cpt++ )
+										{
+											float s = 0;
+											float m = 0;
+											int nbComptence = 0;
+											
+											requete="select competence.code_competence, "
+													+ "competence.nom_competence, "
+													+ "competence.code_domaine "
+													+ "from competence "
+													+ "where competence.code_domaine ="+listCodeDomaines.get(cpt);
+											
+											LinkedList<Competence> listCompetence = new LinkedList<Competence>();
+											listCompetence = interfaceUtilisateur.getController().getCompetence(requete);
+											
+											for(int comp = 0 ; comp <listCompetence.size() ; comp++)
+											{
+												int codeComp = listCompetence.get(comp).getCode();
+												
+												for(int compt = 0 ; compt < listeCouleurCompetence.size(); compt++)
+												{
+													String tab[] = listeCouleurCompetence.get(compt).split(";");
+													int codeCpt = Integer.parseInt(tab[0]);
+													int codeCouleur = Integer.parseInt(tab[1]);
+													
+													if(codeComp == codeCpt)
+													{
+														s= s+codeCouleur;
+														nbComptence++;
+													}
+												}
+											}
+											
+											m=s/nbComptence;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listCodeDomaines.get(cpt)+";1";
+												listeCouleurDomaine.add(moy);
+											}
+											
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listCodeDomaines.get(cpt)+";2";
+												listeCouleurDomaine.add(moy);
+											}
+											if((int)m >= 3 && (int)m<4)
+											{
+												String moy =""+listCodeDomaines.get(cpt)+";3";
+												listeCouleurDomaine.add(moy);
+											}
+											
+											if((int)m >= 4 && (int)m<5)
+											{
+												String moy =""+listCodeDomaines.get(cpt)+";4";
+												listeCouleurDomaine.add(moy);
+											}
+											
+											if((int)m == 5)
+											{
+												String moy =""+listCodeDomaines.get(cpt)+";5";
+												listeCouleurDomaine.add(moy);
+											}
+											
+										}
+									
+									navigationView.chargementImg.setVisible(false);
+								}
+							};
+							th.start();
+						}
+						if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("admin")==0)
+						{
+							LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
+							Thread th = new Thread(){
+								public void run(){
+									if(navigationView.listEcCourant != null)
+									{
+										navigationView.chargementImg.setVisible(true);
+										listeCouleurEvaluation = new LinkedList<String>();
+										listeCouleurSousItem = new LinkedList<String>();
+										listeCouleurItem = new LinkedList<String>();
+										listeCouleurCompetence = new LinkedList<String>();
+										listeCouleurDomaine = new LinkedList<String>();
+										String tableau[] = etudiantSelectionner.split(" ");
+										String nom = tableau[0].toLowerCase();
+										String prenom = tableau[1].toLowerCase();
+										String requete = "select * from etudiant where etudiant.nom_etudiant ='"+nom+""
+												+ "' and etudiant.prenom_etudiant='"+prenom+"';";
+										LinkedList<Etudiant> listeEtudiant = new LinkedList<Etudiant>();
+										listeEtudiant = interfaceUtilisateur.getController().getEtudiant(requete);
+										codeEtudiantSelectionner = listeEtudiant.get(0).getCode();
+										
+										for(int iter = 0; iter<navigationView.listEcCourant.size(); iter++)
+										{
+											LinkedList<SousItem> lesSousItem = new LinkedList<SousItem>();
+											requete ="select sous_item.code_sous_item, "
+													+ "sous_item.nom_sous_item "
+													+ "from sous_item, ec_sous_item "
+													+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and "
+													+ "ec_sous_item.code_ec = "+navigationView.listEcCourant.get(iter).getCode();
+											lesSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+											
+											for(int comp = 0 ; comp < lesSousItem.size(); comp ++)
+											{
+												if(listCodeSousItem.indexOf(lesSousItem.get(comp).getCode()) == -1)
+												{
+													listCodeSousItem.add(lesSousItem.get(comp).getCode());
+												}
+											}
+										}
+										
+										LinkedList <Integer> listCodeEvaluation = new LinkedList<Integer>();
+										
+										for(int iter = 0; iter<listCodeSousItem.size(); iter++)
+										{
+											LinkedList<Evaluation> lesEvaluation = new LinkedList<Evaluation>();
+											requete="select evaluation.code_evaluation, "
+													+ "evaluation.nom_evaluation,"
+													+ "evaluation.note_maximale, "
+													+ "evaluation.coefficient_evaluation, "
+													+ "evaluation.type_epreuve "
+													+ "from evaluation, sous_item_evaluation "
+													+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+													+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
+											lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+											
+											for(int comp = 0; comp < lesEvaluation.size(); comp++)
+											{
+												if(listCodeEvaluation.indexOf(lesEvaluation.get(comp).getCode()) == -1)
+												{
+													listCodeEvaluation.add(lesEvaluation.get(comp).getCode());
+												}
+											}
+										}
+										//Récupérer les tuples concernés dans la table etudiant_evaluation
+										LinkedList<EvaluationEtudiant> listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+										LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+										int annee_debut = navigationView.promotionCourante.getAnneeDebutPromotion();
+										int annee_fin = navigationView.promotionCourante.getAnneeFinPromotion();
+										float somme = 0;
+										float moyenne=0;
+										
+										for(int comp = 0; comp <listCodeEvaluation.size() ; comp ++)
+										{
+											
+											listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+											somme = 0;
+											moyenne = 0;
+											requete ="select etudiant_evaluation.code_etudiant, "
+													+ "etudiant_evaluation.code_evaluation, "
+													+ "etudiant_evaluation.note_evaluation, "
+													+ "etudiant_evaluation.date_evaluation "
+													+ "from etudiant_evaluation "
+													+ "where etudiant_evaluation.code_etudiant ="+codeEtudiantSelectionner
+													+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp)
+													+ " and etudiant_evaluation.date_evaluation between '"+annee_debut+"-09-01' and '"+annee_fin+"-07-01'";
+											
+											lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
+											for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
+											{
+												listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
+											}
+										
+											for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
+											{
+												somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
+											}
+											
+											moyenne = somme;
+											
+											if( moyenne >=0 && moyenne< 10)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";1";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=10 && moyenne<12)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";2";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=12 && moyenne<14)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";3";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=14 && moyenne<16)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";4";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=16 && moyenne<=20)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";5";
+												listeCouleurEvaluation.add(moy);
+											}
+										}
+										//Attribution code couleur SousItem
+										for(int cpt = 0 ; cpt <listCodeSousItem.size() ; cpt ++)
+										{
+											float s = 0;
+											float m = 0;
+											int nb_evaluation=0;
+											requete="select evaluation.code_evaluation, "
+													+ "evaluation.nom_evaluation,"
+													+ "evaluation.note_maximale, "
+													+ "evaluation.coefficient_evaluation, "
+													+ "evaluation.type_epreuve "
+													+ "from evaluation, sous_item_evaluation "
+													+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+													+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(cpt);
+											
+											LinkedList <Evaluation> listEvaluation = new LinkedList<Evaluation>();
+											listEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+											
+											for(int compt = 0 ; compt< listEvaluation.size(); compt ++)
+											{
+												
+												int codeEvaluation = listEvaluation.get(compt).getCode();
+												
+												for(int compteur = 0 ; compteur < listeCouleurEvaluation.size() ; compteur ++)
+												{
+													String tab[] = listeCouleurEvaluation.get(compteur).split(";");
+													int codeEval = Integer.parseInt(tab[0]);
+													int codeCoul = Integer.parseInt(tab[1]);
+													if(codeEvaluation == codeEval)
+													{
+														s = s+codeCoul;
+														nb_evaluation ++;
+													}
+												}
+												
+											}
+											
+											m = s/nb_evaluation;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";1";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";2";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m>=3 && (int)m<4)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";3";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m>=4 && (int)m<5)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";4";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m==5)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";5";
+												listeCouleurSousItem.add(moy);
+											}
+										}
+										
+										//Attribution code couleur Item
+										for(int cpt = 0 ; cpt < listeCodeItemCourant.size(); cpt ++)
+										{
+											float s = 0;
+											float m = 0;
+											int nbSousItem = 0;
+											
+											requete ="select sous_item.code_sous_item, "
+													+ "sous_item.nom_sous_item "
+													+ "from sous_item, item_sous_item "
+													+ "where sous_item.code_sous_item = item_sous_item.code_sous_item and "
+													+ "item_sous_item.code_item ="+listeCodeItemCourant.get(cpt);
+											
+											LinkedList<SousItem> listSousItem = new LinkedList<SousItem>();
+											listSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+											
+											for(int comp = 0; comp < listSousItem.size() ; comp++)
+											{
+												int codeSousItem = listSousItem.get(comp).getCode();
+												
+												for(int compt = 0 ; compt <listeCouleurSousItem.size(); compt++)
+												{
+													String tab[]=listeCouleurSousItem.get(compt).split(";");
+													int codeSI = Integer.parseInt(tab[0]);
+													int codeCouleur = Integer.parseInt(tab[1]);
+													
+													if(codeSousItem == codeSI)
+													{
+														s = s+codeCouleur;
+														nbSousItem ++;
+													}
+													
+												}
+											}
+											
+											m = s/nbSousItem;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listeCodeItemCourant.get(cpt)+";1";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listeCodeItemCourant.get(cpt)+";2";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m >= 3 && (int)m<4)
+											{
+												String moy =""+listeCodeItemCourant.get(cpt)+";3";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m >= 4 && (int)m<5)
+											{
+												String moy =""+listeCodeItemCourant.get(cpt)+";4";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m==5)
+											{
+												String moy =""+listeCodeItemCourant.get(cpt)+";5";
+												listeCouleurItem.add(moy);
+											}
+										}
+										
+										//Attribution code couleur Compétence
+										for(int cpt = 0; cpt<listeCodeCompetenceCourant.size() ; cpt++ )
+										{
+											float s = 0;
+											float m = 0;
+											int nbItem = 0;
+											
+											requete="select item.code_item, "
+													+ "item.nom_item, "
+													+ "item.code_competence, "
+													+ "item.code_evaluation "
+													+ "from item "
+													+ "where item.code_competence ="+listeCodeCompetenceCourant.get(cpt);
+											
+											LinkedList<Item> listItem = new LinkedList<Item>();
+											listItem = interfaceUtilisateur.getController().getItem(requete);
+											
+											for(int comp = 0 ; comp < listItem.size() ; comp++)
+											{
+												int codeItem = listItem.get(comp).getCode();
+												
+												for(int compt = 0 ; compt < listeCouleurItem.size(); compt++)
+												{
+													String tab[] = listeCouleurItem.get(compt).split(";");
+													int codeI = Integer.parseInt(tab[0]);
+													int codeCouleur = Integer.parseInt(tab[1]);
+													
+													if(codeItem == codeI)
+													{
+														s=s+codeCouleur;
+														nbItem++;
+													}
+													
+												}
+											}
+											m=s/nbItem;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listeCodeCompetenceCourant.get(cpt)+";1";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listeCodeCompetenceCourant.get(cpt)+";2";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m >= 3 && (int)m<4)
+											{
+												String moy =""+listeCodeCompetenceCourant.get(cpt)+";3";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m >= 4 && (int)m<5)
+											{
+												String moy =""+listeCodeCompetenceCourant.get(cpt)+";4";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m == 5)
+											{
+												String moy =""+listeCodeCompetenceCourant.get(cpt)+";5";
+												listeCouleurCompetence.add(moy);
+											}
+											
+										}
+										
+										//Attribution code couleur Domaine
+										for(int cpt = 0; cpt<listeCodeDomaineCourant.size() ; cpt++ )
+										{
+											float s = 0;
+											float m = 0;
+											int nbComptence = 0;
+											
+											requete="select competence.code_competence, "
+													+ "competence.nom_competence, "
+													+ "competence.code_domaine "
+													+ "from competence "
+													+ "where competence.code_domaine ="+listeCodeDomaineCourant.get(cpt);
+											
+											LinkedList<Competence> listCompetence = new LinkedList<Competence>();
+											listCompetence = interfaceUtilisateur.getController().getCompetence(requete);
+											
+											for(int comp = 0 ; comp <listCompetence.size() ; comp++)
+											{
+												int codeComp = listCompetence.get(comp).getCode();
+												
+												for(int compt = 0 ; compt < listeCouleurCompetence.size(); compt++)
+												{
+													String tab[] = listeCouleurCompetence.get(compt).split(";");
+													int codeCpt = Integer.parseInt(tab[0]);
+													int codeCouleur = Integer.parseInt(tab[1]);
+													
+													if(codeComp == codeCpt)
+													{
+														s= s+codeCouleur;
+														nbComptence++;
+													}
+												}
+											}
+											
+											m=s/nbComptence;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listeCodeDomaineCourant.get(cpt)+";1";
+												listeCouleurDomaine.add(moy);
+											}
+											
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listeCodeDomaineCourant.get(cpt)+";2";
+												listeCouleurDomaine.add(moy);
+											}
+											if((int)m >= 3 && (int)m<4)
+											{
+												String moy =""+listeCodeDomaineCourant.get(cpt)+";3";
+												listeCouleurDomaine.add(moy);
+											}
+											
+											if((int)m >= 4 && (int)m<5)
+											{
+												String moy =""+listeCodeDomaineCourant.get(cpt)+";4";
+												listeCouleurDomaine.add(moy);
+											}
+											
+											if((int)m == 5)
+											{
+												String moy =""+listeCodeDomaineCourant.get(cpt)+";5";
+												listeCouleurDomaine.add(moy);
+											}
+											
+										}
+										navigationView.chargementImg.setVisible(false);
+										
+										competenceView.bloc.removeAll();
+										competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
+									}
+								}
+							};
+							th.start();
+						}
+					}
+					else
+					{
+						etudiantSelectionner = null;
+						if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("inter")==0)
+						{
+							Thread th = new Thread(){
+								public void run(){
+									navigationView.chargementImg.setVisible(true);
+									listeCouleurEvaluation = new LinkedList<String>();
+									listeCouleurSousItem = new LinkedList<String>();
+									listeCouleurItem = new LinkedList<String>();
+									listeCouleurCompetence = new LinkedList<String>();
+									listeCouleurDomaine = new LinkedList<String>();
+									LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
+									String requete;
+									for(int iter = 0; iter<navigationView.listEcCourant.size(); iter++)
+									{
+										LinkedList<SousItem> lesSousItem = new LinkedList<SousItem>();
+										requete ="select sous_item.code_sous_item, "
+												+ "sous_item.nom_sous_item "
+												+ "from sous_item, ec_sous_item "
+												+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and "
+												+ "ec_sous_item.code_ec = "+navigationView.listEcCourant.get(iter).getCode();
+										lesSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+										
+										for(int comp = 0 ; comp < lesSousItem.size(); comp ++)
+										{
+											if(listCodeSousItem.indexOf(lesSousItem.get(comp).getCode()) == -1)
+											{
+												listCodeSousItem.add(lesSousItem.get(comp).getCode());
+											}
+										}
+									}
+									
+									LinkedList <Integer> listCodeEvaluation = new LinkedList<Integer>();
+									
+									for(int iter = 0; iter<listCodeSousItem.size(); iter++)
+									{
+										LinkedList<Evaluation> lesEvaluation = new LinkedList<Evaluation>();
+										requete="select evaluation.code_evaluation, "
+												+ "evaluation.nom_evaluation,"
+												+ "evaluation.note_maximale, "
+												+ "evaluation.coefficient_evaluation, "
+												+ "evaluation.type_epreuve "
+												+ "from evaluation, sous_item_evaluation "
+												+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+												+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
+										lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+										
+										for(int comp = 0; comp < lesEvaluation.size(); comp++)
+										{
+											if(listCodeEvaluation.indexOf(lesEvaluation.get(comp).getCode()) == -1)
+											{
+												listCodeEvaluation.add(lesEvaluation.get(comp).getCode());
+											}
+										}
+									}
+									
+									LinkedList<Etudiant> lesEtudiant = new LinkedList<Etudiant>();
+									requete="select etudiant.code_etudiant, "
+											+ "etudiant.nom_etudiant, "
+											+ "etudiant.prenom_etudiant, "
+											+ "etudiant.mot_de_passe_etudiant "
+											+ "from etudiant, promotion, etudiant_promotion "
+											+ "where etudiant.code_etudiant = etudiant_promotion.code_etudiant "
+											+ "and promotion.code_promotion = etudiant_promotion.code_promotion "
+											+ "and promotion.code_promotion = "+navigationView.promotionCourante.getCode()+" "
+											+ "and promotion.code_diplome = "+navigationView.promotionCourante.getCodeDiplome()+" ; ";
+									
+									lesEtudiant = interfaceUtilisateur.getController().getEtudiant(requete);
+									
+									int nombre_etudiant = lesEtudiant.size();
+									
+									//Si il y a des étudiants pour cette promotion
+									if(nombre_etudiant != 0)
+									{
+									
+										//Récupérer les tuples concernés dans la table etudiant_evaluation
+										LinkedList<EvaluationEtudiant> listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+										LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+										float somme = 0;
+										float moyenne=0;
+										
+										for(int comp = 0; comp <listCodeEvaluation.size() ; comp ++)
+										{
+											
+											listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+											somme = 0;
+											moyenne = 0;
+											for(int comp1 = 0; comp1<lesEtudiant.size() ; comp1 ++)
+											{
+												lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+												requete ="select etudiant_evaluation.code_etudiant, "
+														+ "etudiant_evaluation.code_evaluation, "
+														+ "etudiant_evaluation.note_evaluation, "
+														+ "etudiant_evaluation.date_evaluation "
+														+ "from etudiant_evaluation "
+														+ "where etudiant_evaluation.code_etudiant ="+lesEtudiant.get(comp1).getCode()
+														+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp);
+												
+												lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
+												
+												for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
+												{
+													listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
+												}
+											}
+											for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
+											{
+												somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
+											}
+											
+											moyenne = somme / nombre_etudiant;
+											
+											if( moyenne >=0 && moyenne< 10)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";1";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=10 && moyenne<12)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";2";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=12 && moyenne<14)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";3";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=14 && moyenne<16)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";4";
+												listeCouleurEvaluation.add(moy);
+											}
+											if(moyenne>=16 && moyenne<=20)
+											{
+												String moy =""+listCodeEvaluation.get(comp)+";5";
+												listeCouleurEvaluation.add(moy);
+											}
+											
+										}
+										
+										//Attribution code couleur SousItem
+										for(int cpt = 0 ; cpt <listCodeSousItem.size() ; cpt ++)
+										{
+											float s = 0;
+											float m = 0;
+											int nb_evaluation=0;
+											requete="select evaluation.code_evaluation, "
+													+ "evaluation.nom_evaluation,"
+													+ "evaluation.note_maximale, "
+													+ "evaluation.coefficient_evaluation, "
+													+ "evaluation.type_epreuve "
+													+ "from evaluation, sous_item_evaluation "
+													+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+													+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(cpt);
+											
+											LinkedList <Evaluation> listEvaluation = new LinkedList<Evaluation>();
+											listEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+											
+											for(int compt = 0 ; compt< listEvaluation.size(); compt ++)
+											{
+												
+												int codeEvaluation = listEvaluation.get(compt).getCode();
+												
+												for(int compteur = 0 ; compteur < listeCouleurEvaluation.size() ; compteur ++)
+												{
+													String tab[] = listeCouleurEvaluation.get(compteur).split(";");
+													int codeEval = Integer.parseInt(tab[0]);
+													int codeCoul = Integer.parseInt(tab[1]);
+													if(codeEvaluation == codeEval)
+													{
+														s = s+codeCoul;
+														nb_evaluation ++;
+													}
+												}
+												
+											}
+											
+											m = s/nb_evaluation;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";1";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";2";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m>=3 && (int)m<4)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";3";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m>=4 && (int)m<5)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";4";
+												listeCouleurSousItem.add(moy);
+											}
+											if((int)m==5)
+											{
+												String moy =""+listCodeSousItem.get(cpt)+";5";
+												listeCouleurSousItem.add(moy);
+											}
+										}
+										
+										LinkedList<Item> lesItemsGlobal = new LinkedList<Item>();
+										LinkedList<Integer> listCodesItems = new LinkedList<Integer>();
+										
+										int i = 0;
+										while (i < navigationView.listEcCourant.size())
+										{
+											LinkedList<Item> lesItems = new LinkedList<Item>();
+											requete = "select item.code_item, "
+								    	   			+ "item.nom_item, "
+								    	   			+ "item.code_competence, "
+								    	   			+ "item.code_evaluation "
+													+ "from item "
+													+ "inner join ec_item on "
+													+ "ec_item.code_item = item.code_item "
+													+ "inner join ec on "
+													+ "ec.code_ec = ec_item.code_ec "
+													+ "where ec.code_ec = " + navigationView.listEcCourant.get(i).getCode();
+											lesItems = interfaceUtilisateur.getController().getItem(requete);
+											
+											for (int item = 0; item < lesItems.size(); item++)
+											{
+												if (listCodesItems.indexOf(lesItems.get(item).getCode()) == -1)
+												{
+													lesItemsGlobal.add(lesItems.get(item));
+													listCodesItems.add(lesItems.get(item).getCode());
+												}
+											}
+	
+											i++;
+										}
+										
+										LinkedList<Competence> lesCompetencesGlobales = new LinkedList<Competence>();
+										LinkedList<Integer> listCodesComp = new LinkedList<Integer>();
+										
+										i = 0;
+										while (i < lesItemsGlobal.size())
+										{
+											LinkedList<Competence> lesCompetences = new LinkedList<Competence>();
+											requete = "select competence.code_competence, "
+								    	   			+ "competence.nom_competence,"
+								    	   			+ "competence.code_domaine "
+													+ "from competence "
+													+ "inner join item on "
+													+ "item.code_competence = competence.code_competence "
+													+ "where code_item = " + lesItemsGlobal.get(i).getCode();
+											
+											lesCompetences = interfaceUtilisateur.getController().getCompetence(requete);
+											
+											for (int comp = 0; comp < lesCompetences.size(); comp++)
+											{
+												if (listCodesComp.indexOf(lesCompetences.get(comp).getCode()) == -1)
+												{
+													lesCompetencesGlobales.add(lesCompetences.get(comp));
+													listCodesComp.add(lesCompetences.get(comp).getCode());
+												}
+											}
+										
+											i++;
+										}
+										lesDomainesGlobales = new LinkedList<Domaine>();
+										LinkedList<Integer> listCodeDomaines = new LinkedList<>();
+										
+										i = 0;
+										while (i < listCodesComp.size()) 
+										{
+											LinkedList<Domaine> lesDomaines = new LinkedList<Domaine>();
+											requete = "select domaine.code_domaine, "
+													+ "domaine.nom_domaine,"
+													+ "domaine.code_diplome "
+													+ "from domaine "
+													+ "inner join competence on "
+													+ "competence.code_domaine = domaine.code_domaine "
+													+ "where competence.code_competence = " + listCodesComp.get(i);
+											
+											lesDomaines = interfaceUtilisateur.getController().getDomaine(requete);
+											
+											for (int j = 0; j < lesDomaines.size(); j++) 
+											{
+												if (listCodeDomaines.indexOf(lesDomaines.get(j).getCode()) == -1){
+													lesDomainesGlobales.add(lesDomaines.get(j));
+													listCodeDomaines.add(lesDomaines.get(j).getCode());
+												}
+											}
+											i++;
+										}
+										//Attribution code couleur Item
+										for(int cpt = 0 ; cpt < listCodesItems.size(); cpt ++)
+										{
+											float s = 0;
+											float m = 0;
+											int nbSousItem = 0;
+											
+											requete ="select sous_item.code_sous_item, "
+													+ "sous_item.nom_sous_item "
+													+ "from sous_item, item_sous_item "
+													+ "where sous_item.code_sous_item = item_sous_item.code_sous_item and "
+													+ "item_sous_item.code_item ="+listCodesItems.get(cpt);
+											
+											LinkedList<SousItem> listSousItem = new LinkedList<SousItem>();
+											listSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+											
+											for(int comp = 0; comp < listSousItem.size() ; comp++)
+											{
+												int codeSousItem = listSousItem.get(comp).getCode();
+												
+												for(int compt = 0 ; compt <listeCouleurSousItem.size(); compt++)
+												{
+													String tab[]=listeCouleurSousItem.get(compt).split(";");
+													int codeSI = Integer.parseInt(tab[0]);
+													int codeCouleur = Integer.parseInt(tab[1]);
+													
+													if(codeSousItem == codeSI)
+													{
+														s = s+codeCouleur;
+														nbSousItem ++;
+													}
+													
+												}
+											}
+											
+											m = s/nbSousItem;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listCodesItems.get(cpt)+";1";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listCodesItems.get(cpt)+";2";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m >= 3 && (int)m<4)
+											{
+												String moy =""+listCodesItems.get(cpt)+";3";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m >= 4 && (int)m<5)
+											{
+												String moy =""+listCodesItems.get(cpt)+";4";
+												listeCouleurItem.add(moy);
+											}
+											if((int)m==5)
+											{
+												String moy =""+listCodesItems.get(cpt)+";5";
+												listeCouleurItem.add(moy);
+											}
+										}
+										
+										//Attribution code couleur Compétence
+										for(int cpt = 0; cpt<listCodesComp.size() ; cpt++ )
+										{
+											float s = 0;
+											float m = 0;
+											int nbItem = 0;
+											
+											requete="select item.code_item, "
+													+ "item.nom_item, "
+													+ "item.code_competence, "
+													+ "item.code_evaluation "
+													+ "from item "
+													+ "where item.code_competence ="+listCodesComp.get(cpt);
+											
+											LinkedList<Item> listItem = new LinkedList<Item>();
+											listItem = interfaceUtilisateur.getController().getItem(requete);
+											
+											for(int comp = 0 ; comp < listItem.size() ; comp++)
+											{
+												int codeItem = listItem.get(comp).getCode();
+												
+												for(int compt = 0 ; compt < listeCouleurItem.size(); compt++)
+												{
+													String tab[] = listeCouleurItem.get(compt).split(";");
+													int codeI = Integer.parseInt(tab[0]);
+													int codeCouleur = Integer.parseInt(tab[1]);
+													
+													if(codeItem == codeI)
+													{
+														s=s+codeCouleur;
+														nbItem++;
+													}
+													
+												}
+											}
+											m=s/nbItem;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listCodesComp.get(cpt)+";1";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listCodesComp.get(cpt)+";2";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m >= 3 && (int)m<4)
+											{
+												String moy =""+listCodesComp.get(cpt)+";3";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m >= 4 && (int)m<5)
+											{
+												String moy =""+listCodesComp.get(cpt)+";4";
+												listeCouleurCompetence.add(moy);
+											}
+											if((int)m == 5)
+											{
+												String moy =""+listCodesComp.get(cpt)+";5";
+												listeCouleurCompetence.add(moy);
+											}
+											
+										}
+										
+										//Attribution code couleur Domaine
+										for(int cpt = 0; cpt<listCodeDomaines.size() ; cpt++ )
+										{
+											float s = 0;
+											float m = 0;
+											int nbComptence = 0;
+											
+											requete="select competence.code_competence, "
+													+ "competence.nom_competence, "
+													+ "competence.code_domaine "
+													+ "from competence "
+													+ "where competence.code_domaine ="+listCodeDomaines.get(cpt);
+											
+											LinkedList<Competence> listCompetence = new LinkedList<Competence>();
+											listCompetence = interfaceUtilisateur.getController().getCompetence(requete);
+											
+											for(int comp = 0 ; comp <listCompetence.size() ; comp++)
+											{
+												int codeComp = listCompetence.get(comp).getCode();
+												
+												for(int compt = 0 ; compt < listeCouleurCompetence.size(); compt++)
+												{
+													String tab[] = listeCouleurCompetence.get(compt).split(";");
+													int codeCpt = Integer.parseInt(tab[0]);
+													int codeCouleur = Integer.parseInt(tab[1]);
+													
+													if(codeComp == codeCpt)
+													{
+														s= s+codeCouleur;
+														nbComptence++;
+													}
+												}
+											}
+											
+											m=s/nbComptence;
+											
+											if((int)m >= 1 && (int)m<2)
+											{
+												String moy =""+listCodeDomaines.get(cpt)+";1";
+												listeCouleurDomaine.add(moy);
+											}
+											
+											if((int)m >= 2 && (int)m<3)
+											{
+												String moy =""+listCodeDomaines.get(cpt)+";2";
+												listeCouleurDomaine.add(moy);
+											}
+											if((int)m >= 3 && (int)m<4)
+											{
+												String moy =""+listCodeDomaines.get(cpt)+";3";
+												listeCouleurDomaine.add(moy);
+											}
+											
+											if((int)m >= 4 && (int)m<5)
+											{
+												String moy =""+listCodeDomaines.get(cpt)+";4";
+												listeCouleurDomaine.add(moy);
+											}
+											
+											if((int)m == 5)
+											{
+												String moy =""+listCodeDomaines.get(cpt)+";5";
+												listeCouleurDomaine.add(moy);
+											}
+											
+										}
+									}
+									navigationView.chargementImg.setVisible(false);
+									competenceView.bloc.removeAll();
+									competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
+								}
+							};
+							th.start();
+						}
+						if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("admin")==0)
+						{
+							Thread th = new Thread(){
+								public void run(){
+									if(navigationView.listEcCourant!= null)
+									{
+										listeCouleurEvaluation = new LinkedList<String>();
+										listeCouleurSousItem = new LinkedList<String>();
+										listeCouleurItem = new LinkedList<String>();
+										listeCouleurCompetence = new LinkedList<String>();
+										listeCouleurDomaine = new LinkedList<String>();
+										navigationView.chargementImg.setVisible(true);
+										LinkedList <Integer> listCodeSousItem = new LinkedList <Integer>();
+										String requete;
+										for(int iter = 0; iter<navigationView.listEcCourant.size(); iter++)
+										{
+											LinkedList<SousItem> lesSousItem = new LinkedList<SousItem>();
+											requete ="select sous_item.code_sous_item, "
+													+ "sous_item.nom_sous_item "
+													+ "from sous_item, ec_sous_item "
+													+ "where sous_item.code_sous_item = ec_sous_item.code_sous_item and "
+													+ "ec_sous_item.code_ec = "+navigationView.listEcCourant.get(iter).getCode();
+											lesSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+											
+											for(int comp = 0 ; comp < lesSousItem.size(); comp ++)
+											{
+												if(listCodeSousItem.indexOf(lesSousItem.get(comp).getCode()) == -1)
+												{
+													listCodeSousItem.add(lesSousItem.get(comp).getCode());
+												}
+											}
+										}
+										
+										LinkedList <Integer> listCodeEvaluation = new LinkedList<Integer>();
+										
+										for(int iter = 0; iter<listCodeSousItem.size(); iter++)
+										{
+											LinkedList<Evaluation> lesEvaluation = new LinkedList<Evaluation>();
+											requete="select evaluation.code_evaluation, "
+													+ "evaluation.nom_evaluation,"
+													+ "evaluation.note_maximale, "
+													+ "evaluation.coefficient_evaluation, "
+													+ "evaluation.type_epreuve "
+													+ "from evaluation, sous_item_evaluation "
+													+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+													+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(iter);
+											lesEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+											
+											for(int comp = 0; comp < lesEvaluation.size(); comp++)
+											{
+												if(listCodeEvaluation.indexOf(lesEvaluation.get(comp).getCode()) == -1)
+												{
+													listCodeEvaluation.add(lesEvaluation.get(comp).getCode());
+												}
+											}
+										}
+										
+										LinkedList<Etudiant> lesEtudiant = new LinkedList<Etudiant>();
+										requete="select etudiant.code_etudiant, "
+												+ "etudiant.nom_etudiant, "
+												+ "etudiant.prenom_etudiant, "
+												+ "etudiant.mot_de_passe_etudiant "
+												+ "from etudiant, promotion, etudiant_promotion "
+												+ "where etudiant.code_etudiant = etudiant_promotion.code_etudiant "
+												+ "and promotion.code_promotion = etudiant_promotion.code_promotion "
+												+ "and promotion.code_promotion = "+navigationView.promotionCourante.getCode()+" "
+												+ "and promotion.code_diplome = "+navigationView.promotionCourante.getCodeDiplome()+" "
+												+ "and promotion.code_annee = "+anneeCourante;
+										
+										lesEtudiant = interfaceUtilisateur.getController().getEtudiant(requete);
+										
+										int nombre_etudiant = lesEtudiant.size();
+										
+										if(nombre_etudiant != 0)
+										{
+										
+											//Récupérer les tuples concernés dans la table etudiant_evaluation
+											LinkedList<EvaluationEtudiant> listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+											LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+											int annee_debut = navigationView.promotionCourante.getAnneeDebutPromotion();
+											int annee_fin = navigationView.promotionCourante.getAnneeFinPromotion();
+											float somme = 0;
+											float moyenne=0;
+											
+											for(int comp = 0; comp <listCodeEvaluation.size() ; comp ++)
+											{
+												
+												listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
+												somme = 0;
+												moyenne = 0;
+												for(int comp1 = 0; comp1<lesEtudiant.size() ; comp1 ++)
+												{
+													lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
+													requete ="select etudiant_evaluation.code_etudiant, "
+															+ "etudiant_evaluation.code_evaluation, "
+															+ "etudiant_evaluation.note_evaluation, "
+															+ "etudiant_evaluation.date_evaluation "
+															+ "from etudiant_evaluation "
+															+ "where etudiant_evaluation.code_etudiant ="+lesEtudiant.get(comp1).getCode()
+															+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp)
+															+ " and etudiant_evaluation.date_evaluation between '"+annee_debut+"-09-01' and '"+annee_fin+"-07-01'";
+													
+													lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
+													
+													for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
+													{
+														listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
+													}
+												}
+												for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
+												{
+													somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
+												}
+												
+												moyenne = somme / nombre_etudiant;
+												
+												if( moyenne >=0 && moyenne< 10)
+												{
+													String moy =""+listCodeEvaluation.get(comp)+";1";
+													listeCouleurEvaluation.add(moy);
+												}
+												if(moyenne>=10 && moyenne<12)
+												{
+													String moy =""+listCodeEvaluation.get(comp)+";2";
+													listeCouleurEvaluation.add(moy);
+												}
+												if(moyenne>=12 && moyenne<14)
+												{
+													String moy =""+listCodeEvaluation.get(comp)+";3";
+													listeCouleurEvaluation.add(moy);
+												}
+												if(moyenne>=14 && moyenne<16)
+												{
+													String moy =""+listCodeEvaluation.get(comp)+";4";
+													listeCouleurEvaluation.add(moy);
+												}
+												if(moyenne>=16 && moyenne<=20)
+												{
+													String moy =""+listCodeEvaluation.get(comp)+";5";
+													listeCouleurEvaluation.add(moy);
+												}
+												
+											}
+											
+											//Attribution code couleur SousItem
+											for(int cpt = 0 ; cpt <listCodeSousItem.size() ; cpt ++)
+											{
+												float s = 0;
+												float m = 0;
+												int nb_evaluation=0;
+												requete="select evaluation.code_evaluation, "
+														+ "evaluation.nom_evaluation,"
+														+ "evaluation.note_maximale, "
+														+ "evaluation.coefficient_evaluation, "
+														+ "evaluation.type_epreuve "
+														+ "from evaluation, sous_item_evaluation "
+														+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+														+ "sous_item_evaluation.code_sous_item = "+listCodeSousItem.get(cpt);
+												
+												LinkedList <Evaluation> listEvaluation = new LinkedList<Evaluation>();
+												listEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
+												
+												for(int compt = 0 ; compt< listEvaluation.size(); compt ++)
+												{
+													
+													int codeEvaluation = listEvaluation.get(compt).getCode();
+													
+													for(int compteur = 0 ; compteur < listeCouleurEvaluation.size() ; compteur ++)
+													{
+														
+														String tab[] = listeCouleurEvaluation.get(compteur).split(";");
+														int codeEval = Integer.parseInt(tab[0]);
+														int codeCoul = Integer.parseInt(tab[1]);
+														if(codeEvaluation == codeEval)
+														{
+															s = s+codeCoul;
+															nb_evaluation ++;
+														}
+													}
+													
+												}
+												
+												m = s/nb_evaluation;
+												
+												if((int)m >= 1 && (int)m<2)
+												{
+													String moy =""+listCodeSousItem.get(cpt)+";1";
+													listeCouleurSousItem.add(moy);
+												}
+												if((int)m >= 2 && (int)m<3)
+												{
+													String moy =""+listCodeSousItem.get(cpt)+";2";
+													listeCouleurSousItem.add(moy);
+												}
+												if((int)m>=3 && (int)m<4)
+												{
+													String moy =""+listCodeSousItem.get(cpt)+";3";
+													listeCouleurSousItem.add(moy);
+												}
+												if((int)m>=4 && (int)m<5)
+												{
+													String moy =""+listCodeSousItem.get(cpt)+";4";
+													listeCouleurSousItem.add(moy);
+												}
+												if((int)m==5)
+												{
+													String moy =""+listCodeSousItem.get(cpt)+";5";
+													listeCouleurSousItem.add(moy);
+												}
+											}
+											
+											//Attribution code couleur Item
+											for(int cpt = 0 ; cpt < listeCodeItemCourant.size(); cpt ++)
+											{
+												float s = 0;
+												float m = 0;
+												int nbSousItem = 0;
+												
+												requete ="select sous_item.code_sous_item, "
+														+ "sous_item.nom_sous_item "
+														+ "from sous_item, item_sous_item "
+														+ "where sous_item.code_sous_item = item_sous_item.code_sous_item and "
+														+ "item_sous_item.code_item ="+listeCodeItemCourant.get(cpt);
+												
+												LinkedList<SousItem> listSousItem = new LinkedList<SousItem>();
+												listSousItem = interfaceUtilisateur.getController().getSousItem(requete);
+												
+												for(int comp = 0; comp < listSousItem.size() ; comp++)
+												{
+													int codeSousItem = listSousItem.get(comp).getCode();
+													
+													for(int compt = 0 ; compt <listeCouleurSousItem.size(); compt++)
+													{
+														String tab[]=listeCouleurSousItem.get(compt).split(";");
+														int codeSI = Integer.parseInt(tab[0]);
+														int codeCouleur = Integer.parseInt(tab[1]);
+														
+														if(codeSousItem == codeSI)
+														{
+															s = s+codeCouleur;
+															nbSousItem ++;
+														}
+														
+													}
+												}
+												
+												m = s/nbSousItem;
+												
+												if((int)m >= 1 && (int)m<2)
+												{
+													String moy =""+listeCodeItemCourant.get(cpt)+";1";
+													listeCouleurItem.add(moy);
+												}
+												if((int)m >= 2 && (int)m<3)
+												{
+													String moy =""+listeCodeItemCourant.get(cpt)+";2";
+													listeCouleurItem.add(moy);
+												}
+												if((int)m >= 3 && (int)m<4)
+												{
+													String moy =""+listeCodeItemCourant.get(cpt)+";3";
+													listeCouleurItem.add(moy);
+												}
+												if((int)m >= 4 && (int)m<5)
+												{
+													String moy =""+listeCodeItemCourant.get(cpt)+";4";
+													listeCouleurItem.add(moy);
+												}
+												if((int)m==5)
+												{
+													String moy =""+listeCodeItemCourant.get(cpt)+";5";
+													listeCouleurItem.add(moy);
+												}
+											}
+											
+											//Attribution code couleur Compétence
+											for(int cpt = 0; cpt<listeCodeCompetenceCourant.size() ; cpt++ )
+											{
+												float s = 0;
+												float m = 0;
+												int nbItem = 0;
+												
+												requete="select item.code_item, "
+														+ "item.nom_item, "
+														+ "item.code_competence, "
+														+ "item.code_evaluation "
+														+ "from item "
+														+ "where item.code_competence ="+listeCodeCompetenceCourant.get(cpt);
+												
+												LinkedList<Item> listItem = new LinkedList<Item>();
+												listItem = interfaceUtilisateur.getController().getItem(requete);
+												
+												for(int comp = 0 ; comp < listItem.size() ; comp++)
+												{
+													int codeItem = listItem.get(comp).getCode();
+													
+													for(int compt = 0 ; compt < listeCouleurItem.size(); compt++)
+													{
+														String tab[] = listeCouleurItem.get(compt).split(";");
+														int codeI = Integer.parseInt(tab[0]);
+														int codeCouleur = Integer.parseInt(tab[1]);
+														
+														if(codeItem == codeI)
+														{
+															s=s+codeCouleur;
+															nbItem++;
+														}
+														
+													}
+												}
+												m=s/nbItem;
+												
+												if((int)m >= 1 && (int)m<2)
+												{
+													String moy =""+listeCodeCompetenceCourant.get(cpt)+";1";
+													listeCouleurCompetence.add(moy);
+												}
+												if((int)m >= 2 && (int)m<3)
+												{
+													String moy =""+listeCodeCompetenceCourant.get(cpt)+";2";
+													listeCouleurCompetence.add(moy);
+												}
+												if((int)m >= 3 && (int)m<4)
+												{
+													String moy =""+listeCodeCompetenceCourant.get(cpt)+";3";
+													listeCouleurCompetence.add(moy);
+												}
+												if((int)m >= 4 && (int)m<5)
+												{
+													String moy =""+listeCodeCompetenceCourant.get(cpt)+";4";
+													listeCouleurCompetence.add(moy);
+												}
+												if((int)m == 5)
+												{
+													String moy =""+listeCodeCompetenceCourant.get(cpt)+";5";
+													listeCouleurCompetence.add(moy);
+												}
+												
+											}
+											
+											//Attribution code couleur Domaine
+											for(int cpt = 0; cpt<listeCodeDomaineCourant.size() ; cpt++ )
+											{
+												float s = 0;
+												float m = 0;
+												int nbComptence = 0;
+												
+												requete="select competence.code_competence, "
+														+ "competence.nom_competence, "
+														+ "competence.code_domaine "
+														+ "from competence "
+														+ "where competence.code_domaine ="+listeCodeDomaineCourant.get(cpt);
+												
+												LinkedList<Competence> listCompetence = new LinkedList<Competence>();
+												listCompetence = interfaceUtilisateur.getController().getCompetence(requete);
+												
+												for(int comp = 0 ; comp <listCompetence.size() ; comp++)
+												{
+													int codeComp = listCompetence.get(comp).getCode();
+													
+													for(int compt = 0 ; compt < listeCouleurCompetence.size(); compt++)
+													{
+														String tab[] = listeCouleurCompetence.get(compt).split(";");
+														int codeCpt = Integer.parseInt(tab[0]);
+														int codeCouleur = Integer.parseInt(tab[1]);
+														
+														if(codeComp == codeCpt)
+														{
+															s= s+codeCouleur;
+															nbComptence++;
+														}
+													}
+												}
+												
+												m=s/nbComptence;
+												
+												if((int)m >= 1 && (int)m<2)
+												{
+													String moy =""+listeCodeDomaineCourant.get(cpt)+";1";
+													listeCouleurDomaine.add(moy);
+												}
+												
+												if((int)m >= 2 && (int)m<3)
+												{
+													String moy =""+listeCodeDomaineCourant.get(cpt)+";2";
+													listeCouleurDomaine.add(moy);
+												}
+												if((int)m >= 3 && (int)m<4)
+												{
+													String moy =""+listeCodeDomaineCourant.get(cpt)+";3";
+													listeCouleurDomaine.add(moy);
+												}
+												
+												if((int)m >= 4 && (int)m<5)
+												{
+													String moy =""+listeCodeDomaineCourant.get(cpt)+";4";
+													listeCouleurDomaine.add(moy);
+												}
+												
+												if((int)m == 5)
+												{
+													String moy =""+listeCodeDomaineCourant.get(cpt)+";5";
+													listeCouleurDomaine.add(moy);
+												}
+												
+											}
+									
+										}
+										navigationView.chargementImg.setVisible(false);
+										competenceView.bloc.removeAll();
+										competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
+									}
+								}
+							};
+							th.start();
+						}
+					}
+					comparaisonEtudiantSelection = liste.getSelectedValue();
+				}
+				
 			}
 		};
 	}

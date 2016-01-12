@@ -72,9 +72,9 @@ public class NavigationView extends JPanel {
 	public Semestre semestreCourant;
 	public Ue ueCourant;
 	public Promotion promotionCourante;
-	public LinkedList<Ec> listEcCourant;
-	public LinkedList<Item> listItemCourant;
-	public LinkedList<Competence> listCompetenceCourant;
+	public LinkedList<Ec> listEcCourant = null;
+	public LinkedList<Item> listItemCourant = null;
+	public LinkedList<Competence> listCompetenceCourant = null;
 	
 	
 	public void init(){

@@ -78,7 +78,7 @@ public class Interface extends Applet {
 		else{
 			//Pour la dèv
 			utilisateurCourant = controller.getAdministrateur("SELECT * FROM ADMINISTRATEUR;").getFirst();
-			this.blocPrincipal = new RechercheView(this);
+			this.blocPrincipal = new AuthentificationView(this);
 		}
 		
 		//Paramétrage de l'applet
