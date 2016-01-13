@@ -137,21 +137,35 @@ public class ResultatView extends JPanel {
 	}
 	
 	public void setResultat(LinkedList<Diplome> diplomes){
-		int somme = 0;
-		for(Diplome d:diplomes){
-			LinkedList<Promotion> promotions = resultatViewListener.getPromotions(d);
-			for(Promotion p:promotions){
-				somme++;
-				JLabel jl = new JLabel("  "+d.getNom().substring(0,1).toUpperCase()+d.getNom().substring(1)+" "+p.getAnneeDebutPromotion()+"-"+p.getAnneeFinPromotion());
+		if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("etu")==0){
+			for(Diplome d:diplomes){
+				JLabel jl = new JLabel("  "+d.getNom().substring(0,1).toUpperCase()+d.getNom().substring(1));
 				jl.setPreferredSize(new Dimension(interfaceUtilisateur.getWidth(),40));
 				jl.setOpaque(true);
 				jl.setFont(new Font("Gill Sans MT",Font.BOLD,20));
 				jl.setBackground(Color.decode("#66a8da"));
-				jl.addMouseListener(resultatViewListener.getItemListener(jl,d,p));
+				jl.addMouseListener(resultatViewListener.getItemListener(jl,d));
 				this.blocResultat.add(jl);
 			}
+			setEntete(diplomes.size());
 		}
-		setEntete(somme);
+		else{
+			int somme = 0;
+			for(Diplome d:diplomes){
+				LinkedList<Promotion> promotions = resultatViewListener.getPromotions(d);
+				for(Promotion p:promotions){
+					somme++;
+					JLabel jl = new JLabel("  "+d.getNom().substring(0,1).toUpperCase()+d.getNom().substring(1)+" "+p.getAnneeDebutPromotion()+"-"+p.getAnneeFinPromotion());
+					jl.setPreferredSize(new Dimension(interfaceUtilisateur.getWidth(),40));
+					jl.setOpaque(true);
+					jl.setFont(new Font("Gill Sans MT",Font.BOLD,20));
+					jl.setBackground(Color.decode("#66a8da"));
+					jl.addMouseListener(resultatViewListener.getItemListener(jl,d,p));
+					this.blocResultat.add(jl);
+				}
+			}
+			setEntete(somme);
+		}
 	}
 	
 	

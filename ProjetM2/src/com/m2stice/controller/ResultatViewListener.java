@@ -98,6 +98,50 @@ public class ResultatViewListener {
 		};
 	}
 	
+	public MouseListener getItemListener(JLabel jl, Diplome d){
+		return new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				jl.setBackground(Color.decode("#66a8da"));
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				jl.setBackground(Color.decode("#ffb401"));
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Color defaut = jl.getForeground();
+				Thread th = new Thread(){
+					public void run(){
+						resultatView.chargementImg.setVisible(true);
+						getNavigationView(d);
+						resultatView.chargementImg.setVisible(false);
+						jl.setForeground(defaut);
+						jl.setText("  "+jl.getText().trim().substring(1));
+					}
+				};
+				th.start();
+				jl.setText(" >" +jl.getText().trim());
+				jl.setForeground(Color.decode("#ffb401"));
+			}
+		};
+	}
+	
 	public void getNavigationView(Diplome d){
 		navigationView = new NavigationView(interfaceUtilisateur,d);
 		interfaceUtilisateur.derniereVue = resultatView;
