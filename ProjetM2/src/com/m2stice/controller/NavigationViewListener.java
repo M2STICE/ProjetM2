@@ -97,6 +97,16 @@ public class NavigationViewListener {
 					+ "promotion.code_annee = "+anneeCourante+" and "
 					+ "promotion.code_diplome = "+navigationView.diplomeCourant.getCode()+" and "
 					+ "promotion.code_promotion = "+navigationView.promotionCourante.getCode()+";"),this);
+			
+		}
+		if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("inter")==0){
+			
+			this.detailView.afficherEtudiants(interfaceUtilisateur.getController().getEtudiant("select etudiant.code_etudiant, nom_etudiant, prenom_etudiant, mot_de_passe_etudiant "
+					+ "from etudiant, etudiant_promotion, promotion "
+					+ "where etudiant.code_etudiant = etudiant_promotion.code_etudiant and "
+					+ "etudiant_promotion.code_promotion = promotion.code_promotion and "
+					+ "promotion.code_diplome = "+navigationView.diplomeCourant.getCode()+" and "
+					+ "promotion.code_promotion = "+navigationView.promotionCourante.getCode()+";"),this);
 		}
 	}
 	
@@ -195,7 +205,6 @@ public class NavigationViewListener {
 			 navigationView.listEcCourant = lesEc;
 			 navigationView.listItemCourant = lesItemsGlobal;
 			 navigationView.listCompetenceCourant = lesCompetencesGlobales;
-			 
 			 lesDomainesGlobales = new LinkedList<Domaine>();
 				LinkedList<Integer> listCodeDomaines = new LinkedList<>();
 				
@@ -223,7 +232,7 @@ public class NavigationViewListener {
 					i++;
 				}
 				
-				competenceView.setDomaineJTable(interfaceUtilisateur.getController().getDomaine(requete), this);
+				competenceView.setDomaineJTable(lesDomainesGlobales, this);
 		}
 		
 	}
@@ -619,6 +628,22 @@ public class NavigationViewListener {
 			    	   setEvaluation();
 			    	   comparaisonSousItemSelection = nomSousItemSelection;
 			       }
+		        if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("inter")==0 )
+		        {
+		        	String requete = "select * from sous_item "
+				       		+ "where nom_sous_item = '"+ nomSousItemSelection + "'";
+				       
+				    	   navigationView.sousItemCourant = interfaceUtilisateur.getController().getSousItem(requete).get(0);
+				    	   
+				    	   Thread th1 = new Thread(){
+					    		 public void run(){
+					    			 detailView.afficher(navigationView.sousItemCourant);
+					    		 }
+					    	   };
+				    	   th1.start();
+				    	   
+				    	   setEvaluation();
+		        }
 		        
 				
 			}
@@ -3239,6 +3264,8 @@ public class NavigationViewListener {
 										}
 									
 									navigationView.chargementImg.setVisible(false);
+									competenceView.bloc.removeAll();
+									competenceView.setDomaineJTable(lesDomainesGlobales, navigationView.getNavigationViewListener());
 								}
 							};
 							th.start();

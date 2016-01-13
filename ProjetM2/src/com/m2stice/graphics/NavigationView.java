@@ -169,6 +169,11 @@ public class NavigationView extends JPanel {
 		//
 		detailView = new DetailView(interfaceUtilisateur);
 		navigationViewListener.setDetailView(detailView);
+		
+		if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("inter")==0)
+		{
+			navigationViewListener.modifierDetailView();
+		}
 		//
 		blocDetail.setLayout(new BorderLayout());
 		blocDetail.setPreferredSize(new Dimension(0,200));
