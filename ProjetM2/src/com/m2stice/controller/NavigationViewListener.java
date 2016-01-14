@@ -717,7 +717,10 @@ public class NavigationViewListener {
 						 listAnnee = interfaceUtilisateur.getController().getAnnee(requete);
 						 codeAnnee = listAnnee.get(0).getCode();
 						 anneeCourante = codeAnnee;
-						 modifierDetailView();
+						 if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("inter")==0)
+						 {
+							 modifierDetailView();
+						 }
 						}
 						if(tailleCheminSyllabus == 1)
 						{
@@ -1047,6 +1050,7 @@ public class NavigationViewListener {
 											
 											lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
 											
+											
 											for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
 											{
 												listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
@@ -1086,7 +1090,10 @@ public class NavigationViewListener {
 										}
 										
 									}
-									
+									if(lesEvaluationEtudiant.size() !=0)
+									{
+										modifierDetailView();
+									}
 									//Attribution code couleur SousItem
 									for(int cpt = 0 ; cpt <listCodeSousItem.size() ; cpt ++)
 									{
