@@ -43,7 +43,7 @@ public class DatabaseInfoView extends JPanel{
 	
 	private JPanel bloc;
 	private JPanel blocEntete;
-	private BanniereComponent bannière;
+	private BanniereComponent banniere;
 	private JPanel acces;
 	private JLabel titreParametre;
     private JHintTextField username = null;
@@ -66,7 +66,7 @@ public class DatabaseInfoView extends JPanel{
 		this.bloc = new JPanel();
 		this.blocEntete = new JPanel();
 		this.titreParametre = new JLabel("Paramètres");
-		this.bannière = new BanniereComponent(interfaceUtilisateur, "ResultatViewBanniere.jpg");
+		this.banniere = new BanniereComponent(interfaceUtilisateur, "ResultatViewBanniere.jpg");
 		this.acces = new JPanel();
 		
 		this.setLayout(new BorderLayout());
@@ -75,7 +75,7 @@ public class DatabaseInfoView extends JPanel{
 		
 		//Paramétrage des composants
 		//
-		bannière.setPreferredSize(new Dimension(1024,69));
+		banniere.setPreferredSize(new Dimension(1024,69));
 		//
 		titreParametre.setIcon(new ImageIcon(interfaceUtilisateur.loadImage("ParametrageIcon.png")));
 		titreParametre.setFont(new Font("Gill Sans MT",Font.BOLD,30));
@@ -116,7 +116,7 @@ public class DatabaseInfoView extends JPanel{
 		 acces.add(database);
 		 acces.add(getJtextDatabase());
 		 
-		 this.blocEntete.add(bannière,BorderLayout.NORTH);
+		 this.blocEntete.add(banniere,BorderLayout.NORTH);
 		 this.blocEntete.add(titreParametre,BorderLayout.CENTER);
 		 this.bloc.add(blocEntete, BorderLayout.NORTH);
 		 this.bloc.add(acces,BorderLayout.CENTER);

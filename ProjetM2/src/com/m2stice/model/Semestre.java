@@ -1,11 +1,11 @@
 package com.m2stice.model;
 
 /**
-*  Semestre - Classe représentant un semestre d'une année scolaire
+*  Semestre - Classe reprï¿½sentant un semestre d'une annï¿½e scolaire
 *
 * @version 1.1
 *
-* @author ASDRUBAL, CISNEROS & NERES
+* @author ASDRUBAL, CISNEROS, NERES
 * @copyright (C) Master 2 2015
 * @date 01/12/2015
 * @revision 04/12

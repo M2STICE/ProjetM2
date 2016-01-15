@@ -1,11 +1,11 @@
 package com.m2stice.model;
 
 /**
-* Domaine - Classe représentant un domaine de compétence
+* Domaine - Classe reprï¿½sentant un domaine de compï¿½tence
 *
 * @version 1.1
 *
-* @author ASDRUBAL, CISNEROS & NERES
+* @author ASDRUBAL, CISNEROS, NERES
 * @copyright (C) Master 2 2015
 * @date 01/12/2015
 * @revision 04/12

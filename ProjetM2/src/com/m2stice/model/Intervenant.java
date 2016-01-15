@@ -5,7 +5,7 @@ package com.m2stice.model;
 *
 * @version 1.1
 *
-* @author ASDRUBAL, CISNEROS & NERES
+* @author ASDRUBAL, CISNEROS, NERES
 * @copyright (C) Master 2 2015
 * @date 01/12/2015
 * @revision 15/12

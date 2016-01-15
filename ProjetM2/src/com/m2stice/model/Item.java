@@ -3,11 +3,11 @@ package com.m2stice.model;
 import com.m2stice.controller.DatabaseAccess;
 
 /**
-*  Item - Classe représentant une sous-compétence
+*  Item - Classe reprï¿½sentant une sous-compï¿½tence
 *
 * @version 1.1
 *
-* @author ASDRUBAL, CISNEROS & NERES
+* @author ASDRUBAL, CISNEROS, NERES
 * @copyright (C) Master 2 2015
 * @date 01/12/2015
 * @see DatabaseAccess

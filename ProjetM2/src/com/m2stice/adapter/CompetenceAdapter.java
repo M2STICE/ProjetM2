@@ -11,7 +11,7 @@ import com.m2stice.model.Competence;
 * CompetenceAdapter - Classe de requêtage pour les Competences
 * @version 1.1
 *
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL, NERES
 * @copyright (C) Master 2 2015
 * @date 07/12/2015
 * 
