@@ -23,7 +23,7 @@ import com.m2stice.controller.RechercheViewListener;
 */
 
 /**
- * RechercheView - La classe qui va générer la vue de recherche.
+ * RechercheView - La classe qui va generer la vue de recherche.
  * @author BIABIANY
  * @version 1.0
  * @copyright (C) Master 2 2015
@@ -32,7 +32,7 @@ import com.m2stice.controller.RechercheViewListener;
 public class RechercheView extends JPanel {
 
 	/**
-	 * Numéro de série
+	 * Numéro de serie
 	 */
 	private static final long serialVersionUID = 971L;
 	
@@ -101,7 +101,7 @@ public class RechercheView extends JPanel {
 	
 	/**
 	 * Renvoie le mot saisi dans la barre de recherche
-	 * @return Le mot � rechercher
+	 * @return Le mot rechercher
 	 */
 	public String getRecherche(){
 		return this.rechercheTextField.getText();

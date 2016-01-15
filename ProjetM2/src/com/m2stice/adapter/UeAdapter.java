@@ -7,11 +7,11 @@ import java.util.LinkedList;
 import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Ue;
 /**
-*  UeAdapter - Classe de requêtage pour les Ue
+*  UeAdapter - Classe de requetage pour les Ue
 *
 * @version 1.1
 *
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL, NERES
 * @copyright (C) Master 2 2015
 * @date 07/12/2015
 * 
@@ -29,7 +29,7 @@ public class UeAdapter {
 	DatabaseAccess connection;
 
 	/**
-	 * méthode permmettant de créer la liste d'Ue
+	 * methode permmettant de creer la liste d'Ue
 	 * @param getRequete
 	 * @return liste d'Ue
 	 */

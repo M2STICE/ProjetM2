@@ -38,7 +38,7 @@ import com.m2stice.model.Ue;
 *
 * @version 1.1
 *
-* @author CISNEROS BRIDON & HENRY
+* @author CISNEROS BRIDON, HENRY
 * @copyright (C) Master 2 2015
 * @date 09/12/2015
 * @revision 09/12

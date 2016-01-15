@@ -27,7 +27,7 @@ import com.m2stice.utils.Requetes;
 *
 * @version 1.1
 *
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL, NERES
 * @copyright (C) Master 2 2015
 * @date 11/12/2015
 * @see Requetes
@@ -115,7 +115,7 @@ public class SyllabusView extends JPanel {
 	   tree.setRootVisible(false);
 	   tree.setCellRenderer(new  DefaultTreeCellRenderer(){
 		 /**
-		 * Numéro de série
+		 * Numero de serie
 		 */
 		   private static final long serialVersionUID = 9711L;
 		   public Component getTreeCellRendererComponent(JTree tree ,Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus){

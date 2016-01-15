@@ -8,7 +8,7 @@ import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Ec;
 
 /**
-* EcAdapter - Classe de requêtage pour les Ec
+* EcAdapter - Classe de requetage pour les Ec
 *
 * @version 1.1
 *
@@ -33,7 +33,7 @@ public class EcAdapter {
 	
 
 	/**
-	 * méthode permmettant de créer la liste des Ec
+	 * methode permmettant de creer la liste des Ec
 	 * @param getRequete
 	 * @return liste des Ec
 	 */

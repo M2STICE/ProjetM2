@@ -8,11 +8,11 @@ import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Semestre;
 
 /**
-* SemestreAdapter - Classe de requêtage pour les Semestres
+* SemestreAdapter - Classe de requetage pour les Semestres
 *
 * @version 1.1
 *
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL NERES
 * @copyright (C) Master 2 2015
 * @date 07/12/2015
 * 
@@ -32,7 +32,7 @@ public class SemestreAdapter {
 	DatabaseAccess connection;
 
 	/**
-	 * méthode permmettant de créer la liste des sous items
+	 * méthode permmettant de creer la liste des sous items
 	 * @param getRequete
 	 * @return liste de semestre
 	 */

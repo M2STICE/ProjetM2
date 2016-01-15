@@ -8,11 +8,11 @@ import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Evaluation;
 
 /**
-* EvaluationAdapter - Classe de requêtage pour les Evaluations
+* EvaluationAdapter - Classe de requetage pour les Evaluations
 *
 * @version 1.1
 *
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL, NERES
 * @copyright (C) Master 2 2015
 * @date 07/12/2015
 * 
@@ -32,7 +32,7 @@ public class EvaluationAdapter {
 	DatabaseAccess connection;
 
 	/**
-	 * méthode permmettant de créer la liste des Evaluations
+	 * methode permmettant de creer la liste des Evaluations
 	 * @param getRequete
 	 * @return liste des Evaluations
 	 */

@@ -8,11 +8,11 @@ import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.EvaluationEtudiant;
 
 /**
-* EvaluationEtudiantAdapter - Classe de requêtage pour les Evaluation Etudiants
+* EvaluationEtudiantAdapter - Classe de requetage pour les Evaluation Etudiants
 *
 * @version 1.1
 *
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL, NERES
 * @copyright (C) Master 2 2015
 * @date 07/12/2015
 * 
@@ -32,7 +32,7 @@ public class EvaluationEtudiantAdapter {
 	DatabaseAccess connection;
 
 	/**
-	 * méthode permmettant de créer la liste des Evaluation Etudiants
+	 * methode permmettant de creer la liste des Evaluation Etudiants
 	 * @param getRequete
 	 * @return liste des Evaluation Etudiants
 	 */

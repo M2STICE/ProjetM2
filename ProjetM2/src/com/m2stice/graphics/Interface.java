@@ -19,7 +19,7 @@ import com.m2stice.model.Utilisateur;
 /*
 * Nom de classe : Interface
 *
-* Description: La classe qui va générer l'interface graphique du système.
+* Description: La classe qui va generer l'interface graphique du systeme.
 *
 * Version : 1.0
 *
@@ -29,12 +29,12 @@ import com.m2stice.model.Utilisateur;
 */
 /**
  * 
- * Interface - Classe qui va générer l'interface graphique du système.
+ * Interface - Classe qui va generer l'interface graphique du systeme.
  * @author Emmanuel
  * @version 1.0
  * @copyright (C) Master 2 2015
  * @date 03/12/2015
- * @notes Elle va créer l'interface utilisateur.
+ * @notes Elle va creer l'interface utilisateur.
  * @revision 15/12/2015
  * ASDRUBAL, NERES
  */
@@ -46,12 +46,12 @@ public class Interface extends Applet {
 	public JPanel derniereVue;
 	
 	/**
-	 * Numéro de série
+	 * Numéro de serie
 	 */
 	private static final long serialVersionUID = 971L;
 	
 	/**
-	 * Méthode appelée par le navigateur lorsque l'applet est chargée
+	 * Méthode appelee par le navigateur lorsque l'applet est chargee
 	 */
 	public void init(){
 		this.controller = new Controller();
@@ -60,7 +60,7 @@ public class Interface extends Applet {
 	}
 	
 	/**
-	 * Méthode qui redéfini la taille
+	 * Méthode qui redefini la taille
 	 */
 	public void setSize(int largeur, int hauteur){
 		super.setSize(largeur, hauteur);
@@ -161,7 +161,6 @@ public class Interface extends Applet {
 	
 	/**
 	 * Permet de rafraichir la page
-	 * le super.repaint() ne fonctionne pas bien
 	 */
 	public void repaint(){
 		this.revalidate();

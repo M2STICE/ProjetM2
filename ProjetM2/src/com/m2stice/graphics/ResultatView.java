@@ -22,7 +22,7 @@ import com.m2stice.model.Promotion;
  * Classe ResultatView
  */
 /**
- * ResultatView - Génère la vue des résultats de la recherche
+ * ResultatView - Genere la vue des resultats de la recherche
  * @author BIABIANY
  * @version 1.0
  * @copyright (C) Master 2 2015

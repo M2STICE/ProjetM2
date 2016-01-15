@@ -8,11 +8,11 @@ import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.Etudiant;
 
 /**
-* EtudiantAdapter - Classe de requêtage pour les Etudiants
+* EtudiantAdapter - Classe de requetage pour les Etudiants
 *
 * @version 1.1
 *
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL, NERES
 * @copyright (C) Master 2 2015
 * @date 07/12/2015
 * 
@@ -32,7 +32,7 @@ public class EtudiantAdapter {
 	DatabaseAccess connection;
 
 	/**
-	 * méthode permmettant de créer la liste des Etudiants
+	 * methode permmettant de creer la liste des Etudiants
 	 * @param getRequete
 	 * @return liste des Etudiants
 	 */

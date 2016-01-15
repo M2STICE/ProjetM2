@@ -26,7 +26,7 @@ import com.m2stice.model.Semestre;
 import com.m2stice.model.SousItem;
 import com.m2stice.model.Ue;
 /**
- * NavigationView - Classe qui va générer la vue de navigation.
+ * NavigationView - Classe qui va generer la vue de navigation.
  * @version 1.6
  * @author BIABIANY
  * @revision 21/12
@@ -34,7 +34,7 @@ import com.m2stice.model.Ue;
  */
 public class NavigationView extends JPanel {
 	/**
-	 * Numéro de série
+	 * Numero de serie
 	 */
 	private static final long serialVersionUID = 971L;
 	
@@ -76,7 +76,9 @@ public class NavigationView extends JPanel {
 	public LinkedList<Item> listItemCourant = null;
 	public LinkedList<Competence> listCompetenceCourant = null;
 	
-	
+	/**
+	 * Mise en place de la vue
+	 */
 	public void init(){
 		
 		navigationViewListener = new NavigationViewListener(interfaceUtilisateur, this);

@@ -7,11 +7,11 @@ import java.util.LinkedList;
 import com.m2stice.controller.DatabaseAccess;
 import com.m2stice.model.SousItem;
 /**
-*  SousItemAdapter - Classe de requêtage pour les SousItem
+*  SousItemAdapter - Classe de requetage pour les SousItem
 *
 * @version 1.1
 *
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL, NERES
 * @copyright (C) Master 2 2015
 * @date 07/12/2015
 * 
@@ -30,7 +30,7 @@ public class SousItemAdapter {
 	DatabaseAccess connection;
 
 	/**
-	 * méthode permmettant de créer la liste des sous items
+	 * méthode permmettant de creer la liste des sous items
 	 * @param getRequete
 	 * @return liste de sous item
 	 */

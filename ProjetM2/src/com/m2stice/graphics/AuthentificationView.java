@@ -139,7 +139,7 @@ public class AuthentificationView extends JPanel{
 	
 	/**
 	 * Affiche le composant
-	 * @param le paramétre graphique
+	 * @param le parametre graphique
 	 */
 	public void paint(Graphics g){
 		g.drawImage(interfaceUtilisateur.loadImage("RechercheViewImage.jpg"), 0, 0,(int)getBounds().getWidth(), (int)getBounds().getHeight(), this);
