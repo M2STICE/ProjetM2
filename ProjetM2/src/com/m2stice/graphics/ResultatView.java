@@ -42,7 +42,7 @@ public class ResultatView extends JPanel {
 	private JPanel blocEntete = new JPanel();				//Bloc contenant l'entete
 	private JPanel blocResultat = new JPanel();				//Bloc contenant les résultats
 	private JPanel blocRecherche = new JPanel();			//Bloc contenant le sujet de recherche et le détal
-	private JLabel titreRecherche = new JLabel(" 🔍  Résultat de la recherche: '...'");
+	private JLabel titreRecherche = new JLabel(" Résultat de la recherche: '...'");
 	private JLabel detailRecherche = new JLabel("     X résultats trouvés");
 	private BanniereComponent banniere;						//La banniere de la vue
 	public JLabel chargementImg;
@@ -124,16 +124,16 @@ public class ResultatView extends JPanel {
 	/**
 	 * @param Le titre de la recherche
 	 */
-	public void setEntete(String titreRecherche,int nombreTrouvés){
+	public void setEntete(String titreRecherche,int nombreTrouves){
 		this.titreRecherche.setText(" >  Résultat de la recherche \""+titreRecherche+"\"");
-		this.detailRecherche.setText("     "+nombreTrouvés+" résultats trouvés");
+		this.detailRecherche.setText("     "+nombreTrouves+" résultats trouvés");
 	}
 	
 	/**
 	 * @param Le titre de la recherche
 	 */
-	public void setEntete(int nombreTrouvés){
-		this.detailRecherche.setText("     "+nombreTrouvés+" résultats trouvés");
+	public void setEntete(int nombreTrouves){
+		this.detailRecherche.setText("     "+nombreTrouves+" résultats trouvés");
 	}
 	
 	public void setResultat(LinkedList<Diplome> diplomes){

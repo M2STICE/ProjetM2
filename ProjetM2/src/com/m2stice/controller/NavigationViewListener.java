@@ -35,7 +35,7 @@ import com.m2stice.model.SousItem;
  * @author BIABIANY
  * @version 2.0 
  * @revision 21/12
- * BIABIANY, HENRY & CISNEROS
+ * BIABIANY, HENRY, CISNEROS
  */
 
 public class NavigationViewListener {

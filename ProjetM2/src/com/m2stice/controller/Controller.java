@@ -56,7 +56,7 @@ import com.m2stice.model.Ue;
 /**
 *  Controller - Classe de controle pour realiser les actions sur la base de donnee
 * @version 1.1
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL, NERES
 * @copyright (C) Master 2 2015
 * @date 02/12/2015
 * @see DatabaseAccess

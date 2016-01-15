@@ -36,7 +36,7 @@ import com.m2stice.model.Utilisateur;
  * @date 03/12/2015
  * @notes Elle va créer l'interface utilisateur.
  * @revision 15/12/2015
- * ASDRUBAL & NERES
+ * ASDRUBAL, NERES
  */
 public class Interface extends Applet {
 	

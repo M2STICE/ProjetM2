@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import com.m2stice.controller.AuthentificationViewListener;
 /**
  * AuthentificationView - Classe qui génère la vue d'authentification des utilisateurs.
- * @author Emmanuel & Didier
+ * @author Emmanuel, Didier
  * @version 1.0
  * @date 02/12/2015
  * @copyright (C) Master 2 2015

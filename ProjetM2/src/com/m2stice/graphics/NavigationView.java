@@ -30,7 +30,7 @@ import com.m2stice.model.Ue;
  * @version 1.6
  * @author BIABIANY
  * @revision 21/12
- * BIABIANY, HENRY & CISNEROS
+ * BIABIANY, HENRY, CISNEROS
  */
 public class NavigationView extends JPanel {
 	/**

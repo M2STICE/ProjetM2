@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 *
 * @version 1.0
 *
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL, NERES
 * @copyright (C) Master 2 2015
 * @date 15/12/2015
 */

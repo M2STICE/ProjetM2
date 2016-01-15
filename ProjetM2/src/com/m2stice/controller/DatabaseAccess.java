@@ -23,7 +23,7 @@ import java.util.Properties;
 *
 * @version 1.0
 *
-* @author ASDRUBAL & NERES
+* @author ASDRUBAL, NERES
 * @copyright (C) Master 2 2015
 * @date 03/12/2015
 * @revision 07/12/2015
