@@ -47,12 +47,13 @@ public class NavigationViewListener {
 	private CompetenceView competenceView;
 	private DetailView detailView;
 	
+	private LinkedList<Evaluation> listeEvaluation = null;
 	private String comparaisonDomaineSelection=""; 
 	private String comparaisonCompetenceSelection="";
 	private String comparaisonItemSelection="";
 	private String comparaisonEcSelection="";
 	private String comparaisonSousItemSelection="";
-	
+	private String comparaisonEvaluationSelection="";
 	private String comparaisonEtudiantSelection="";
 	public LinkedList<String> listeCouleurSousItem=null;
 	public LinkedList<String> listeCouleurItem=null;
@@ -67,7 +68,8 @@ public class NavigationViewListener {
 	LinkedList<Integer> listeCodeCompetenceCourant = new LinkedList<Integer>();
 	LinkedList<Integer> listeCodeDomaineCourant = new LinkedList<Integer>();
 	LinkedList<Domaine> lesDomainesGlobales = null;
-	
+	LinkedList<String> listeMoyenneEvaluation = null;
+ 	
 	public NavigationViewListener(Interface interfaceUtilisateur,NavigationView navigationView){
 		this.interfaceUtilisateur = interfaceUtilisateur;
 		this.navigationView = navigationView;
@@ -610,7 +612,7 @@ public class NavigationViewListener {
 		            nomSousItemSelection = (String) table.getValueAt(selectedRow[i], selectedColumns[j]);
 		          }
 		        }
-		        
+		        comparaisonEvaluationSelection ="";
 		        if(comparaisonSousItemSelection.compareTo(nomSousItemSelection)!=0)
 			       {
 			    	   String requete = "select * from sous_item "
@@ -645,6 +647,17 @@ public class NavigationViewListener {
 				    	   setEvaluation();
 		        }
 		        
+		        String requete = "select evaluation.code_evaluation, "
+		        		+ "evaluation.nom_evaluation, "
+		        		+ "evaluation.note_maximale, "
+		        		+ "evaluation.coefficient_evaluation, "
+		        		+ "evaluation.type_epreuve "
+		        		+ "from evaluation, sous_item, sous_item_evaluation "
+		        		+ "where evaluation.code_evaluation = sous_item_evaluation.code_evaluation and "
+		        		+ "sous_item.code_sous_item = sous_item_evaluation.code_sous_item and "
+		        		+ "sous_item.code_sous_item ="+navigationView.sousItemCourant.getCode();
+		        
+		        listeEvaluation = interfaceUtilisateur.getController().getEvaluation(requete);
 				
 			}
 			
@@ -658,6 +671,65 @@ public class NavigationViewListener {
 			public void valueChanged(ListSelectionEvent arg0) {
 				
 				
+				
+				String nomEvaluationSelection = null;
+		        int[] selectedRow = table.getSelectedRows();
+		        int[] selectedColumns = table.getSelectedColumns();
+
+		        for (int i = 0; i < selectedRow.length; i++) {
+		          for (int j = 0; j < selectedColumns.length; j++) {
+		            nomEvaluationSelection = (String) table.getValueAt(selectedRow[i], selectedColumns[j]);
+		          }
+		        }
+		        if(comparaisonEvaluationSelection.compareTo(nomEvaluationSelection)!=0)
+			       {
+		        	int i = 0;
+		        	int trouve = 0;
+		        	String requete = "select * from evaluation where evaluation.nom_evaluation ='"+nomEvaluationSelection+"'";
+		        	LinkedList<Evaluation> listEv = interfaceUtilisateur.getController().getEvaluation(requete);
+		        	while(i< listEv.size() && trouve == 0)
+		        	{
+		        		for(int j = 0; j<listeEvaluation.size(); j++ )
+		        		{
+		        			if(listEv.get(i).getCode() == listeEvaluation.get(j).getCode())
+		        			{
+		        				trouve = listeEvaluation.get(j).getCode();
+		        			}
+		        		}
+		        		i++;
+		        	}
+		        	final int codeEval = trouve;
+		        		Thread th1 = new Thread(){
+		        			
+				    		 public void run(){
+				    			 float moy = 0;
+						        	int i = 0;
+						        	int trouve = 0;
+						        	if(listeMoyenneEvaluation != null)
+						        	{
+						        		while( i<listeMoyenneEvaluation.size() && trouve == 0)
+						        		{
+						        			String tab[] = listeMoyenneEvaluation.get(i).split(";");
+						        			int codeEvaluation = Integer.parseInt(tab[0]);
+						        			float m = Float.parseFloat(tab[1]);
+						        				if(codeEval == codeEvaluation)
+						        				{
+						        					moy = m;
+						        					trouve = 1;
+						        				}
+						        			
+						        			i++;
+						        		}
+						        	}
+				    			 detailView.afficher(moy);
+				    		 }
+				    	   };
+			    	   th1.start();
+		        	
+		        	
+		        	comparaisonEvaluationSelection = nomEvaluationSelection;
+			       }
+		        
 			}
 			
 		};
@@ -952,6 +1024,8 @@ public class NavigationViewListener {
 						
 						listeCodeDomaineCourant = listCodeDomaines;
 						
+						listeMoyenneEvaluation = new LinkedList<String>();
+						
 						if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("admin")==0)
 						{
 							//Traitements pour le code couleur de la promotion
@@ -1062,6 +1136,8 @@ public class NavigationViewListener {
 										}
 										
 										moyenne = somme / nombre_etudiant;
+										
+										listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
 										
 										if( moyenne >=0 && moyenne< 10)
 										{
@@ -1441,6 +1517,8 @@ public class NavigationViewListener {
 									}
 									
 									moyenne = somme;
+									
+									listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
 									
 									if( moyenne >=0 && moyenne< 10)
 									{
@@ -1823,6 +1901,8 @@ public class NavigationViewListener {
 									}
 									
 									moyenne = somme;
+									
+									listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
 									
 									if( moyenne >=0 && moyenne< 10)
 									{
@@ -2244,6 +2324,8 @@ public class NavigationViewListener {
 								}
 								
 								moyenne = somme;
+								
+								listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
 								
 								if( moyenne >=0 && moyenne< 10)
 								{
@@ -2894,7 +2976,7 @@ public class NavigationViewListener {
 											}
 											
 											moyenne = somme ;
-											
+											listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
 											if( moyenne >=0 && moyenne< 10)
 											{
 												String moy =""+listCodeEvaluation.get(comp)+";1";
@@ -3376,7 +3458,7 @@ public class NavigationViewListener {
 											}
 											
 											moyenne = somme;
-											
+											listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
 											if( moyenne >=0 && moyenne< 10)
 											{
 												String moy =""+listCodeEvaluation.get(comp)+";1";
@@ -3787,7 +3869,7 @@ public class NavigationViewListener {
 											}
 											
 											moyenne = somme / nombre_etudiant;
-											
+											listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
 											if( moyenne >=0 && moyenne< 10)
 											{
 												String moy =""+listCodeEvaluation.get(comp)+";1";
@@ -4285,7 +4367,7 @@ public class NavigationViewListener {
 												}
 												
 												moyenne = somme / nombre_etudiant;
-												
+												listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
 												if( moyenne >=0 && moyenne< 10)
 												{
 													String moy =""+listCodeEvaluation.get(comp)+";1";

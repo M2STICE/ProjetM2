@@ -111,6 +111,10 @@ public class DetailView extends JPanel {
 		setDetail(" Sous-item: " + sousitem.getNom().toUpperCase(), "  Code: "+sousitem.getCode());
 	}
 	
+	public void afficher(float moyenne){
+		setDetail("Moyenne : ",""+moyenne);
+	}
+	
 	public void afficherEtudiants(LinkedList<Etudiant> etudiants,NavigationViewListener navigationViewListener){
 		remove(listeEtudiant);
 		String[] liste = new String[etudiants.size()+1];
