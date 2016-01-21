@@ -470,50 +470,52 @@ public class NavigationViewListener {
 				{
 					if(comparaisonItemSelection.compareTo(nomItemSelection)!=0)
 				   {
-
+					   comparaisonEcSelection ="";
+					   comparaisonSousItemSelection="";
 					   setEc();
 					   comparaisonItemSelection = nomItemSelection;
 				   }
 				}
 				else{
-				   
-				   LinkedList<Ec> listEcDuItemChoisi = new LinkedList<Ec>();
-		    	   requete = "select ec.code_ec, "
-		   				+ "ec.nom_ec,"
-						+ "ec.coefficient_ec, "
-						+ "ec.nombre_ects, "
-						+ "ec.volume_heure_cours, "
-						+ "ec.volume_heure_TD, "
-						+ "ec.volume_heure_TP, "
-						+ "ec.volume_heure_BE, "
-						+ "ec.volume_heure_TPERSO, "
-						+ "ec.resume_ec, "
-						+ "ec.code_ue, "
-						+ "ec.responsable_ec, "
-						+ "ec.code_semestre "
-		    	   		+ "from ec "
-		    	   		+ "inner join ec_item on "
-		    	   		+ "ec_item.code_ec = ec.code_ec "
-		    	   		+ "inner join item on "
-		    	   		+ "item.code_item = ec_item.code_item "
-		    	   		+ "where item.nom_item = '" + nomItemSelection + "'";
-		    		   		
-		    	   for (int i = 0; i < navigationView.listEcCourant.size(); i++) 
-		    	   {
-		    		   if (i == 0) 
-		    		   {
-		    			   requete += " and (ec_item.code_ec = " + navigationView.listEcCourant.get(i).getCode();
-		    		   } 
-		    		   else
-		    		   {
-		    			   requete += " or ec_item.code_ec = " + navigationView.listEcCourant.get(i).getCode();
-		    		   }
-		    	   }
-		    	   //System.out.println(requete);
-		    	   requete += ")";
-		    	   listEcDuItemChoisi = interfaceUtilisateur.getController().getEc(requete);
-		    	   competenceView.setEcJTable(listEcDuItemChoisi, navigationView.getNavigationViewListener());
-				}
+					   comparaisonEcSelection ="";
+					   comparaisonSousItemSelection="";
+					   LinkedList<Ec> listEcDuItemChoisi = new LinkedList<Ec>();
+			    	   requete = "select ec.code_ec, "
+			   				+ "ec.nom_ec,"
+							+ "ec.coefficient_ec, "
+							+ "ec.nombre_ects, "
+							+ "ec.volume_heure_cours, "
+							+ "ec.volume_heure_TD, "
+							+ "ec.volume_heure_TP, "
+							+ "ec.volume_heure_BE, "
+							+ "ec.volume_heure_TPERSO, "
+							+ "ec.resume_ec, "
+							+ "ec.code_ue, "
+							+ "ec.responsable_ec, "
+							+ "ec.code_semestre "
+			    	   		+ "from ec "
+			    	   		+ "inner join ec_item on "
+			    	   		+ "ec_item.code_ec = ec.code_ec "
+			    	   		+ "inner join item on "
+			    	   		+ "item.code_item = ec_item.code_item "
+			    	   		+ "where item.nom_item = '" + nomItemSelection + "'";
+			    		   		
+			    	   for (int i = 0; i < navigationView.listEcCourant.size(); i++) 
+			    	   {
+			    		   if (i == 0) 
+			    		   {
+			    			   requete += " and (ec_item.code_ec = " + navigationView.listEcCourant.get(i).getCode();
+			    		   } 
+			    		   else
+			    		   {
+			    			   requete += " or ec_item.code_ec = " + navigationView.listEcCourant.get(i).getCode();
+			    		   }
+			    	   }
+			    	   //System.out.println(requete);
+			    	   requete += ")";
+			    	   listEcDuItemChoisi = interfaceUtilisateur.getController().getEc(requete);
+			    	   competenceView.setEcJTable(listEcDuItemChoisi, navigationView.getNavigationViewListener());
+					}
 			}
 		};
 	}
@@ -615,8 +617,11 @@ public class NavigationViewListener {
 		        comparaisonEvaluationSelection ="";
 		        if(comparaisonSousItemSelection.compareTo(nomSousItemSelection)!=0)
 			       {
-			    	   String requete = "select * from sous_item "
-			       		+ "where nom_sous_item = '"+ nomSousItemSelection + "'";
+			    	   String requete = "select * from sous_item, item, item_sous_item "
+			       		+ "where nom_sous_item = '"+ nomSousItemSelection + "' "
+			       		+ "and sous_item.code_sous_item = item_sous_item.code_sous_item and "
+			       		+ "item_sous_item.code_item = item.code_item and "
+			       		+ "item.code_item = "+navigationView.itemCourant.getCode()+";";
 			       
 			    	   navigationView.sousItemCourant = interfaceUtilisateur.getController().getSousItem(requete).get(0);
 			    	   
@@ -632,9 +637,12 @@ public class NavigationViewListener {
 			       }
 		        if(interfaceUtilisateur.utilisateurCourant.type.compareToIgnoreCase("inter")==0 )
 		        {
-		        	String requete = "select * from sous_item "
-				       		+ "where nom_sous_item = '"+ nomSousItemSelection + "'";
-				       
+		        	String requete = "select * from sous_item, item, item_sous_item "
+				       		+ "where nom_sous_item = '"+ nomSousItemSelection + "' "
+				       		+ "and sous_item.code_sous_item = item_sous_item.code_sous_item and "
+				       		+ "item_sous_item.code_item = item.code_item and "
+				       		+ "item.code_item = "+navigationView.itemCourant.getCode()+";";
+				       	   
 				    	   navigationView.sousItemCourant = interfaceUtilisateur.getController().getSousItem(requete).get(0);
 				    	   
 				    	   Thread th1 = new Thread(){
@@ -1175,7 +1183,7 @@ public class NavigationViewListener {
 									{
 										float s = 0;
 										float m = 0;
-										int nb_evaluation=0;
+										float nb_evaluation=0;
 										requete="select evaluation.code_evaluation, "
 												+ "evaluation.nom_evaluation,"
 												+ "evaluation.note_maximale, "
@@ -1200,8 +1208,8 @@ public class NavigationViewListener {
 												int codeCoul = Integer.parseInt(tab[1]);
 												if(codeEvaluation == codeEval)
 												{
-													s = s+codeCoul;
-													nb_evaluation ++;
+													s = s+(codeCoul*listEvaluation.get(compt).getCoefficient());
+													nb_evaluation = nb_evaluation + listEvaluation.get(compt).getCoefficient();
 												}
 											}
 											
@@ -1551,7 +1559,7 @@ public class NavigationViewListener {
 								{
 									float s = 0;
 									float m = 0;
-									int nb_evaluation=0;
+									float nb_evaluation=0;
 									requete="select evaluation.code_evaluation, "
 											+ "evaluation.nom_evaluation,"
 											+ "evaluation.note_maximale, "
@@ -1576,8 +1584,8 @@ public class NavigationViewListener {
 											int codeCoul = Integer.parseInt(tab[1]);
 											if(codeEvaluation == codeEval)
 											{
-												s = s+codeCoul;
-												nb_evaluation ++;
+												s = s+(codeCoul*listEvaluation.get(compt).getCoefficient());
+												nb_evaluation = nb_evaluation + listEvaluation.get(compt).getCoefficient();
 											}
 										}
 										
@@ -1975,7 +1983,7 @@ public class NavigationViewListener {
 								{
 									float s = 0;
 									float m = 0;
-									int nb_evaluation=0;
+									float nb_evaluation=0;
 									requete="select evaluation.code_evaluation, "
 											+ "evaluation.nom_evaluation,"
 											+ "evaluation.note_maximale, "
@@ -2000,8 +2008,8 @@ public class NavigationViewListener {
 											int codeCoul = Integer.parseInt(tab[1]);
 											if(codeEvaluation == codeEval)
 											{
-												s = s+codeCoul;
-												nb_evaluation ++;
+												s = s+(codeCoul*listEvaluation.get(compt).getCoefficient());
+												nb_evaluation = nb_evaluation + listEvaluation.get(compt).getCoefficient();
 											}
 										}
 										
@@ -2398,7 +2406,7 @@ public class NavigationViewListener {
 							{
 								float s = 0;
 								float m = 0;
-								int nb_evaluation=0;
+								float nb_evaluation=0;
 								requete="select evaluation.code_evaluation, "
 										+ "evaluation.nom_evaluation,"
 										+ "evaluation.note_maximale, "
@@ -2423,8 +2431,8 @@ public class NavigationViewListener {
 										int codeCoul = Integer.parseInt(tab[1]);
 										if(codeEvaluation == codeEval)
 										{
-											s = s+codeCoul;
-											nb_evaluation ++;
+											s = s+(codeCoul*listEvaluation.get(compt).getCoefficient());
+											nb_evaluation = nb_evaluation + listEvaluation.get(compt).getCoefficient();
 										}
 									}
 									
@@ -3010,7 +3018,7 @@ public class NavigationViewListener {
 										{
 											float s = 0;
 											float m = 0;
-											int nb_evaluation=0;
+											float nb_evaluation=0;
 											requete="select evaluation.code_evaluation, "
 													+ "evaluation.nom_evaluation,"
 													+ "evaluation.note_maximale, "
@@ -3035,8 +3043,8 @@ public class NavigationViewListener {
 													int codeCoul = Integer.parseInt(tab[1]);
 													if(codeEvaluation == codeEval)
 													{
-														s = s+codeCoul;
-														nb_evaluation ++;
+														s = s+(codeCoul*listEvaluation.get(compt).getCoefficient());
+														nb_evaluation = nb_evaluation + listEvaluation.get(compt).getCoefficient();
 													}
 												}
 												
@@ -3490,7 +3498,7 @@ public class NavigationViewListener {
 										{
 											float s = 0;
 											float m = 0;
-											int nb_evaluation=0;
+											float nb_evaluation=0;
 											requete="select evaluation.code_evaluation, "
 													+ "evaluation.nom_evaluation,"
 													+ "evaluation.note_maximale, "
@@ -3515,8 +3523,8 @@ public class NavigationViewListener {
 													int codeCoul = Integer.parseInt(tab[1]);
 													if(codeEvaluation == codeEval)
 													{
-														s = s+codeCoul;
-														nb_evaluation ++;
+														s = s+(codeCoul*listEvaluation.get(compt).getCoefficient());
+														nb_evaluation = nb_evaluation + listEvaluation.get(compt).getCoefficient();
 													}
 												}
 												
@@ -3903,7 +3911,7 @@ public class NavigationViewListener {
 										{
 											float s = 0;
 											float m = 0;
-											int nb_evaluation=0;
+											float nb_evaluation=0;
 											requete="select evaluation.code_evaluation, "
 													+ "evaluation.nom_evaluation,"
 													+ "evaluation.note_maximale, "
@@ -3928,8 +3936,8 @@ public class NavigationViewListener {
 													int codeCoul = Integer.parseInt(tab[1]);
 													if(codeEvaluation == codeEval)
 													{
-														s = s+codeCoul;
-														nb_evaluation ++;
+														s = s+(codeCoul*listEvaluation.get(compt).getCoefficient());
+														nb_evaluation = nb_evaluation + listEvaluation.get(compt).getCoefficient();
 													}
 												}
 												
@@ -4401,7 +4409,7 @@ public class NavigationViewListener {
 											{
 												float s = 0;
 												float m = 0;
-												int nb_evaluation=0;
+												float nb_evaluation=0;
 												requete="select evaluation.code_evaluation, "
 														+ "evaluation.nom_evaluation,"
 														+ "evaluation.note_maximale, "
@@ -4427,8 +4435,8 @@ public class NavigationViewListener {
 														int codeCoul = Integer.parseInt(tab[1]);
 														if(codeEvaluation == codeEval)
 														{
-															s = s+codeCoul;
-															nb_evaluation ++;
+															s = s+(codeCoul*listEvaluation.get(compt).getCoefficient());
+															nb_evaluation = nb_evaluation + listEvaluation.get(compt).getCoefficient();
 														}
 													}
 													
