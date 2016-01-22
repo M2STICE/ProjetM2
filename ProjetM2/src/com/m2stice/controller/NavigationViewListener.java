@@ -1877,8 +1877,6 @@ public class NavigationViewListener {
 								//Récupérer les tuples concernés dans la table etudiant_evaluation
 								LinkedList<EvaluationEtudiant> listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
 								LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
-								int annee_debut = navigationView.promotionCourante.getAnneeDebutPromotion();
-								int annee_fin = navigationView.promotionCourante.getAnneeFinPromotion();
 								float somme = 0;
 								float moyenne=0;
 								
@@ -1888,92 +1886,82 @@ public class NavigationViewListener {
 									listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
 									somme = 0;
 									moyenne = 0;
-									requete ="select etudiant_evaluation.code_etudiant, "
-											+ "etudiant_evaluation.code_evaluation, "
-											+ "etudiant_evaluation.note_evaluation, "
-											+ "etudiant_evaluation.date_evaluation "
-											+ "from etudiant_evaluation "
-											+ "where etudiant_evaluation.code_etudiant ="+interfaceUtilisateur.utilisateurCourant.getCode()
-											+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp)
-											+ " and etudiant_evaluation.date_evaluation between '"+annee_debut+"-09-01' and '"+annee_fin+"-07-01'";
+									requete ="select * from etudiant_evaluation"
+											+ " where code_etudiant ="+interfaceUtilisateur.utilisateurCourant.getCode()
+											+ " and code_evaluation ="+listCodeEvaluation.get(comp)+" order by date_evaluation desc;";
 									
 									lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
-									for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
+									if(lesEvaluationEtudiant.size()>=1)
 									{
-										listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
-									}
-								
-									for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
-									{
-										somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
-									}
-									
-									moyenne = somme;
-									
-									listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
-									
-									if( moyenne >=0 && moyenne< 10)
-									{
-										String moy =""+listCodeEvaluation.get(comp)+";1";
-										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+										somme = somme + lesEvaluationEtudiant.get(0).getNoteEvaluation();
+										
+										moyenne = somme;
+										
+										listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
+										
+										if( moyenne >=0 && moyenne< 10)
 										{
-											String tab[] = listeCouleurEvaluation.get(iter).split(";");
-											int codeEvaluation = Integer.parseInt(tab[0]);
-											if(codeEvaluation == listCodeEvaluation.get(comp))
+											String moy =""+listCodeEvaluation.get(comp)+";1";
+											for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
 											{
-												listeCouleurEvaluation.set(iter, moy);
+												String tab[] = listeCouleurEvaluation.get(iter).split(";");
+												int codeEvaluation = Integer.parseInt(tab[0]);
+												if(codeEvaluation == listCodeEvaluation.get(comp))
+												{
+													listeCouleurEvaluation.set(iter, moy);
+												}
 											}
 										}
-									}
-									if(moyenne>=10 && moyenne<12)
-									{
-										String moy =""+listCodeEvaluation.get(comp)+";2";
-										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+										if(moyenne>=10 && moyenne<12)
 										{
-											String tab[] = listeCouleurEvaluation.get(iter).split(";");
-											int codeEvaluation = Integer.parseInt(tab[0]);
-											if(codeEvaluation == listCodeEvaluation.get(comp))
+											String moy =""+listCodeEvaluation.get(comp)+";2";
+											for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
 											{
-												listeCouleurEvaluation.set(iter, moy);
+												String tab[] = listeCouleurEvaluation.get(iter).split(";");
+												int codeEvaluation = Integer.parseInt(tab[0]);
+												if(codeEvaluation == listCodeEvaluation.get(comp))
+												{
+													listeCouleurEvaluation.set(iter, moy);
+												}
 											}
 										}
-									}
-									if(moyenne>=12 && moyenne<14)
-									{
-										String moy =""+listCodeEvaluation.get(comp)+";3";
-										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+										if(moyenne>=12 && moyenne<14)
 										{
-											String tab[] = listeCouleurEvaluation.get(iter).split(";");
-											int codeEvaluation = Integer.parseInt(tab[0]);
-											if(codeEvaluation == listCodeEvaluation.get(comp))
+											String moy =""+listCodeEvaluation.get(comp)+";3";
+											for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
 											{
-												listeCouleurEvaluation.set(iter, moy);
+												String tab[] = listeCouleurEvaluation.get(iter).split(";");
+												int codeEvaluation = Integer.parseInt(tab[0]);
+												if(codeEvaluation == listCodeEvaluation.get(comp))
+												{
+													listeCouleurEvaluation.set(iter, moy);
+												}
 											}
 										}
-									}
-									if(moyenne>=14 && moyenne<16)
-									{
-										String moy =""+listCodeEvaluation.get(comp)+";4";
-										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+										if(moyenne>=14 && moyenne<16)
 										{
-											String tab[] = listeCouleurEvaluation.get(iter).split(";");
-											int codeEvaluation = Integer.parseInt(tab[0]);
-											if(codeEvaluation == listCodeEvaluation.get(comp))
+											String moy =""+listCodeEvaluation.get(comp)+";4";
+											for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
 											{
-												listeCouleurEvaluation.set(iter, moy);
+												String tab[] = listeCouleurEvaluation.get(iter).split(";");
+												int codeEvaluation = Integer.parseInt(tab[0]);
+												if(codeEvaluation == listCodeEvaluation.get(comp))
+												{
+													listeCouleurEvaluation.set(iter, moy);
+												}
 											}
 										}
-									}
-									if(moyenne>=16 && moyenne<=20)
-									{
-										String moy =""+listCodeEvaluation.get(comp)+";5";
-										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+										if(moyenne>=16 && moyenne<=20)
 										{
-											String tab[] = listeCouleurEvaluation.get(iter).split(";");
-											int codeEvaluation = Integer.parseInt(tab[0]);
-											if(codeEvaluation == listCodeEvaluation.get(comp))
+											String moy =""+listCodeEvaluation.get(comp)+";5";
+											for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
 											{
-												listeCouleurEvaluation.set(iter, moy);
+												String tab[] = listeCouleurEvaluation.get(iter).split(";");
+												int codeEvaluation = Integer.parseInt(tab[0]);
+												if(codeEvaluation == listCodeEvaluation.get(comp))
+												{
+													listeCouleurEvaluation.set(iter, moy);
+												}
 											}
 										}
 									}
@@ -2304,99 +2292,89 @@ public class NavigationViewListener {
 							LinkedList<EvaluationEtudiant> lesEvaluationEtudiant = new LinkedList<EvaluationEtudiant>();
 							float somme = 0;
 							float moyenne=0;
-							
 							for(int comp = 0; comp <listCodeEvaluation.size() ; comp ++)
 							{
 								
 								listEvaluationEtudiantGlobale = new LinkedList<EvaluationEtudiant>();
 								somme = 0;
 								moyenne = 0;
-								requete ="select etudiant_evaluation.code_etudiant, "
-										+ "etudiant_evaluation.code_evaluation, "
-										+ "etudiant_evaluation.note_evaluation, "
-										+ "etudiant_evaluation.date_evaluation "
-										+ "from etudiant_evaluation "
-										+ "where etudiant_evaluation.code_etudiant ="+interfaceUtilisateur.utilisateurCourant.getCode()
-										+ " and etudiant_evaluation.code_evaluation ="+listCodeEvaluation.get(comp);
+								requete ="select * from etudiant_evaluation"
+										+ " where code_etudiant ="+interfaceUtilisateur.utilisateurCourant.getCode()
+										+ " and code_evaluation ="+listCodeEvaluation.get(comp)+" order by date_evaluation desc;";
 								
 								lesEvaluationEtudiant = interfaceUtilisateur.getController().getEvaluationEtudiant(requete);
 								
-								for(int compt = 0 ; compt< lesEvaluationEtudiant.size() ; compt ++)
+								if(lesEvaluationEtudiant.size() >= 1)
 								{
-									listEvaluationEtudiantGlobale.add(lesEvaluationEtudiant.get(compt));
-								}
-							
-								for(int cpt = 0 ; cpt< listEvaluationEtudiantGlobale.size() ; cpt++)
-								{
-									somme = somme + listEvaluationEtudiantGlobale.get(cpt).getNoteEvaluation();
-								}
-								
-								moyenne = somme;
-								
-								listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
-								
-								if( moyenne >=0 && moyenne< 10)
-								{
-									String moy =""+listCodeEvaluation.get(comp)+";1";
-									for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+									somme = somme + lesEvaluationEtudiant.get(0).getNoteEvaluation();
+									
+									moyenne = somme;
+									
+									listeMoyenneEvaluation.add(""+listCodeEvaluation.get(comp)+";"+moyenne);
+									
+									if( moyenne >=0 && moyenne< 10)
 									{
-										String tab[] = listeCouleurEvaluation.get(iter).split(";");
-										int codeEvaluation = Integer.parseInt(tab[0]);
-										if(codeEvaluation == listCodeEvaluation.get(comp))
+										String moy =""+listCodeEvaluation.get(comp)+";1";
+										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
 										{
-											listeCouleurEvaluation.set(iter, moy);
+											String tab[] = listeCouleurEvaluation.get(iter).split(";");
+											int codeEvaluation = Integer.parseInt(tab[0]);
+											if(codeEvaluation == listCodeEvaluation.get(comp))
+											{
+												listeCouleurEvaluation.set(iter, moy);
+											}
 										}
 									}
-								}
-								if(moyenne>=10 && moyenne<12)
-								{
-									String moy =""+listCodeEvaluation.get(comp)+";2";
-									for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+									if(moyenne>=10 && moyenne<12)
 									{
-										String tab[] = listeCouleurEvaluation.get(iter).split(";");
-										int codeEvaluation = Integer.parseInt(tab[0]);
-										if(codeEvaluation == listCodeEvaluation.get(comp))
+										String moy =""+listCodeEvaluation.get(comp)+";2";
+										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
 										{
-											listeCouleurEvaluation.set(iter, moy);
+											String tab[] = listeCouleurEvaluation.get(iter).split(";");
+											int codeEvaluation = Integer.parseInt(tab[0]);
+											if(codeEvaluation == listCodeEvaluation.get(comp))
+											{
+												listeCouleurEvaluation.set(iter, moy);
+											}
 										}
 									}
-								}
-								if(moyenne>=12 && moyenne<14)
-								{
-									String moy =""+listCodeEvaluation.get(comp)+";3";
-									for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+									if(moyenne>=12 && moyenne<14)
 									{
-										String tab[] = listeCouleurEvaluation.get(iter).split(";");
-										int codeEvaluation = Integer.parseInt(tab[0]);
-										if(codeEvaluation == listCodeEvaluation.get(comp))
+										String moy =""+listCodeEvaluation.get(comp)+";3";
+										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
 										{
-											listeCouleurEvaluation.set(iter, moy);
+											String tab[] = listeCouleurEvaluation.get(iter).split(";");
+											int codeEvaluation = Integer.parseInt(tab[0]);
+											if(codeEvaluation == listCodeEvaluation.get(comp))
+											{
+												listeCouleurEvaluation.set(iter, moy);
+											}
 										}
 									}
-								}
-								if(moyenne>=14 && moyenne<16)
-								{
-									String moy =""+listCodeEvaluation.get(comp)+";4";
-									for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+									if(moyenne>=14 && moyenne<16)
 									{
-										String tab[] = listeCouleurEvaluation.get(iter).split(";");
-										int codeEvaluation = Integer.parseInt(tab[0]);
-										if(codeEvaluation == listCodeEvaluation.get(comp))
+										String moy =""+listCodeEvaluation.get(comp)+";4";
+										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
 										{
-											listeCouleurEvaluation.set(iter, moy);
+											String tab[] = listeCouleurEvaluation.get(iter).split(";");
+											int codeEvaluation = Integer.parseInt(tab[0]);
+											if(codeEvaluation == listCodeEvaluation.get(comp))
+											{
+												listeCouleurEvaluation.set(iter, moy);
+											}
 										}
 									}
-								}
-								if(moyenne>=16 && moyenne<=20)
-								{
-									String moy =""+listCodeEvaluation.get(comp)+";5";
-									for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
+									if(moyenne>=16 && moyenne<=20)
 									{
-										String tab[] = listeCouleurEvaluation.get(iter).split(";");
-										int codeEvaluation = Integer.parseInt(tab[0]);
-										if(codeEvaluation == listCodeEvaluation.get(comp))
+										String moy =""+listCodeEvaluation.get(comp)+";5";
+										for( int iter = 0; iter<listeCouleurEvaluation.size(); iter++)
 										{
-											listeCouleurEvaluation.set(iter, moy);
+											String tab[] = listeCouleurEvaluation.get(iter).split(";");
+											int codeEvaluation = Integer.parseInt(tab[0]);
+											if(codeEvaluation == listCodeEvaluation.get(comp))
+											{
+												listeCouleurEvaluation.set(iter, moy);
+											}
 										}
 									}
 								}
