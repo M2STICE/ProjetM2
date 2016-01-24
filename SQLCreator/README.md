@@ -3,4 +3,4 @@
 DataBase: u960093295_stice
 User: u960093295_m2
 Password: pm2_2015
-Host: mysql.hostinger.fr ou 185.28.21.241
+Host: sql37.hostinger.fr ou 185.28.21.241

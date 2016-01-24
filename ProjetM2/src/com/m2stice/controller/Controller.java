@@ -1,5 +1,7 @@
 package com.m2stice.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
@@ -112,7 +114,10 @@ public class Controller {
 	public boolean getProperties() {
 		boolean status = true;
 		try {
-			input = mainInterface.loadFile("../res/config.db").openStream();
+			if(mainInterface!=null)
+				input = mainInterface.loadFile("../res/config.db").openStream();
+			else
+				input = new FileInputStream(new File("res/config.db"));
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(null,"Impossible de se connecter à la base \nVeuillez vérifier vos informations de connexion.", "database access error", JOptionPane.ERROR_MESSAGE);
 			status = false;

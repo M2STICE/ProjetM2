@@ -55,6 +55,7 @@ public class Lire_XML {
 	    try
 	    {
 	    	Controller monController = new Controller();
+	    	monController.getProperties();
 	    	String requete = new String();
 	    	
 	        // Créer un document par le biais du fichier
