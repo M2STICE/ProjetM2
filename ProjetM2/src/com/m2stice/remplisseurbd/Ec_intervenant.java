@@ -12,6 +12,7 @@ public class Ec_intervenant {
 		
 		String requete; 
 		Controller monController = new Controller();
+		monController.getProperties();
 		
 		for (int i = 1474; i < 1575; i++)
 		{

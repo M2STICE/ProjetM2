@@ -29,6 +29,7 @@ public class Etudiant_evaluation {
 		
 		String requete;
 		Controller monController = new Controller();
+		monController.getProperties();
 		
 		LinkedList<Evaluation> Eval = new LinkedList<Evaluation>();
 		requete = "SELECT * FROM evaluation "
