@@ -10,4 +10,4 @@
  - Pour executer l'application il faut  lancer les méthodes init() et start() de la classe "Interface" c'est une applet qui se trouve dans le package suivant:
  	com.m2stice.graphics
  
- (!) Notez bien: L'application va chercher les coordondées de la base dans le fichier "config.db" si velui-ci a été éffacé le système va vous proposer une interface graphique pour saisir ces informations afin de regénérer un fichier "config.db".
+(!) Notez bien: L'application va chercher les coordondées de la base dans le fichier "config.db" si velui-ci a été éffacé le système va vous proposer une interface graphique pour saisir ces informations afin de regénérer un fichier "config.db".
